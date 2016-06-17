@@ -4,7 +4,7 @@ function initialize() {
     var latlng = new google.maps.LatLng(-7.4965076, -36.1545404);
 
     var options = {
-        zoom: 5,
+        zoom: 8,
         center: latlng,
         mapTypeId: google.maps.MapTypeId.ROADMAP
     };
@@ -25,11 +25,21 @@ function carregarPontos() {
             var marker = new google.maps.Marker({
                 position: new google.maps.LatLng(ponto.Latitude, ponto.Longitude),
                 title: "Meu ponto personalizado! :-D",
-                map: map,
                 icon: 'assets/img/marcador.png'
             });
+
+            markers.push(marker);
+
+            latlngbounds.extend(marker.position);
+
         });
+
+        var markerCluster = new MarkerClusterer(map, markers);
+
+        map.fitBounds(latlngbounds);
+
     });
+
 }
 
 carregarPontos();
