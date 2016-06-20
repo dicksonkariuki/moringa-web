@@ -12,13 +12,15 @@ angular.module('routerApp').controller('inicioCtrl', function ($scope) {
         };
 
         map = new google.maps.Map(document.getElementById("mapa"), options);
+
+
     }
 
     initialize();
 
     function carregarPontos() {
 
-        $.getJSON('assets/js/pontos.json', function(pontos) {
+        $.getJSON('assets/mock/pontos.json', function(pontos) {
 
             $.each(pontos, function(index, ponto) {
 
@@ -26,7 +28,7 @@ angular.module('routerApp').controller('inicioCtrl', function ($scope) {
                     position: new google.maps.LatLng(ponto.Latitude, ponto.Longitude),
                     title: "Boqueirão! :-D",
                     map: map,
-                    icon: 'assets/img/marcador.png'
+                    icon: '/assets/img/marcador.png'
                 });
             });
         });
