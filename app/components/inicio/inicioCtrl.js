@@ -1,18 +1,17 @@
-angular.module('routerApp').controller('inicioCtrl', function ($scope) {
+angular.module('routerApp').controller('inicioCtrl', function ($scope, InicioSrvc) {
 
     var map;
     var geocoder;
-    var city;
-    var watersources;
+    $scope.inputSearch;
 
     initialize();
 
     function initialize() {
         geocoder = new google.maps.Geocoder();
-        getLocation();
+        geolocation();
     }
 
-    function getLocation() {
+    function geolocation() {
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(geolocationSuccess, geolocationError);
         } else {
@@ -21,6 +20,7 @@ angular.module('routerApp').controller('inicioCtrl', function ($scope) {
     }
 
     function geolocationSuccess(position) {
+        // Geolocation avaliable. Let's show a map!
         var lat = position.coords.latitude;
         var lng = position.coords.longitude;
 
@@ -45,7 +45,6 @@ angular.module('routerApp').controller('inicioCtrl', function ($scope) {
     }
 
     function loadMap(lat, lng) {
-        // Geolocation avaliable. Let's show a map!
         var latlng = new google.maps.LatLng(lat, lng);
 
         var options = {
@@ -56,95 +55,37 @@ angular.module('routerApp').controller('inicioCtrl', function ($scope) {
 
         map = new google.maps.Map(document.getElementById("mapa"), options);
 
-        loadPins();
+        loadWatersourceData();
     }
 
-    function loadPins() {
-        queryCity(map.center).then(queryCitySuccess, queryCityError);
+    function loadWatersourceData() {
+        InicioSrvc.geocodeCityName(map.center).then(geocodeCitySuccess, geocodeCityError);
 
-        function queryCitySuccess(cityName) {
-            queryWatersources(cityName);
-        }
+        function geocodeCitySuccess(cityName) {
+            InicioSrvc.queryCityByName(cityName).then(queryCityByNameSuccess, queryCityByNameError);
+            $scope.inputSearch = cityName;
 
-        function queryCityError(error) {
-            console.log(error);
-        }
-    }
+            function queryCityByNameSuccess(response) {
+                city = response.data[0];
+                InicioSrvc.queryWatersources(city.id).then (queryWatersourcesSuccess, queryWatersourcesError);
 
-    function queryCity(latlng) {
-        var deferred = $.Deferred();
-        geocoder.geocode(
-            {   //google.maps.GeocoderRequest
-                location: latlng
-            },
-        function (results, status) {
-            switch (status) {
-                    case google.maps.GeocoderStatus.OK:
-                        locality = results[0].address_components.filter(addressComponentsLocalityFilter)[0];
-                        deferred.resolve(locality.long_name);
-                        break;
-                    case google.maps.GeocoderStatus.ZERO_RESULTS:
-                    default:
-                        console.log("Geocode was not successful for the following reason: " + status);
-                        deferred.reject(status);
-                        break;
+                function queryWatersourcesSuccess(response) {
+                    watersources = response.data;
+                }
+
+                function queryWatersourcesError(error) {
+                    console.log(error);
                 }
             }
-        );
 
-        return deferred.promise();
-    }
-
-    function addressComponentsLocalityFilter(address_component) {
-        return address_component.types.indexOf('locality') > -1;
-    }
-
-    function queryCityId(cityName) {
-        var urlCityIdPerName = '/cities?name=' + cityName;
-
-        // Angular $http() and then() both return promises themselves
-        return $http({
-            method: 'GET',
-            url: urlCityIdPerName
-        })
-            .success(function(response) {
-                // What we return here is the data that will be accessible
-                // to us after the promise resolves
-                return response;
-            });
-    }
-
-    function queryWatersources(cityId) {
-
-        queryCityId(cityName).then(queryCityIdSuccess, queryCityIdError);
-
-        function queryCityIdSuccess(cityId) {
-
+            function queryCityByNameError(error) {
+                console.log(error);
+            }
         }
 
-        function queryCityIdError(error) {
-
+        function geocodeCityError(error) {
+            console.log(error);
         }
-
-        // Angular $http() and then() both return promises themselves
-        return $http({
-            method: 'GET',
-            url: urlWatersourcesPerCity
-        })
-            .success(function(response) {
-                // What we return here is the data that will be accessible
-                // to us after the promise resolves
-                return response;
-            });
-    }
-
-    function loadPin(item, index) {
-        var marker = new google.maps.Marker({
-            position: new google.maps.LatLng(item.latitude, item.longitude),
-            title: item.name,
-            map: map,
-            icon: 'assets/img/marcador.png'
-        });
     }
 
     function codeAddress() {
