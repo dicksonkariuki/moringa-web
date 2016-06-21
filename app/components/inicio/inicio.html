@@ -5,21 +5,20 @@
         <input id="inputSearch" type="text" class="form-control input-lg" placeholder="Buscar..." ng-model="inputSearch">
     </form>
     <div class="row placeholders">
-        <div class="col-xs-6 col-sm-3 placeholder">
-            <img src="http://placehold.it/150x150" class="img-responsive" alt="Generic placeholder thumbnail">
+        <div class="col-xs-6 col-sm-3">
+            <img src="assets/img/seca.jpg">
             <h4>Status Açude</h4>
-            <span class="text-muted">Qual a situação de um determinado acude?</span>
-            <span class="text-muted">Nos ultimos dias ele recebeu ou perdeu agua?</span>
+            <span class="text-muted">{{ watersource.name }}</span><br/>
         </div>
-        <div class="col-xs-6 col-sm-3 placeholder">
-            <img src="http://placehold.it/150x150" class="img-responsive" alt="Generic placeholder thumbnail">
+        <div class="col-xs-6 col-sm-3">
+            <img src="assets/img/agua.png">
             <h4>Quantidade de Litros</h4>
-            <span class="text-muted">Quantos litros eu tenho?</span>
+            <span class="text-muted">{{ watersource.capacity }} {{ watersource.measurementUnit }}</span>
         </div>
-        <div class="col-xs-6 col-sm-3 placeholder">
-            <img src="http://placehold.it/150x150" class="img-responsive" alt="Generic placeholder thumbnail">
+        <div class="col-xs-6 col-sm-3">
+            <img src="assets/img/estimativa.png">
             <h4>Estimativa</h4>
-            <span class="text-muted">Ate quando terei agua?</span>
+            <span class="text-muted">{{ watersource.days }} dias</span>
         </div>
     </div>
 
@@ -30,10 +29,10 @@
         <div id="chart" style="height: 400px; width: 100%"></div>
     </div>
 
-    <div class="col-xs-6 col-sm-3 placeholder foot">
-        <img src="http://placehold.it/150x150" class="img-responsive" alt="Generic placeholder thumbnail">
+    <div class="col-xs-6 col-sm-3 foot">
+        <img src="assets/img/dica-do-dia.png" class="img-responsive">
         <h4>Dica do dia</h4>
-        <span class="text-muted">O que eu posso fazer para economizar agua?</span>
+        <span class="text-muted">{{ watersource.hint }}</span>
     </div>
 
 </div>
