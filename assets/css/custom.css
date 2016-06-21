@@ -129,3 +129,7 @@ body {
     position: absolute;
     z-index: 1;
 }
+
+.img-margin {
+    margin-top: 20px;
+}
