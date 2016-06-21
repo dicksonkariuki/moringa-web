@@ -1,0 +1,25 @@
+  {
+    "id":1,
+    "name":"Duas Estradas",
+    "measurementUnit":"m³",
+    "hint": "Programe o dia da lavagem de sua caixa-d'água, de preferência, para o fim de semana.",
+    "capacity":410260.0,
+    "days": 100,
+    "type":"Açude",
+    "cities":[],
+    "city":{
+      "id":86,
+      "name":"Duas Estradas",
+      "state":"PB",
+      "population":3618,
+      "waterSources":[
+        {
+          "id":29,
+          "name":"Pirpirituba",
+          "measurementUnit":"m³",
+          "capacity":4666188.0,
+          "type":"Açude"
+        }
+      ]
+    }
+  }
