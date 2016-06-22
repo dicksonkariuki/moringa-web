@@ -1,12 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="4ad1ee99-30d1-42bc-9b2f-16b88fa62022" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/assets/img/previsao-agua.png" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/assets/img/estimativa.png" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/components/inicio/inicio.html" afterPath="$PROJECT_DIR$/app/components/inicio/inicio.html" />
-    </list>
+    <list default="true" id="4ad1ee99-30d1-42bc-9b2f-16b88fa62022" name="Default" comment="" />
     <ignored path="moringa-web.iws" />
     <ignored path=".idea/workspace.xml" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -334,12 +329,12 @@
       <option name="presentableId" value="Default" />
       <updated>1466170809883</updated>
       <workItem from="1466170811192" duration="35173000" />
-      <workItem from="1466510123171" duration="17070000" />
+      <workItem from="1466510123171" duration="17727000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="52243000" />
+    <option name="totallyTimeSpent" value="52900000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
