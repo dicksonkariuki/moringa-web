@@ -78,8 +78,8 @@ angular.module('routerApp').controller('inicioCtrl', function ($scope, InicioSrv
                 }
             }
 
-            function queryCityByNameError(error) {
-                console.log(error);
+            function queryCityByNameError(status) {
+                console.log(status);
             }
         }
 

@@ -83,9 +83,9 @@ angular.module('routerApp').factory('InicioSrvc', function($http) {
                 // and then return the filtered list
                 deferred.resolve(cities[0]);
             })
-            .error(function (error) {
+            .error(function (status) {
                 // or throw back an error
-                deferred.reject(error);
+                deferred.reject(status);
             });
 
         // I promise I will return something to you =)
