@@ -1,35 +1,46 @@
 angular.module('routerApp').factory('InicioSrvc', function($http) {
 
-    var geocoder = new google.maps.Geocoder();
+    var geocoder;
 
     function geocodeCityName(latlng) {
+        // Using jQuery's Deferred to return a promise
         var deferred = $.Deferred();
+        // and the Geocoder from Google Maps API
+        if (!geocoder) { geocoder = new google.maps.Geocoder();}
+        // we ask google to geocode the data for our location
         geocoder.geocode(
-            {   //google.maps.GeocoderRequest
+            // we pass a GeocoderRequest object as parameter
+            {
                 location: latlng
             },
+            // and expect some results
             function (results, status) {
                 switch (status) {
+                    // in case we get the data
                     case google.maps.GeocoderStatus.OK:
-
+                        // we filter it for the 'locality' attribute
                         locality = results[0].address_components.filter(addressComponentsLocalityFilter)[0];
+                        // and return it
                         deferred.resolve(locality.long_name);
                         break;
 
+                    // otherwise
                     case google.maps.GeocoderStatus.ZERO_RESULTS:
                     default:
-
+                        // we log and throw back the error
                         console.log("Geocode was not successful for the following reason: " + status);
                         deferred.reject(status);
                         break;
                 }
 
+                // that's a messy filter because reasons
                 function addressComponentsLocalityFilter(address_component) {
                     return address_component.types.indexOf('locality') > -1;
                 }
             }
         );
 
+        // I promise I will return something to you =)
         return deferred.promise();
     }
 
