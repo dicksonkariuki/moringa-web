@@ -3,7 +3,9 @@ angular.module('routerApp').controller('inicioCtrl', function ($scope, InicioSrv
     var map;
     $scope.inputSearch = '';
     $scope.city = {};
+    $scope.watersource = {};
     $scope.watersources = [];
+    $scope.changeWatersource = changeWatersource;
 
     initialize();
 
@@ -71,6 +73,7 @@ angular.module('routerApp').controller('inicioCtrl', function ($scope, InicioSrv
 
                 function queryWatersourcesSuccess(watersources) {
                     $scope.watersources = watersources;
+                    $scope.watersource = watersources[0];
                 }
 
                 function queryWatersourcesError(error) {
@@ -86,6 +89,10 @@ angular.module('routerApp').controller('inicioCtrl', function ($scope, InicioSrv
         function geocodeCityError(error) {
             console.log(error);
         }
+    }
+
+    function changeWatersource(watersource) {
+
     }
 
     var chart = c3.generate({
