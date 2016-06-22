@@ -9,6 +9,10 @@ angular.module('routerApp').controller('inicioCtrl', function ($scope, InicioSrv
 
     initialize();
 
+    $scope.searchCity = function (city) {
+        InicioSrvc.queryCityByName(city).then(queryCityByNameSuccess,queryCityByNameError);
+    }
+
     function initialize() {
         geolocation();
     }
@@ -66,24 +70,6 @@ angular.module('routerApp').controller('inicioCtrl', function ($scope, InicioSrv
         function geocodeCitySuccess(cityName) {
             InicioSrvc.queryCityByName(cityName).then(queryCityByNameSuccess, queryCityByNameError);
             $scope.inputSearch = cityName;
-
-            function queryCityByNameSuccess(city) {
-                $scope.city = city;
-                InicioSrvc.queryWatersources(city.id).then (queryWatersourcesSuccess, queryWatersourcesError);
-
-                function queryWatersourcesSuccess(watersources) {
-                    $scope.watersources = watersources;
-                    $scope.watersource = watersources[0];
-                }
-
-                function queryWatersourcesError(error) {
-                    console.log(error);
-                }
-            }
-
-            function queryCityByNameError(status) {
-                console.log(status);
-            }
         }
 
         function geocodeCityError(error) {
@@ -93,6 +79,24 @@ angular.module('routerApp').controller('inicioCtrl', function ($scope, InicioSrv
 
     function changeWatersource(watersource) {
 
+    }
+
+    function queryCityByNameSuccess(city) {
+        $scope.city = city;
+        InicioSrvc.queryWatersources(city.id).then (queryWatersourcesSuccess, queryWatersourcesError);
+
+        function queryWatersourcesSuccess(watersources) {
+            $scope.watersources = watersources;
+            $scope.watersource = watersources[0];
+        }
+
+        function queryWatersourcesError(error) {
+            console.log(error);
+        }
+    }
+
+    function queryCityByNameError(status) {
+        console.log(status);
     }
 
     var chart = c3.generate({

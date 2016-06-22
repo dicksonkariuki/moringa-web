@@ -1,53 +1,54 @@
 <div ng-controller="inicioCtrl">
 
-<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-    <form ng-submit="">
-        <div class="input-group">
-            <input id="inputSearch" type="text" class="form-control" ng-model="inputSearch"/>
+    <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+        <form>
+            <div class="input-group">
+                <input id="inputSearch" type="text" class="form-control" ng-model="inputSearch">
             <span class="input-group-btn">
-            <input id="btnSearch" class="btn btn-default" type="submit" value="Pesquisar!" />
+
+                <button id="btnSearch" type="button" class="btn btn-default" ng-click="searchCity(inputSearch)">Pesquisar</button>
             </span>
-        </div>
-        <div class="row placeholders" style="margin: 40px">
-            <div class="col-xs-6 col-sm-4">
-                <img src="assets/img/seca.jpg">
-                <h4>Status Açude</h4>
-                <select
-                        id="watersources"
-                        class="form-control"
-                        required="true"
-                        ng-model="watersource"
-                        ng-options="w.name for w in watersources"
-                        ng-change="changeWatersource">
-                </select>
             </div>
-            <div class="col-xs-6 col-sm-4">
-                <img src="assets/img/agua.png">
-                <h4>Quantidade de Litros</h4>
-                <span class="text-muted">{{ watersource.capacity }} {{ watersource.measurementUnit }}</span>
+            <div class="row placeholders" style="margin: 40px">
+                <div class="col-xs-6 col-sm-4">
+                    <img src="assets/img/seca.jpg">
+                    <h4>Status Açude</h4>
+                    <select
+                            id="watersources"
+                            class="form-control"
+                            required="true"
+                            ng-model="watersource"
+                            ng-options="w.name for w in watersources"
+                            ng-change="changeWatersource">
+                    </select>
+                </div>
+                <div class="col-xs-6 col-sm-4">
+                    <img src="assets/img/agua.png">
+                    <h4>Quantidade de Litros</h4>
+                    <span class="text-muted">{{ watersource.capacity }} {{ watersource.measurementUnit }}</span>
+                </div>
+                <div class="col-xs-6 col-sm-4">
+                    <img src="assets/img/estimativa.png">
+                    <h4>Estimativa</h4>
+                    <span class="text-muted">{{ watersource.days }} dias</span>
+                </div>
             </div>
-            <div class="col-xs-6 col-sm-4">
-                <img src="assets/img/estimativa.png">
-                <h4>Estimativa</h4>
-                <span class="text-muted">{{ watersource.days }} dias</span>
-            </div>
-        </div>
-    </form>
+        </form>
 
-    <div class="col-lg-6">
-        <div id="mapa" style="height: 400px; width: 100%"></div>
-    </div>
-    <div class="col-lg-6">
-        <div id="chart" style="height: 400px; width: 100%"></div>
-    </div>
+        <div class="col-lg-6">
+            <div id="mapa" style="height: 400px; width: 100%"></div>
+        </div>
+        <div class="col-lg-6">
+            <div id="chart" style="height: 400px; width: 100%"></div>
+        </div>
 
-    <!--TODO Dica do dia (Colocar num modal)-->
-    <!--<div class="col-xs-6 col-sm-3 foot">-->
+        <!--TODO Dica do dia (Colocar num modal)-->
+        <!--<div class="col-xs-6 col-sm-3 foot">-->
         <!--<img src="assets/img/dica-do-dia.png" class="img-responsive">-->
         <!--<h4>Dica do dia</h4>-->
         <!--<span class="text-muted">{{ watersource.hint }}</span>-->
-    <!--</div>-->
+        <!--</div>-->
 
-</div>
+    </div>
 
 </div>
