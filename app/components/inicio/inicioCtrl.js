@@ -1,6 +1,10 @@
-angular.module('routerApp').controller('inicioCtrl', function ($scope, $http) {
+angular.module('routerApp').controller('inicioCtrl', function ($scope, InicioSrvc, $http) {
 
     var map;
+    var geocoder;
+    $scope.inputSearch;
+
+    initialize();
 
     $http.get('assets/mock/mock.json')
         .then(function(res){
@@ -8,7 +12,45 @@ angular.module('routerApp').controller('inicioCtrl', function ($scope, $http) {
         });
 
     function initialize() {
-        var latlng = new google.maps.LatLng(-7.4965076, -36.1545404);
+        geocoder = new google.maps.Geocoder();
+        geolocation();
+    }
+
+    function geolocation() {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(geolocationSuccess, geolocationError);
+        } else {
+            //TODO: No native support; Query IP geolocation
+        }
+    }
+
+    function geolocationSuccess(position) {
+        // Geolocation avaliable. Let's show a map!
+        var lat = position.coords.latitude;
+        var lng = position.coords.longitude;
+
+        loadMap(lat, lng);
+    }
+
+    function geolocationError(error) {
+        switch(error.code) {
+            case error.PERMISSION_DENIED:
+                console.log("User denied the request for Geolocation.");
+                break;
+            case error.POSITION_UNAVAILABLE:
+                console.log("Location information is unavailable.");
+                break;
+            case error.TIMEOUT:
+                console.log("The request to get user location timed out.");
+                break;
+            case error.UNKNOWN_ERROR:
+                console.log("An unknown error occurred.");
+                break;
+        }
+    }
+
+    function loadMap(lat, lng) {
+        var latlng = new google.maps.LatLng(lat, lng);
 
         var options = {
             zoom: 12,
@@ -18,27 +60,55 @@ angular.module('routerApp').controller('inicioCtrl', function ($scope, $http) {
 
         map = new google.maps.Map(document.getElementById("mapa"), options);
 
+        loadWatersourceData();
     }
 
-    initialize();
+    function loadWatersourceData() {
+        InicioSrvc.geocodeCityName(map.center).then(geocodeCitySuccess, geocodeCityError);
 
-    function carregarPontos() {
+        function geocodeCitySuccess(cityName) {
+            InicioSrvc.queryCityByName(cityName).then(queryCityByNameSuccess, queryCityByNameError);
+            $scope.inputSearch = cityName;
 
-        $.getJSON('assets/mock/pontos.json', function(pontos) {
+            function queryCityByNameSuccess(response) {
+                city = response.data[0];
+                InicioSrvc.queryWatersources(city.id).then (queryWatersourcesSuccess, queryWatersourcesError);
 
-            $.each(pontos, function(index, ponto) {
+                function queryWatersourcesSuccess(response) {
+                    watersources = response.data;
+                }
 
-                var marker = new google.maps.Marker({
-                    position: new google.maps.LatLng(ponto.Latitude, ponto.Longitude),
-                    title: "Boqueirão! :-D",
-                    map: map,
-                    icon: 'assets/img/marcador.png'
-                });
-            });
-        });
+                function queryWatersourcesError(error) {
+                    console.log(error);
+                }
+            }
+
+            function queryCityByNameError(error) {
+                console.log(error);
+            }
+        }
+
+        function geocodeCityError(error) {
+            console.log(error);
+        }
     }
 
-    carregarPontos();
+    // function codeAddress() {
+    //     var address = document.getElementById("address").value;
+    //     geocoder.geocode( { 'address': address}, function(results, status) {
+    //         if (status == google.maps.GeocoderStatus.OK) {
+    //             map.setCenter(results[0].geometry.location);
+    //             var marker = new google.maps.Marker({
+    //                 map: map,
+    //                 position: results[0].geometry.location
+    //                 icon: 'assets/img/marcador.png'
+    //             });
+    //         } else {
+    //             alert("Geocode was not successful for the following reason: " + status);
+    //         }
+    //     });
+    // }
+
 
     var chart = c3.generate({
         data: {
