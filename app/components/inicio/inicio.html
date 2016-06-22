@@ -3,24 +3,31 @@
 <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
     <form class="navbar-form navbar">
         <input id="inputSearch" type="text" class="form-control input-lg" placeholder="Buscar..." ng-model="inputSearch">
+        <div class="row placeholders" style="margin: 10px">
+            <div class="col-xs-6 col-sm-3">
+                <img src="assets/img/seca.jpg">
+                <h4>Status Açude</h4>
+                <select
+                        id="watersources"
+                        class="form-control"
+                        required="true"
+                        ng-model="watersource"
+                        ng-options="w.name for w in watersources"
+                        ng-change="changeWatersource">
+                </select>
+            </div>
+            <div class="col-xs-6 col-sm-3">
+                <img src="assets/img/agua.png">
+                <h4>Quantidade de Litros</h4>
+                <span class="text-muted">{{ watersource.capacity }} {{ watersource.measurementUnit }}</span>
+            </div>
+            <div class="col-xs-6 col-sm-3">
+                <img src="assets/img/estimativa.png">
+                <h4>Estimativa</h4>
+                <span class="text-muted">{{ watersource.days }} dias</span>
+            </div>
+        </div>
     </form>
-    <div class="row placeholders">
-        <div class="col-xs-6 col-sm-3">
-            <img src="assets/img/seca.jpg">
-            <h4>Status Açude</h4>
-            <span class="text-muted">{{ watersource.name }}</span><br/>
-        </div>
-        <div class="col-xs-6 col-sm-3">
-            <img src="assets/img/agua.png">
-            <h4>Quantidade de Litros</h4>
-            <span class="text-muted">{{ watersource.capacity }} {{ watersource.measurementUnit }}</span>
-        </div>
-        <div class="col-xs-6 col-sm-3">
-            <img src="assets/img/estimativa.png">
-            <h4>Estimativa</h4>
-            <span class="text-muted">{{ watersource.days }} dias</span>
-        </div>
-    </div>
 
     <div class="col-lg-6">
         <div id="mapa" style="height: 400px; width: 100%"></div>
