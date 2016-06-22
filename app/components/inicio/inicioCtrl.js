@@ -1,18 +1,13 @@
-angular.module('routerApp').controller('inicioCtrl', function ($scope, InicioSrvc, $http) {
+angular.module('routerApp').controller('inicioCtrl', function ($scope, InicioSrvc) {
 
     var map;
-    var geocoder;
-    $scope.inputSearch;
+    $scope.inputSearch = '';
+    $scope.city = {};
+    $scope.watersources = [];
 
     initialize();
 
-    $http.get('assets/mock/mock.json')
-        .then(function(res){
-            $scope.watersource = res.data;
-        });
-
     function initialize() {
-        geocoder = new google.maps.Geocoder();
         geolocation();
     }
 
@@ -70,12 +65,12 @@ angular.module('routerApp').controller('inicioCtrl', function ($scope, InicioSrv
             InicioSrvc.queryCityByName(cityName).then(queryCityByNameSuccess, queryCityByNameError);
             $scope.inputSearch = cityName;
 
-            function queryCityByNameSuccess(response) {
-                city = response.data[0];
+            function queryCityByNameSuccess(city) {
+                $scope.city = city;
                 InicioSrvc.queryWatersources(city.id).then (queryWatersourcesSuccess, queryWatersourcesError);
 
-                function queryWatersourcesSuccess(response) {
-                    watersources = response.data;
+                function queryWatersourcesSuccess(watersources) {
+                    $scope.watersources = watersources;
                 }
 
                 function queryWatersourcesError(error) {
@@ -92,23 +87,6 @@ angular.module('routerApp').controller('inicioCtrl', function ($scope, InicioSrv
             console.log(error);
         }
     }
-
-    // function codeAddress() {
-    //     var address = document.getElementById("address").value;
-    //     geocoder.geocode( { 'address': address}, function(results, status) {
-    //         if (status == google.maps.GeocoderStatus.OK) {
-    //             map.setCenter(results[0].geometry.location);
-    //             var marker = new google.maps.Marker({
-    //                 map: map,
-    //                 position: results[0].geometry.location
-    //                 icon: 'assets/img/marcador.png'
-    //             });
-    //         } else {
-    //             alert("Geocode was not successful for the following reason: " + status);
-    //         }
-    //     });
-    // }
-
 
     var chart = c3.generate({
         data: {

@@ -33,38 +33,80 @@ angular.module('routerApp').factory('InicioSrvc', function($http) {
         return deferred.promise();
     }
 
-    function queryCityByName(cityName) {
-        var urlCityPerName = Properties.webserviceAddress + '/cities?name=' + cityName;
-
-        // Angular $http() and then() both return promises themselves
-        return $http({
+    function queryAllCities() {
+        // Using jQuery's Deferred to return a promise
+        var deferred = $.Deferred();
+        // and a webservice's URL
+        var urlCityPerName = Properties.webserviceAddress + '/cities';
+        
+        // we query the webservice for the list of all cities
+        $http({
             method: 'GET',
             url: urlCityPerName
         })
-            .success(function(city) {
-                // What we return here is the data that will be accessible
-                // to us after the promise resolves
-                return city;
+            .success(function(cities) {
+                // and then return the full list
+                deferred.resolve(cities);
+            })
+            .error(function (error) {
+                // or throw back an error 
+                deferred.reject(error);
             });
+
+        // I promise I will return something to you =)
+        return deferred.promise();
+    }
+
+    function queryCityByName(cityName) {
+        // Using jQuery's Deferred to return a promise
+        var deferred = $.Deferred();
+        // and a webservice's URL
+        var urlCityPerName = Properties.webserviceAddress + '/cities?name=' + cityName;
+
+        // we query the webservice for the list of all cities matching the cityName parameter
+        $http({
+            method: 'GET',
+            url: urlCityPerName
+        })
+            .success(function(cities) {
+                // and then return the filtered list
+                deferred.resolve(cities[0]);
+            })
+            .error(function (error) {
+                // or throw back an error
+                deferred.reject(error);
+            });
+
+        // I promise I will return something to you =)
+        return deferred.promise();
     }
 
     function queryWatersources(cityId) {
-
+        // Using jQuery's Deferred to return a promise
+        var deferred = $.Deferred();
+        // and a webservice's URL
         var urlWatersourcesPerCityId = Properties.webserviceAddress + '/cities/' + cityId + '/watersources';
 
-        // Angular $http() and then() both return promises themselves
-        return $http({
+        // we query the webservice for all watersources of a city given the city's ID on the cityId parameter
+        $http({
             method: 'GET',
             url: urlWatersourcesPerCityId
         })
-            .success(function(response) {
-                // What we return here is the data that will be accessible
-                // to us after the promise resolves
-                return response;
+            .success(function(watersources) {
+                // and then return a list of watersources
+                deferred.resolve(watersources);
+            })
+            .error(function (error) {
+                // or throw back an error
+                deferred.reject(error);
             });
+
+        // I promise I will return something to you =)
+        return deferred.promise();
     }
     
     return {
+        queryAllCities:     queryAllCities,
         geocodeCityName:    geocodeCityName,
         queryCityByName:    queryCityByName,
         queryWatersources:  queryWatersources
