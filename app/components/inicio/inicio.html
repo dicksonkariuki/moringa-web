@@ -1,11 +1,15 @@
-<div ng-controller="inicioCtrl">
+<div ng-controller="InicioCtrl">
+
     <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-        <div class="input-group panel panel-default">
-            <input id="inputSearch" type="text" class="form-control" ng-model="inputSearch">
+        <form ng-submit="mapSearch(inputSearch)">
+            <div class="input-group panel panel-default">
+                <input id="inputSearch" type="text" class="form-control" ng-model="inputSearch" onfocus="this.select();">
             <span class="input-group-btn">
-                <button id="btnSearch" type="button" class="btn btn-default" ng-click="searchCity(inputSearch)">Pesquisar</button>
+
+                <button id="btnSearch" type="submit" class="btn btn-default" >Pesquisar</button>
             </span>
-        </div>
+            </div>
+        </form>
         <div class="panel panel-default">
             <div class="panel-heading">Levantamentos</div>
             <div class="panel-body">
@@ -13,6 +17,14 @@
                     <div class="col-xs-6 col-sm-4">
                         <img src="assets/img/seca.jpg">
                         <h4>Status Açude</h4>
+                        <select
+                                id="watersources"
+                                class="form-control"
+                                required="true"
+                                ng-model="watersource"
+                                ng-options="w.name for w in watersources"
+                                ng-change="loadWatersourceData(watersource)">
+                        </select>
                     </div>
                     <div class="col-xs-6 col-sm-4">
                         <img src="assets/img/agua.png">
@@ -44,7 +56,6 @@
                     </div>
                 </div>
             </div>
-        </div>
     </div>
 
 </div>
