@@ -1,11 +1,15 @@
-angular.module('routerApp').controller('inicioCtrl', function ($scope, InicioSrvc) {
+angular.module('routerApp').controller('InicioCtrl', function ($scope, InicioSrvc) {
 
-    var map;
     $scope.inputSearch = '';
     $scope.city = {};
     $scope.watersource = {};
     $scope.watersources = [];
-    $scope.changeWatersource = changeWatersource;
+
+    $scope.loadWatersourceData = loadWatersourceData;
+    $scope.mapSearch = mapSearch;
+    $scope.searchCity = searchCity;
+
+    var map;
 
     initialize();
 
@@ -24,94 +28,139 @@ angular.module('routerApp').controller('inicioCtrl', function ($scope, InicioSrv
         });
     });
 
-    $scope.searchCity = function (city) {
+    function searchCity(city) {
         InicioSrvc.queryCityByName(city).then(queryCityByNameSuccess,queryCityByNameError);
     }
 
     function initialize() {
-        geolocation();
+        geolocation()
+            .then(loadMap)
+            .then(loadCityData)
+            .then(loadCityWatersources)
+            .then(loadWatersourceData);
     }
 
     function geolocation() {
+        var deferred = $.Deferred();
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(geolocationSuccess, geolocationError);
         } else {
             //TODO: No native support; Query IP geolocation
         }
-    }
 
-    function geolocationSuccess(position) {
-        // Geolocation avaliable. Let's show a map!
-        var lat = position.coords.latitude;
-        var lng = position.coords.longitude;
+        return deferred.promise();
 
-        loadMap(lat, lng);
-    }
+        function geolocationSuccess(position) {
+            // Geolocation avaliable. Let's show a map!
+            var lat = position.coords.latitude;
+            var lng = position.coords.longitude;
 
-    function geolocationError(error) {
-        switch(error.code) {
-            case error.PERMISSION_DENIED:
-                console.log("User denied the request for Geolocation.");
-                break;
-            case error.POSITION_UNAVAILABLE:
-                console.log("Location information is unavailable.");
-                break;
-            case error.TIMEOUT:
-                console.log("The request to get user location timed out.");
-                break;
-            case error.UNKNOWN_ERROR:
-                console.log("An unknown error occurred.");
-                break;
+            deferred.resolve(new google.maps.LatLng(lat, lng))
+        }
+
+        function geolocationError(error) {
+            switch(error.code) {
+                case error.PERMISSION_DENIED:
+                    console.log("User denied the request for Geolocation.");
+                    break;
+                case error.POSITION_UNAVAILABLE:
+                    console.log("Location information is unavailable.");
+                    break;
+                case error.TIMEOUT:
+                    console.log("The request to get user location timed out.");
+                    break;
+                case error.UNKNOWN_ERROR:
+                    console.log("An unknown error occurred.");
+                    break;
+            }
+            deferred.reject(error);
         }
     }
 
-    function loadMap(lat, lng) {
-        var latlng = new google.maps.LatLng(lat, lng);
+    function mapSearch(inputSearch) {
+        InicioSrvc.geocodeLatLng(inputSearch).then(geocodeLatLngSuccess, geocodeLatLngError);
+        
+        function geocodeLatLngSuccess(latlng) {
+            loadMap(latlng)
+                .then(loadCityData)
+                .then(loadCityWatersources)
+                .then(loadWatersourceData);
+        }
+        
+        function geocodeLatLngError(error) {
+            console.log(error);
+        }
+    }
 
+    function loadMap(latlng) {
+        var deferred = $.Deferred();
         var options = {
-            zoom: 12,
+            zoom: 13,
             center: latlng,
             mapTypeId: google.maps.MapTypeId.ROADMAP
         };
 
         map = new google.maps.Map(document.getElementById("mapa"), options);
 
-        loadWatersourceData();
+        deferred.resolve(map);
+
+        //TODO handle possible errors with deferred.reject(a);
+
+        return deferred.promise();
+
+        // loadCityData().then(loadCityWatersources).then(loadWatersourceData);
     }
 
-    function loadWatersourceData() {
+    function loadCityData(map) {
+        var deferred = $.Deferred();
+
         InicioSrvc.geocodeCityName(map.center).then(geocodeCitySuccess, geocodeCityError);
 
+        return deferred.promise();
+
         function geocodeCitySuccess(cityName) {
-            InicioSrvc.queryCityByName(cityName).then(queryCityByNameSuccess, queryCityByNameError);
+
             $scope.inputSearch = cityName;
+            InicioSrvc.queryCityByName(cityName).then(queryCityByNameSuccess, queryCityByNameError);
+
+            function queryCityByNameSuccess(city) {
+                $scope.city = city;
+                deferred.resolve(city);
+            }
+
+            function queryCityByNameError(error) {
+                console.log(error);
+                deferred.reject(error);
+            }
         }
 
         function geocodeCityError(error) {
             console.log(error);
+            deferred.reject(error);
         }
     }
 
-    function changeWatersource(watersource) {
+    function loadCityWatersources(city) {
+        var deferred = $.Deferred();
 
-    }
-
-    function queryCityByNameSuccess(city) {
-        $scope.city = city;
         InicioSrvc.queryWatersources(city.id).then (queryWatersourcesSuccess, queryWatersourcesError);
+
+        return deferred.promise();
 
         function queryWatersourcesSuccess(watersources) {
             $scope.watersources = watersources;
             $scope.watersource = watersources[0];
+            deferred.resolve($scope.watersource);
         }
 
         function queryWatersourcesError(error) {
             console.log(error);
+            deferred.reject(error);
         }
     }
 
-    function queryCityByNameError(status) {
-        console.log(status);
+    function loadWatersourceData(watersource) {
+        console.log(watersource);
     }
 
     var chart = c3.generate({

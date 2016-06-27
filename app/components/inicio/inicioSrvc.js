@@ -35,6 +35,48 @@ angular.module('routerApp').factory('InicioSrvc', function($http) {
 
                 // that's a messy filter because reasons
                 function addressComponentsLocalityFilter(address_component) {
+                    return address_component.types.indexOf('locality') > -1 || address_component.types.indexOf('administrative_area_level_2') > -1;
+                }
+            }
+        );
+
+        // I promise I will return something to you =)
+        return deferred.promise();
+    }
+
+    function geocodeLatLng(address) {
+        // Using jQuery's Deferred to return a promise
+        var deferred = $.Deferred();
+        // and the Geocoder from Google Maps API
+        if (!geocoder) { geocoder = new google.maps.Geocoder();}
+        // we ask google to geocode the data for our location
+        geocoder.geocode(
+            // we pass a google.maps.GeocoderRequest object as parameter
+            {
+                address: address
+            },
+            // and expect some results
+            function (results, status) {
+                switch (status) {
+                    // in case we get the data
+                    case google.maps.GeocoderStatus.OK:
+                        // we filter it for the 'locality' attribute
+                        latlng = results[0].geometry.location;
+                        // and return it
+                        deferred.resolve(latlng);
+                        break;
+
+                    // otherwise
+                    case google.maps.GeocoderStatus.ZERO_RESULTS:
+                    default:
+                        // we log and throw back the error
+                        console.log("Geocode was not successful for the following reason: " + status);
+                        deferred.reject(status);
+                        break;
+                }
+
+                // that's a messy filter because reasons
+                function addressComponentsLocalityFilter(address_component) {
                     return address_component.types.indexOf('locality') > -1;
                 }
             }
@@ -119,6 +161,7 @@ angular.module('routerApp').factory('InicioSrvc', function($http) {
     return {
         queryAllCities:     queryAllCities,
         geocodeCityName:    geocodeCityName,
+        geocodeLatLng:      geocodeLatLng,
         queryCityByName:    queryCityByName,
         queryWatersources:  queryWatersources
     };
