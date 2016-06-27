@@ -133,3 +133,16 @@ body {
 .img-margin {
     margin-top: 20px;
 }
+
+#form {
+    margin-left: 50px;
+    width: 500px
+}
+
+.indent {
+    margin-left: 50px;
+}
+
+.move-down {
+    margin-top: 100px;
+}

@@ -9,7 +9,20 @@ angular.module('routerApp').controller('inicioCtrl', function ($scope, InicioSrv
 
     initialize();
 
-    $scope.cities = InicioSrvc.queryAllCities();
+
+
+    $scope.citiesToSelect = {
+        citySelected: null,
+        cityAvailableOptions: null
+    };
+
+    InicioSrvc.queryAllCities().then(function (cities) {
+        $scope.citiesToSelect.cityAvailableOptions = cities;
+
+        $(document).ready(function() {
+            $("#select2").select2();
+        });
+    });
 
     $scope.searchCity = function (city) {
         InicioSrvc.queryCityByName(city).then(queryCityByNameSuccess,queryCityByNameError);
