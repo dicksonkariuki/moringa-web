@@ -9,6 +9,8 @@ angular.module('routerApp').controller('inicioCtrl', function ($scope, InicioSrv
 
     initialize();
 
+    $scope.cities = InicioSrvc.queryAllCities();
+
     $scope.searchCity = function (city) {
         InicioSrvc.queryCityByName(city).then(queryCityByNameSuccess,queryCityByNameError);
     }

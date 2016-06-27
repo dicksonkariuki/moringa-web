@@ -63,7 +63,7 @@ angular.module('routerApp').factory('InicioSrvc', function($http) {
                 // or throw back an error 
                 deferred.reject(error);
             });
-
+    
         // I promise I will return something to you =)
         return deferred.promise();
     }
