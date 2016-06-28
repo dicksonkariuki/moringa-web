@@ -146,3 +146,7 @@ body {
 .move-down {
     margin-top: 100px;
 }
+
+.select2 {
+    width: 50%;
+}
