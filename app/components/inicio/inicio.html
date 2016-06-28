@@ -1,25 +1,17 @@
 <div ng-controller="InicioCtrl">
 
     <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-        <form ng-submit="mapSearch(inputSearch)">
-            <div class="input-group panel panel-default">
-                <input id="inputSearch" type="text" class="form-control" ng-model="inputSearch" onfocus="this.select();">
-            <span class="input-group-btn">
-
-                <button id="btnSearch2" type="submit" class="btn btn-default" >Pesquisar</button>
-            </span>
-            </div>
+        <form ng-submit="loadCity()">
             <div>
-                <select id="select2" ng-model="citiesToSelect.citySelected" ng-options="city.name for city in citiesToSelect.cityAvailableOptions" style="width: 250px">
+                <select id="select2" ng-model="cities.selected" ng-options="city.name for city in cities.options" style="width: 250px">
                 </select>
-                <span class="input-group-btn" />
-                <button id="btnSearch" type="button" class="btn btn-default" ng-click="searchCity(inputSearch)">Pesquisar</button>
+                <button id="btnSearch" type="submit" class="btn btn-default">Pesquisar</button>
             </div>
         </form>
         <div class="panel panel-default">
             <div class="panel-heading">Levantamentos</div>
             <div class="panel-body">
-                <div class="row placeholders">
+                <div class="placeholders">
                     <div class="col-xs-6 col-sm-4">
                         <img src="assets/img/seca.jpg">
                         <h4>Status Açude</h4>

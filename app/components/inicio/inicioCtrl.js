@@ -1,13 +1,12 @@
 angular.module('routerApp').controller('InicioCtrl', function ($scope, InicioSrvc) {
 
     $scope.inputSearch = '';
-    $scope.city = {};
     $scope.watersource = {};
     $scope.watersources = [];
 
     $scope.loadWatersourceData = loadWatersourceData;
     $scope.mapSearch = mapSearch;
-    $scope.searchCity = searchCity;
+    $scope.loadCity = loadCity;
 
     var map;
 
@@ -15,27 +14,28 @@ angular.module('routerApp').controller('InicioCtrl', function ($scope, InicioSrv
 
 
 
-    $scope.citiesToSelect = {
-        citySelected: null,
-        cityAvailableOptions: null
+    $scope.cities = {
+        selected: null,
+        options: null
     };
 
     InicioSrvc.queryAllCities().then(function (cities) {
-        $scope.citiesToSelect.cityAvailableOptions = cities;
+        $scope.cities.options = cities;
 
         $(document).ready(function() {
             $("#select2").select2();
         });
     });
 
-    function searchCity(city) {
-        InicioSrvc.queryCityByName(city).then(queryCityByNameSuccess,queryCityByNameError);
+    function loadCity() {
+        loadCityWatersources($scope.cities.selected)
+            .then(loadWatersourceData);
     }
 
     function initialize() {
         geolocation()
             .then(loadMap)
-            .then(loadCityData)
+            .then(loadCityFromMap)
             .then(loadCityWatersources)
             .then(loadWatersourceData);
     }
@@ -82,7 +82,7 @@ angular.module('routerApp').controller('InicioCtrl', function ($scope, InicioSrv
         
         function geocodeLatLngSuccess(latlng) {
             loadMap(latlng)
-                .then(loadCityData)
+                .then(loadCityFromMap)
                 .then(loadCityWatersources)
                 .then(loadWatersourceData);
         }
@@ -108,10 +108,10 @@ angular.module('routerApp').controller('InicioCtrl', function ($scope, InicioSrv
 
         return deferred.promise();
 
-        // loadCityData().then(loadCityWatersources).then(loadWatersourceData);
+        // loadCityFromMap().then(loadCityWatersources).then(loadWatersourceData);
     }
 
-    function loadCityData(map) {
+    function loadCityFromMap(map) {
         var deferred = $.Deferred();
 
         InicioSrvc.geocodeCityName(map.center).then(geocodeCitySuccess, geocodeCityError);
@@ -120,12 +120,16 @@ angular.module('routerApp').controller('InicioCtrl', function ($scope, InicioSrv
 
         function geocodeCitySuccess(cityName) {
 
-            $scope.inputSearch = cityName;
             InicioSrvc.queryCityByName(cityName).then(queryCityByNameSuccess, queryCityByNameError);
 
             function queryCityByNameSuccess(city) {
-                $scope.city = city;
+                var citySelected = $scope.cities.options.filter(filterCity)[0];
+                $scope.cities.selected = citySelected;
                 deferred.resolve(city);
+
+                function filterCity(cityOption) {
+                    return cityOption.id === city.id;
+                }
             }
 
             function queryCityByNameError(error) {

@@ -74,11 +74,6 @@ angular.module('routerApp').factory('InicioSrvc', function($http) {
                         deferred.reject(status);
                         break;
                 }
-
-                // that's a messy filter because reasons
-                function addressComponentsLocalityFilter(address_component) {
-                    return address_component.types.indexOf('locality') > -1;
-                }
             }
         );
 
