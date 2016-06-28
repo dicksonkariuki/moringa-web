@@ -2,12 +2,12 @@
 
     <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2">
         <form ng-submit="loadCity()">
-            <div>
-                <select id="select2" class="select2" ng-model="cities.selected" ng-options="city.name for city in cities.options">
+            <div style="margin-bottom: 20px;">
+                <select id="selectCity" class="select2" ng-model="cities.selected" ng-options="city.name for city in cities.options">
                 </select>
-                <button id="btnSearch" type="submit" class="btn btn-default">Pesquisar</button>
+                <button id="btnSearch" type="submit" class="btn btn-default btn-sm">Pesquisar</button>
             </div>
-        </form><br/>
+        </form>
         <div class="panel panel-default">
             <div class="panel-heading">Levantamentos</div>
             <div class="panel-body">
@@ -54,6 +54,9 @@
                     </div>
                 </div>
             </div>
+        </div>
     </div>
+
+    <script type="text/javascript" src="app/components/inicio/ui.js" />
 
 </div>

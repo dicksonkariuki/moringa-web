@@ -21,14 +21,13 @@ angular.module('routerApp').controller('InicioCtrl', function ($scope, InicioSrv
 
     InicioSrvc.queryAllCities().then(function (cities) {
         $scope.cities.options = cities;
-
-        $(document).ready(function() {
-            $("#select2").select2();
-        });
     });
 
     function loadCity() {
-        loadCityWatersources($scope.cities.selected)
+        InicioSrvc.geocodeLatLng($scope.cities.selected.name)
+            .then(loadMap)
+            .then(loadCityFromMap)
+            .then(loadCityWatersources)
             .then(loadWatersourceData);
     }
 
