@@ -150,3 +150,16 @@ body {
 .select2 {
     width: 50%;
 }
+
+#cagepa {
+    width: 15%;
+}
+
+#aesa {
+    width: 8%;
+}
+
+.fonte-dados {
+    margin-top: 50px;
+    margin-bottom: 50px
+}
