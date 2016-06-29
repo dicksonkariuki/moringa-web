@@ -164,3 +164,91 @@ body {
     margin-top: 50px;
     margin-bottom: 50px
 }
+.panel-success-info1 {
+    border-color: #bde7fb;
+}
+.panel-success-info1 > .panel-heading {
+    color: #06090d;
+    background-color: #acd6f0;
+    border-color: #7ce9d6;
+}
+.panel-success-info1 > .panel-heading + .panel-collapse > .panel-body {
+    border-top-color: #90d8e9;
+}
+.panel-success-info1 > .panel-heading .badge {
+    color: #9ee6f0;
+    background-color: #406c76;
+}
+.panel-success-info1 > .panel-footer + .panel-collapse > .panel-body {
+    border-bottom-color: #9be0e9;
+}
+
+.panel-success-info2 {
+    border-color: #e8bdff;
+}
+.panel-success-info2 > .panel-heading {
+    color: #010001;
+    background-color: #e7bdf0;
+    border-color: #e99fc6;
+}
+.panel-success-info2 > .panel-heading + .panel-collapse > .panel-body {
+    border-top-color: #e9a6d9;
+}
+.panel-success-info2 > .panel-heading .badge {
+    color: #f0a1c7;
+    background-color: #76445c;
+}
+.panel-success-info2 > .panel-footer + .panel-collapse > .panel-body {
+    border-bottom-color: #e994d3;
+}
+
+
+.panel-success-info3 {
+    border-color: #f0ffa9;
+}
+.panel-success-info3 > .panel-heading {
+    color: #030301;
+    background-color: #e3f0a3;
+    border-color: #d3e969;
+}
+.panel-success-info3 > .panel-heading + .panel-collapse > .panel-body {
+    border-top-color: #dbe97f;
+}
+.panel-success-info3 > .panel-heading .badge {
+    color: #e9f087;
+    background-color: #767632;
+}
+.panel-success-info3 > .panel-footer + .panel-collapse > .panel-body {
+    border-bottom-color: #e4e972;
+}
+
+.panel-success-info4 {
+    border-color: #aba4a5;
+}
+.panel-success-info4 > .panel-heading {
+    color: #030301;
+    background-color: #d3d3ce;
+    border-color: #e9e5e4;
+}
+.panel-success-info4 > .panel-heading + .panel-collapse > .panel-body {
+    border-top-color: #e5e9e1;
+}
+.panel-success-info4 > .panel-heading .badge {
+    color: #f0ece9;
+    background-color: #767372;
+}
+.panel-success-info4 > .panel-footer + .panel-collapse > .panel-body {
+    border-bottom-color: #e9e8e4;
+}
+.panel-body1{
+    background: #42a0ff;
+}
+.panel-body2{
+    background: #b945eb;
+}
+.panel-body3{
+    background: #b6ae42;
+}
+.panel-body4{
+    background: #8b8a88;
+}
