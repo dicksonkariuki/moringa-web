@@ -5454,7 +5454,7 @@ button.list-group-item-danger.active:focus {
   margin-bottom: 20px;
   background-color: #fff;
   border: 1px solid transparent;
-  border-radius: 4px;
+  border-radius: 0px;
   -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, .05);
           box-shadow: 0 1px 1px rgba(0, 0, 0, .05);
 }
@@ -6756,5 +6756,15 @@ button.close {
   .hidden-print {
     display: none !important;
   }
+}
+body {
+  font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+  font-size: 14px;
+
+  line-height: 1.42857143;
+  color: #333;
+  background-color: rgba(78, 169, 138, 0.6);
+  border-radius: 0px;
+
 }
 /*# sourceMappingURL=bootstrap.css.map */

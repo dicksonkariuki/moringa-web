@@ -13,24 +13,16 @@
             <div class="panel-body">
                 <div class="placeholders">
                     <div class="col-xs-6 col-sm-4">
-                        <img src="assets/img/seca.jpg">
-                        <h4>Status Açude</h4>
-                        <select
-                                id="watersources"
-                                class="form-control"
-                                required="true"
-                                ng-model="watersource"
-                                ng-options="w.name for w in watersources"
-                                ng-change="loadWatersourceData(watersource)">
-                        </select>
+                        <img src="assets/img/seca.png">
+                        <h4>Nível médio dos açudes</h4>
                     </div>
                     <div class="col-xs-6 col-sm-4">
-                        <img src="assets/img/agua.png">
+                        <img src="assets/img/agua.jpg">
                         <h4>Quantidade de Litros</h4>
                         <span class="text-muted">{{ watersource.capacity }} {{ watersource.measurementUnit }}</span>
                     </div>
                     <div class="col-xs-6 col-sm-4">
-                        <img src="assets/img/estimativa.png">
+                        <img src="assets/img/nivel-maior-50.jpg">
                         <h4>Estimativa</h4>
                         <span class="text-muted">{{ watersource.days }} dias</span>
                     </div>

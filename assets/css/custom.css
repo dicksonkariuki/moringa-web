@@ -149,6 +149,7 @@ body {
 
 .select2 {
     width: 50%;
+    border-radius: 0px;
 }
 
 #cagepa {

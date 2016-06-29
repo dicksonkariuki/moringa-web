@@ -1,3 +1,3 @@
 var Properties = {
-    webserviceAddress: 'http://192.168.1.100:8080'
+    webserviceAddress: 'http://150.165.98.43:8080'
 };
