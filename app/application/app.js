@@ -12,9 +12,13 @@ routerApp.config(function($stateProvider, $urlRouterProvider) {
             url: '/inicio',
             templateUrl: 'app/components/inicio/inicio.html'
         })
+        .state('acude', {
+            url: '/acude',
+            templateUrl: 'app/components/acude/acude.html'
+        })
         .state('sobre', {
-            url: '/sobre',
-            templateUrl: 'app/components/sobre/sobre.html'
-        });
+        url: '/sobre',
+        templateUrl: 'app/components/sobre/sobre.html'
+    });
 
 });
