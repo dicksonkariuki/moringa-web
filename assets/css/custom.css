@@ -252,3 +252,30 @@ body {
 .panel-body4{
     background: #8b8a88;
 }
+
+.table {
+    width:100%;
+}
+
+#div-select {
+    margin-bottom: 20px;
+}
+
+#dados_historicos {
+    width: 50%;
+}
+
+.cards {
+    padding: 20px;
+    margin: 10px;
+}
+
+.data-dimensions {
+    height: 400px;
+    width: 100%;
+}
+
+.text-cards {
+    color: #FFFFFF;
+    text-align: center;
+}
