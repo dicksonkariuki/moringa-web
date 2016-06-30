@@ -1,42 +1,46 @@
-angular.module('routerApp').controller('InicioCtrl', function ($scope, InicioSrvc) {
+angular.module('routerApp').controller('InicioCtrl', function ($scope, InicioSrvc, InicioUI, DateUtil) {
 
-    $scope.inputSearch = '';
-    $scope.watersource = {};
     $scope.watersources = [];
-
-    $scope.loadWatersourceData = loadWatersourceData;
-    $scope.mapSearch = mapSearch;
-    $scope.loadCity = loadCity;
-
-    var map;
-
-    initialize();
-
-
-
     $scope.cities = {
         selected: null,
         options: null
     };
+    
+    $scope.mapSearch = mapSearch;
 
-    InicioSrvc.queryAllCities().then(function (cities) {
-        $scope.cities.options = cities;
-    });
+    $scope.loadCity = loadCity;
+
+    var map;
+    /**
+     * 
+     * @type {{interval: number, dateRange: Array, lines: Array}}
+     */
+    var history = {
+        interval: 90,
+        dateRange: [],
+        lines: []
+    };
+
+    initialize();
+
+    function initialize() {
+        InicioSrvc.queryAllCities().then(function (cities) {
+            $scope.cities.options = cities;
+        });
+
+        geolocation()
+            .then(loadMap)
+            .then(loadCityFromMap)
+            .then(loadCityWatersources)
+            .then(loadHistoryData);
+    }
 
     function loadCity() {
         InicioSrvc.geocodeLatLng($scope.cities.selected.name)
             .then(loadMap)
             .then(loadCityFromMap)
             .then(loadCityWatersources)
-            .then(loadWatersourceData);
-    }
-
-    function initialize() {
-        geolocation()
-            .then(loadMap)
-            .then(loadCityFromMap)
-            .then(loadCityWatersources)
-            .then(loadWatersourceData);
+            .then(loadHistoryData);
     }
 
     function geolocation() {
@@ -83,7 +87,7 @@ angular.module('routerApp').controller('InicioCtrl', function ($scope, InicioSrv
             loadMap(latlng)
                 .then(loadCityFromMap)
                 .then(loadCityWatersources)
-                .then(loadWatersourceData);
+                .then(loadHistoryData);
         }
         
         function geocodeLatLngError(error) {
@@ -106,8 +110,6 @@ angular.module('routerApp').controller('InicioCtrl', function ($scope, InicioSrv
         //TODO handle possible errors with deferred.reject(a);
 
         return deferred.promise();
-
-        // loadCityFromMap().then(loadCityWatersources).then(loadWatersourceData);
     }
 
     function loadCityFromMap(map) {
@@ -152,8 +154,7 @@ angular.module('routerApp').controller('InicioCtrl', function ($scope, InicioSrv
 
         function queryWatersourcesSuccess(watersources) {
             $scope.watersources = watersources;
-            $scope.watersource = watersources[0];
-            deferred.resolve($scope.watersource);
+            deferred.resolve($scope.watersources);
         }
 
         function queryWatersourcesError(error) {
@@ -162,32 +163,96 @@ angular.module('routerApp').controller('InicioCtrl', function ($scope, InicioSrv
         }
     }
 
-    function loadWatersourceData(watersource) {
-        console.log(watersource);
-    }
+    function loadHistoryData(watersources) {
+        var deferred = $.Deferred();
 
-    var chart = c3.generate({
-        data: {
-            x: 'x',
-    //        xFormat: '%Y%m%d', // 'xFormat' can be used as custom format of 'x'
-            columns: [
-                ['x', '2013-01-01', '2013-01-02', '2013-01-03', '2013-01-04', '2013-01-05', '2013-01-06'],
-    //            ['x', '20130101', '20130102', '20130103', '20130104', '20130105', '20130106'],
-                ['data1', 30, 200, 100, 400, 150, 250],
-                ['data2', 130, 340, 200, 500, 250, 350]
-            ]
-        },
-        subchart : {
-            show : true
-        },
-        axis: {
-            x: {
-                type: 'timeseries',
-                tick: {
-                    format: '%Y-%m-%d'
+        var endDate = new Date();
+        var startDate = DateUtil.offsetDays(endDate, 1-history.interval);
+        var dateFormat = "dd/MM/yyyy";
+        var data = new Object();
+
+        watersourcesConsumed = 0;
+
+        history.dateRange = [];
+        history.lines = [];
+
+        watersources.forEach(consumeMeasurements);
+
+        return deferred.promise();
+
+        function consumeMeasurements(watersource) {
+
+            var label = watersource.name;
+
+            InicioSrvc.queryMeasurements(watersource.id, DateUtil.format(dateFormat, startDate), DateUtil.format(dateFormat, endDate))
+                .then(queryMeasurementsSuccess, queryMeasurementsError)
+                .then(doneConsuming);
+
+            function queryMeasurementsSuccess(measurements) {
+
+                var values = {};
+
+                for (i=0; i<measurements.length; i++) {
+                    var measurement = measurements[i];
+                    values[measurement.date] = measurement.value;
                 }
+
+                data[label] = values;
+                watersourcesConsumed++;
+            }
+
+            function queryMeasurementsError(error) {
+                console.log(error);
+                watersourcesConsumed++;
             }
         }
-    });
 
+        function doneConsuming() {
+            if (watersourcesConsumed === watersources.length) {
+                var labels = Object.keys(data);
+                // Assemble the date range with dates from all watersources
+                for (i=0; i<labels.length; i++) {
+                    var values = data[labels[i]];
+                    var dates = Object.keys(values);
+                    for (j=0; j<dates.length; j++) {
+                        var date = +dates[j];
+                        if (history.dateRange.indexOf(date) < 0) {
+                            history.dateRange.push(date);
+                            history.dateRange.sort(
+                                function(a,b) {
+                                    return a>b ? 1 : a<b ? -1 : 0;
+                                }
+                            );
+                        }
+                    }
+                }
+                // Put each watersource measurement to its destined date on the array
+                for (i=0; i<labels.length; i++) {
+                    var line = [];
+                    var values = data[labels[i]];
+                    var dates = Object.keys(values);
+                    for (j=0; j<dates.length; j++) {
+                        var date = +dates[j];
+                        line[history.dateRange.indexOf(date)] = values[date];
+                    }
+                    // Push the data label to the first column
+                    line.splice(0,0,labels[i]);
+
+                    // Get the last index, regardless of array's length
+                    var lastIndex = line.lastIndexOf(line.slice(-1)[0]);
+
+                    // Replace 'undefined' with null
+                    for (j=0; j<=lastIndex; j++) {
+                        if (line[j] === undefined) {
+                            line[j] = null;
+                        }
+                    }
+
+                    history.lines.push(line);
+                }
+                InicioUI.loadChart(history.dateRange, history.lines);
+                deferred.resolve(history);
+            }
+        }
+    }
 });

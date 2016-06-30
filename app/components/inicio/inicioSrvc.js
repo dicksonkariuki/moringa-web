@@ -152,12 +152,37 @@ angular.module('routerApp').factory('InicioSrvc', function($http) {
         // I promise I will return something to you =)
         return deferred.promise();
     }
+
+    function queryMeasurements(watersourceId, startDate, endDate) {
+        // Using jQuery's Deferred to return a promise
+        var deferred = $.Deferred();
+        // and a webservice's URL
+        var urlWatersourceMeasurements = Properties.webserviceAddress+'/watersources/'+watersourceId+'/measurements?startDate='+startDate+'&endDate='+endDate;
+
+        // we query the webservice for all watersources of a city given the city's ID on the cityId parameter
+        $http({
+            method: 'GET',
+            url: urlWatersourceMeasurements
+        })
+            .success(function(measurements) {
+                // and then return a list of watersource measurements
+                deferred.resolve(measurements);
+            })
+            .error(function (error) {
+                // or throw back an error
+                deferred.reject(error);
+            });
+
+        // I promise I will return something to you =)
+        return deferred.promise();
+    }
     
     return {
         queryAllCities:     queryAllCities,
         geocodeCityName:    geocodeCityName,
         geocodeLatLng:      geocodeLatLng,
         queryCityByName:    queryCityByName,
-        queryWatersources:  queryWatersources
+        queryWatersources:  queryWatersources,
+        queryMeasurements:  queryMeasurements
     };
 });
