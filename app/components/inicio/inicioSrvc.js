@@ -105,6 +105,104 @@ angular.module('routerApp').factory('InicioSrvc', function($http) {
         return deferred.promise();
     }
 
+    //retorna a quantidade de metros cubicos por pessoa de uma cidade.
+    function queryLitersByID(cityId) {
+        // Using jQuery's Deferred to return a promise
+        var deferred = $.Deferred();
+        // and a webservice's URL
+        var urlLitersPerCityById = Properties.webserviceAddress + '/cities/' + cityId + '/liters';
+
+        // we query the webservice for the list of all cities matching the cityName parameter
+        $http({
+            method: 'GET',
+            url: urlLitersPerCityById
+        })
+            .success(function(liters) {
+                // and then return the filtered list
+                deferred.resolve(liters);
+            })
+            .error(function (status) {
+                // or throw back an error
+                deferred.reject(status);
+            });
+
+        // I promise I will return something to you =)
+        return deferred.promise();
+    }
+
+    //
+    function queryWaterByID(cityId) {
+        // Using jQuery's Deferred to return a promise
+        var deferred = $.Deferred();
+        // and a webservice's URL
+        var urlWaterById = Properties.webserviceAddress + '/cities/' + cityId + '/water';
+
+        // we query the webservice for the list of all cities matching the cityName parameter
+        $http({
+            method: 'GET',
+            url: urlWaterById
+        })
+            .success(function(water) {
+                // and then return the filtered list
+                deferred.resolve(water);
+            })
+            .error(function (status) {
+                // or throw back an error
+                deferred.reject(status);
+            });
+
+        // I promise I will return something to you =)
+        return deferred.promise();
+    }
+
+    function queryCubicMetersByID(cityId) {
+        // Using jQuery's Deferred to return a promise
+        var deferred = $.Deferred();
+        // and a webservice's URL
+        var urlCubicMetersById = Properties.webserviceAddress + '/cities/' + cityId + '/cubicMeters ';
+
+        // we query the webservice for the list of all cities matching the cityName parameter
+        $http({
+            method: 'GET',
+            url: urlCubicMetersById
+        })
+            .success(function(cubicMeters) {
+                // and then return the filtered list
+                deferred.resolve(cubicMeters);
+            })
+            .error(function (status) {
+                // or throw back an error
+                deferred.reject(status);
+            });
+
+        // I promise I will return something to you =)
+        return deferred.promise();
+    }
+
+    function queryPersonsByID(cityId) {
+        // Using jQuery's Deferred to return a promise
+        var deferred = $.Deferred();
+        // and a webservice's URL
+        var urlPersonsById = Properties.webserviceAddress + '/cities/' + cityId + '/persons';
+
+        // we query the webservice for the list of all cities matching the cityName parameter
+        $http({
+            method: 'GET',
+            url: urlPersonsById
+        })
+            .success(function(persons) {
+                // and then return the filtered list
+                deferred.resolve(persons);
+            })
+            .error(function (status) {
+                // or throw back an error
+                deferred.reject(status);
+            });
+
+        // I promise I will return something to you =)
+        return deferred.promise();
+    }
+
     function queryCityByName(cityName) {
         // Using jQuery's Deferred to return a promise
         var deferred = $.Deferred();
@@ -183,6 +281,7 @@ angular.module('routerApp').factory('InicioSrvc', function($http) {
         geocodeLatLng:      geocodeLatLng,
         queryCityByName:    queryCityByName,
         queryWatersources:  queryWatersources,
-        queryMeasurements:  queryMeasurements
+        queryMeasurements:  queryMeasurements,
+        queryLitersByID: queryLitersByID
     };
 });

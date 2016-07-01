@@ -5,6 +5,14 @@ angular.module('routerApp').controller('InicioCtrl', function ($scope, InicioSrv
         selected: null,
         options: null
     };
+
+    $scope.cards = {
+        liters: null,
+        cubicMeters: null,
+        water: null,
+        person: null
+
+    }
     
     $scope.mapSearch = mapSearch;
 
@@ -32,7 +40,27 @@ angular.module('routerApp').controller('InicioCtrl', function ($scope, InicioSrv
             .then(loadMap)
             .then(loadCityFromMap)
             .then(loadCityWatersources)
-            .then(loadHistoryData);
+            .then(loadHistoryData)
+            .then(loadCards);
+    }
+    
+    function loadCards() {
+        InicioSrvc.queryLitersByID($scope.cities.selected.id)
+            .then(function (liters) {
+                cards.liters = liters;
+            });
+        InicioSrvc.queryCubicMetersByID($scope.cities.selected.id)
+            .then(function (cubicMeters) {
+                cards.cubicMeters = cubicMeters;
+            });
+        InicioSrvc.queryWaterByID($scope.cities.selected.id)
+            .then(function (water) {
+                cards.water = water;
+            });
+        InicioSrvc.queryPersonByID($scope.cities.selected.id)
+            .then(function (person) {
+                cards.person = person;
+            });
     }
 
     function loadCity() {
