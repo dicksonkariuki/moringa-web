@@ -9,6 +9,8 @@ angular.module('routerApp').factory('InicioUI', function() {
 
         $("#selectCity").select2();
 
+        $("#yourAccordion").conventAccordion({"pauseOnHover":true,"actOnHover":true,"autoPlay":true,"slideInterval":"5000","maxContainerWidth":"100%"});
+
         //TODO initialize map and make the other methods only set the position
 
         /**

@@ -1,0 +1,56 @@
+0 info it worked if it ends with ok
+1 verbose cli [ 'C:\\Program Files (x86)\\nodejs\\\\node.exe',
+1 verbose cli   'C:\\Program Files (x86)\\nodejs\\node_modules\\npm\\bin\\npm-cli.js',
+1 verbose cli   'install',
+1 verbose cli   'moment',
+1 verbose cli   '--save' ]
+2 info using npm@1.1.33
+3 info using node@v0.8.1
+4 verbose node symlink C:\Program Files (x86)\nodejs\\node.exe
+5 verbose config file C:\Users\Andre\.npmrc
+6 verbose config file C:\Program Files (x86)\nodejs\etc\npmrc
+7 verbose config file C:\Program Files (x86)\nodejs\node_modules\npm\npmrc
+8 verbose read json D:\workspace-gitlab\moringa-web\package.json
+9 verbose read json D:\workspace-gitlab\moringa-web\package.json
+10 verbose cache add [ 'moment', null ]
+11 silly cache add name=undefined spec="moment" args=["moment",null]
+12 verbose parsed url { pathname: 'moment', path: 'moment', href: 'moment' }
+13 verbose lock moment C:\Users\Andre\AppData\Roaming\npm-cache\b56def36afbfb8cd1bc7a898851fea4c97586530-moment.lock
+14 verbose addNamed [ 'moment', '' ]
+15 verbose addNamed [ null, '' ]
+16 verbose lock moment@ C:\Users\Andre\AppData\Roaming\npm-cache\42aa250abf0f772c8fd1ee88a33da9441992e80b-moment-.lock
+17 silly addNameRange { name: 'moment', range: '', hasData: false }
+18 verbose url raw moment
+19 verbose url resolving [ 'https://registry.npmjs.org/', './moment' ]
+20 verbose url resolved https://registry.npmjs.org/moment
+21 info retry registry request attempt 1 at 09:01:23
+22 http GET https://registry.npmjs.org/moment
+23 info retry will retry, error on last attempt: Error: SSL Error: CERT_UNTRUSTED
+24 info retry registry request attempt 2 at 09:01:36
+25 http GET https://registry.npmjs.org/moment
+26 info retry will retry, error on last attempt: Error: SSL Error: CERT_UNTRUSTED
+27 info retry registry request attempt 3 at 09:02:37
+28 http GET https://registry.npmjs.org/moment
+29 error Error: SSL Error: CERT_UNTRUSTED
+29 error     at ClientRequest.<anonymous> (C:\Program Files (x86)\nodejs\node_modules\npm\node_modules\request\main.js:409:26)
+29 error     at ClientRequest.g (events.js:185:14)
+29 error     at ClientRequest.EventEmitter.emit (events.js:88:17)
+29 error     at HTTPParser.parserOnIncomingClient [as onIncoming] (http.js:1445:7)
+29 error     at HTTPParser.parserOnHeadersComplete [as onHeadersComplete] (http.js:111:23)
+29 error     at CleartextStream.socketOnData [as ondata] (http.js:1356:20)
+29 error     at CleartextStream.CryptoStream._push (tls.js:396:27)
+29 error     at SecurePair.cycle (tls.js:751:20)
+29 error     at EncryptedStream.CryptoStream.write (tls.js:131:13)
+29 error     at Socket.ondata (stream.js:38:26)
+29 error  [Error: SSL Error: CERT_UNTRUSTED]
+30 error You may report this log at:
+30 error     <http://github.com/isaacs/npm/issues>
+30 error or email it to:
+30 error     <npm-@googlegroups.com>
+31 error System Windows_NT 6.2.9200
+32 error command "C:\\Program Files (x86)\\nodejs\\\\node.exe" "C:\\Program Files (x86)\\nodejs\\node_modules\\npm\\bin\\npm-cli.js" "install" "moment" "--save"
+33 error cwd D:\workspace-gitlab\moringa-web
+34 error node -v v0.8.1
+35 error npm -v 1.1.33
+36 error message SSL Error: CERT_UNTRUSTED
+37 verbose exit [ 1, true ]
