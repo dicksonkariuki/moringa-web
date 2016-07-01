@@ -143,6 +143,31 @@
   background: #999
 }
 
+/****************************************** Basic */
+
+.conventAccordion.color .CAspine_1, .conventAccordion.color  .active.CAspine_1:after {
+  background-color: #c25252;
+}
+.conventAccordion.color .CAspine_2, .conventAccordion.color  .active.CAspine_2:after {
+  background-color: #ca9859;
+}
+.conventAccordion.color .CAspine_3, .conventAccordion.color  .active.CAspine_3:after {
+  background-color: #96ba5f;
+}
+.conventAccordion.color .CAspine_4, .conventAccordion.color  .active.CAspine_4:after{
+  background-color: #59abb7;
+}
+.conventAccordion.color .CAspine_5, .conventAccordion.color  .active.CAspine_5:after {
+  background-color: #bb6098;
+}
+.conventAccordion.color .CAspineNumber {
+  color: white;
+  text-shadow: 1px 1px 0 #5b5b5b !important;
+}
+.conventAccordion.color .CAspineNumber {
+  bottom: 8px;
+}
+
 /****************************************** Spineless */
 .conventAccordion.spineless .CAspine {
   width: 0;

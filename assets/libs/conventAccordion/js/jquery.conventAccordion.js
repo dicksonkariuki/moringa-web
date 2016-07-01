@@ -23,6 +23,8 @@
 */
 (function ($) {
 
+	var defaultStyle;
+
 	var ConventAccordion = function (accordion, options) {
         this.$elem = $(accordion);
         var metadata = (this.$elem.data("options")) ? this.$elem.data("options") : {};
@@ -223,7 +225,7 @@
 
 					// remove generated styles, classes, data, events
 					accordion
-						.attr('style', '')
+						.attr('style', defaultStyle)
 						.removeClass('conventAccordion horizontal vertical rounded basic dark light stitch spineless wind')
 						.removeData('conventAccordion')
 						.off('.conventAccordion')
@@ -234,7 +236,7 @@
 						var CAslide = $(this).find('>div:last');
 						CAspine
 							.attr('style', '')
-							.removeClass('CAspine active next CAspine_' + (index + 1))
+							.removeClass('CAspine active next CAspine_' + repeatUpTo(5, (index + 1)))
 							.find('.CAspineNumber')
 							.remove()
 							.end()
@@ -332,7 +334,7 @@
 							CAspine.find('>div:first').remove();
 						}
 						// add unique id to each tab, add active corner
-						CAspine.wrapInner('<span class="CAspineTitle" />').addClass('CAspine').addClass('CAspine_' + (index + 1));
+						CAspine.wrapInner('<span class="CAspineTitle" />').addClass('CAspine').addClass('CAspine_' + repeatUpTo(5, (index + 1)));
 						if (startSlide > -1) {
 							if (index === startSlide) {CAspine.addClass('active')};
 							if (index === (startSlide + 1)) {CAspine.addClass('next')};
@@ -730,9 +732,17 @@
 		return methods;
 
 	};
+
+	function repeatUpTo(upTo, sequential) {
+		var number = sequential % upTo;
+		return number === 0 ? upTo : number;
+	};
+
 	$.fn.conventAccordion = function(method, param) {
 		var elem = this,
 			instance = elem.data('conventAccordion');
+		// Store default style to be recovered on destroy
+		defaultStyle = elem.attr('style');
 		// if creating a new instance
 		if (typeof method === 'object' || !method) {
 			return elem.each(function() {

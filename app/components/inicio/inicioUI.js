@@ -9,8 +9,6 @@ angular.module('routerApp').factory('InicioUI', function() {
 
         $("#selectCity").select2();
 
-        $("#yourAccordion").conventAccordion({"pauseOnHover":true,"actOnHover":true,"autoPlay":true,"slideInterval":"5000","maxContainerWidth":"100%"});
-
         //TODO initialize map and make the other methods only set the position
 
         /**
@@ -68,8 +66,37 @@ angular.module('routerApp').factory('InicioUI', function() {
         });
     }
 
+    function loadAccordion() {
+        $("#watersourcesAccordion").conventAccordion({"pauseOnHover":true,"actOnHover":true,"autoPlay":true,"slideInterval":"5000","maxContainerWidth":"100%"});
+    }
+
+    function destroyAccordion() {
+        element = $("#watersourcesAccordion")
+        if (element.hasClass('conventAccordion')) {
+            $("#watersourcesAccordion").conventAccordion('destroy');
+        }
+    }
+
     return {
-        loadChart:     loadChart
+        loadChart:          loadChart,
+        loadAccordion:      loadAccordion,
+        destroyAccordion:   destroyAccordion
     };
 });
 
+/**
+ * UI Directives
+ */
+angular.module('routerApp').directive('onAccordionRepeatRender', function ($rootScope) {
+    return {
+        restrict: 'A',
+        link: function (scope, element, attr) {
+            if (scope.$first) {
+                $rootScope.$broadcast('accordionRepeatStarted', { temp: "some value" });
+            }
+            if (scope.$last) {
+                $rootScope.$broadcast('accordionRepeatFinished', { temp: "some value" });
+            }
+        }
+    };
+});

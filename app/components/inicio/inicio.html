@@ -14,26 +14,10 @@
                     <div class="panel panel-info">
                         <div class="panel-heading">Açudes</div>
                         <div class="panel-body" style="height: 320px">
-                            <ol id="yourAccordion" class="basic" style="width: auto; height: 100%; list-style-type: none">
-                                <li>
-                                    <div>Slide One</div>
-                                    <div>Content</div>
-                                </li>
-                                <li>
-                                    <div>Slide One</div>
-                                    <div>Content</div>
-                                </li>
-                                <li>
-                                    <div>Slide One</div>
-                                    <div>Content</div>
-                                </li>
-                                <li>
-                                    <div>Slide One</div>
-                                    <div>Content</div>
-                                </li>
-                                <li>
-                                    <div>Slide One</div>
-                                    <div>Content</div>
+                            <ol id="watersourcesAccordion" class="color" style="width: auto; height: 100%; list-style-type: none">
+                                <li ng-repeat="watersource in watersources" on-accordion-repeat-render>
+                                    <div>{{watersource.name}}</div>
+                                    <div>{{watersource.capacity}} {{watersource.measurementUnit}}</div>
                                 </li>
                             </ol>
                         </div>

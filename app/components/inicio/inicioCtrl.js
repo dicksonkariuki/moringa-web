@@ -1,4 +1,4 @@
-angular.module('routerApp').controller('InicioCtrl', function ($scope, InicioSrvc, InicioUI, DateUtil) {
+angular.module('routerApp').controller('InicioCtrl', function ($scope, $timeout, InicioSrvc, InicioUI, DateUtil) {
 
     $scope.watersources = [];
     $scope.cities = {
@@ -15,7 +15,6 @@ angular.module('routerApp').controller('InicioCtrl', function ($scope, InicioSrv
     }
     
     $scope.mapSearch = mapSearch;
-
     $scope.loadCity = loadCity;
 
     var map;
@@ -28,6 +27,14 @@ angular.module('routerApp').controller('InicioCtrl', function ($scope, InicioSrv
         dateRange: [],
         lines: []
     };
+
+    $scope.$on('accordionRepeatStarted', function(ngRepeatFinishedEvent) {
+        InicioUI.destroyAccordion();
+    });
+
+    $scope.$on('accordionRepeatFinished', function(ngRepeatFinishedEvent) {
+        InicioUI.loadAccordion();
+    });
 
     initialize();
 
