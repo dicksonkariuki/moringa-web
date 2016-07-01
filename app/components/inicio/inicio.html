@@ -1,7 +1,7 @@
 <div ng-controller="InicioCtrl">
     <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2">
         <form ng-submit="loadCity()">
-            <div style="margin-bottom: 20px;">
+            <div id="div-select">
                 <select id="selectCity" class="select2" ng-model="cities.selected"
                         ng-options="city.name for city in cities.options">
                 </select>
@@ -14,7 +14,7 @@
                     <div class="panel panel-body1 panel-success-info1">
                         <div class="panel-heading">Georreferenciamento</div>
                         <div class="panel-body">
-                            <h3 style="color: #FFFFFF;text-align: center">Quantidade de Litros</h3>
+                            <h3 class="text-cards">Quantidade de Litros</h3>
                         </div>
                     </div>
                 </td>
@@ -22,7 +22,7 @@
                     <div class="panel panel-body2 panel-success-info2">
                         <div class="panel-heading">Georreferenciamento</div>
                         <div class="panel-body">
-                            <h3 style="color: #FFFFFF;text-align: center">Quantidade de Litros</h3>
+                            <h3 class="text-cards">Quantidade de Litros</h3>
                         </div>
                     </div>
                 </td>
@@ -30,7 +30,7 @@
                     <div class="panel panel-body3 panel-success-info3">
                         <div class="panel-heading">Georreferenciamento</div>
                         <div class="panel-body">
-                            <h3 style="color: #FFFFFF;text-align: center">Quantidade de Litros</h3>
+                            <h3 class="text-cards">Quantidade de Litros</h3>
                         </div>
                     </div>
                 </td>
@@ -38,28 +38,28 @@
                     <div class="panel panel-body4 panel-success-info4">
                         <div class="panel-heading">Georreferenciamento</div>
                         <div class="panel-body">
-                            <h3 style="color: #FFFFFF;text-align: center">Quantidade de Litros</h3>
+                            <h3 class="text-cards">Quantidade de Litros</h3>
                         </div>
                     </div>
                 </td>
             </tr>
         </table>
 
-        <table  style="width:100%; ">
+        <table class="table">
             <tr>
-                <td style="width:50%; padding: 20px;margin: 10px">
+                <td id="dados_historicos" class="cards">
                     <div class="panel panel-info">
                         <div class="panel-heading">Dados Históricos</div>
                         <div class="panel-body">
-                            <div id="chart" style="height: 400px; width: 100%"></div>
+                            <div id="chart" class="data-dimensions"></div>
                         </div>
                     </div>
                 </td>
-                <td style="padding: 20px;margin: 10px">
+                <td class="cards">
                     <div class="panel panel-success">
                         <div class="panel-heading">Georreferenciamento</div>
                         <div class="panel-body">
-                            <div id="mapa" style="height: 400px; width: 100%"></div>
+                            <div id="mapa" class="data-dimensions"></div>
                         </div>
                     </div>
                 </td>
