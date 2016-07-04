@@ -145,21 +145,65 @@
 
 /****************************************** Color */
 
+.conventAccordion.color {
+  /* Default */
+}
+
 .conventAccordion.color .CAspine_1, .conventAccordion.color  .active.CAspine_1:after {
-  background-color: #c25252;
+  background-color: rgb(194,82,82);
 }
+.conventAccordion.color .CAspine_1 + .CAslide .CAslideContent {
+  background: -webkit-linear-gradient(right,#fff,rgba(194,82,82,0.1));
+  background: -moz-linear-gradient(right,#fff,rgba(194,82,82,0.1));
+  background: -ms-linear-gradient(right,#fff,rgba(194,82,82,0.1));
+  background: -o-linear-gradient(right,#fff,rgba(194,82,82,0.1));
+  background: linear-gradient(right,#fff,rgba(194,82,82,0.1))
+}
+
 .conventAccordion.color .CAspine_2, .conventAccordion.color  .active.CAspine_2:after {
-  background-color: #ca9859;
+  background-color: rgb(202,152,89);
 }
+.conventAccordion.color .CAspine_2 + .CAslide .CAslideContent {
+  background: -webkit-linear-gradient(right,#fff,rgba(202,152,89,0.1));
+  background: -moz-linear-gradient(right,#fff,rgba(202,152,89,0.1));
+  background: -ms-linear-gradient(right,#fff,rgba(202,152,89,0.1));
+  background: -o-linear-gradient(right,#fff,rgba(202,152,89,0.1));
+  background: linear-gradient(right,#fff,rgba(202,152,89,0.1))
+}
+
 .conventAccordion.color .CAspine_3, .conventAccordion.color  .active.CAspine_3:after {
-  background-color: #96ba5f;
+  background-color: rgb(150,186,95);
 }
+.conventAccordion.color .CAspine_3 + .CAslide .CAslideContent {
+  background: -webkit-linear-gradient(right,#fff,rgba(150,186,95,0.1));
+  background: -moz-linear-gradient(right,#fff,rgba(150,186,95,0.1));
+  background: -ms-linear-gradient(right,#fff,rgba(150,186,95,0.1));
+  background: -o-linear-gradient(right,#fff,rgba(150,186,95,0.1));
+  background: linear-gradient(right,#fff,rgba(150,186,95,0.1))
+}
+
 .conventAccordion.color .CAspine_4, .conventAccordion.color  .active.CAspine_4:after{
-  background-color: #59abb7;
+  background-color: rgb(89,171,183);
 }
+.conventAccordion.color .CAspine_4 + .CAslide .CAslideContent {
+  background: -webkit-linear-gradient(right,#fff,rgba(89,171,183,0.1));
+  background: -moz-linear-gradient(right,#fff,rgba(89,171,183,0.1));
+  background: -ms-linear-gradient(right,#fff,rgba(89,171,183,0.1));
+  background: -o-linear-gradient(right,#fff,rgba(89,171,183,0.1));
+  background: linear-gradient(right,#fff,rgba(89,171,183,0.1))
+}
+
 .conventAccordion.color .CAspine_5, .conventAccordion.color  .active.CAspine_5:after {
-  background-color: #bb6098;
+  background-color: rgb(187,96,152);
 }
+.conventAccordion.color .CAspine_5 + .CAslide .CAslideContent {
+  background: -webkit-linear-gradient(right,#fff,rgba(187,96,152,0.1));
+  background: -moz-linear-gradient(right,#fff,rgba(187,96,152,0.1));
+  background: -ms-linear-gradient(right,#fff,rgba(187,96,152,0.1));
+  background: -o-linear-gradient(right,#fff,rgba(187,96,152,0.1));
+  background: linear-gradient(right,#fff,rgba(187,96,152,0.1))
+}
+
 .conventAccordion.color .CAspineNumber {
   color: white;
   text-shadow: 1px 1px 0 #5b5b5b !important;
