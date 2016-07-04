@@ -54,19 +54,19 @@ angular.module('routerApp').controller('InicioCtrl', function ($scope, $timeout,
     function loadCards() {
         InicioSrvc.queryLitersByID($scope.cities.selected.id)
             .then(function (liters) {
-                cards.liters = liters;
+                $scope.cards.liters = liters;
             });
         InicioSrvc.queryCubicMetersByID($scope.cities.selected.id)
             .then(function (cubicMeters) {
-                cards.cubicMeters = cubicMeters;
+                $scope.cards.cubicMeters = cubicMeters;
             });
         InicioSrvc.queryWaterByID($scope.cities.selected.id)
             .then(function (water) {
-                cards.water = water;
+                $scope.cards.water = water;
             });
-        InicioSrvc.queryPersonByID($scope.cities.selected.id)
+        InicioSrvc.queryPersonsByID($scope.cities.selected.id)
             .then(function (person) {
-                cards.person = person;
+                $scope.cards.person = person;
             });
     }
 
