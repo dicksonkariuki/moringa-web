@@ -13,9 +13,10 @@ angular.module('routerApp').controller('InicioCtrl', function ($scope, $timeout,
         person: null
 
     }
-    
+
     $scope.mapSearch = mapSearch;
     $scope.loadCity = loadCity;
+    $scope.dataLoaded = false;
 
     var map;
     /**
@@ -53,8 +54,9 @@ angular.module('routerApp').controller('InicioCtrl', function ($scope, $timeout,
     
     function loadCards() {
         InicioSrvc.queryLitersByID($scope.cities.selected.id)
-            .then(function (liters) {
-                $scope.cards.liters = liters;
+            .then(function (data) {
+                $scope.cards.liters = data.liters;
+                $scope.dataLoaded = true;
             });
         InicioSrvc.queryCubicMetersByID($scope.cities.selected.id)
             .then(function (cubicMeters) {
@@ -75,7 +77,8 @@ angular.module('routerApp').controller('InicioCtrl', function ($scope, $timeout,
             .then(loadMap)
             .then(loadCityFromMap)
             .then(loadCityWatersources)
-            .then(loadHistoryData);
+            .then(loadHistoryData)
+            .then(loadCards);
     }
 
     function geolocation() {

@@ -25,29 +25,49 @@
                 </td>
                 <td class="cards" style="height: 400px">
                     <div class="panel panel-body1 panel-success-info1" style="height: 45%">
-                        <div class="panel-heading">Georreferenciamento</div>
+                        <div class="panel-heading">Estimativa de litros por pessoa</div>
                         <div class="panel-body">
-                            <h3 class="text-cards">{{ liters }}</h3>
+                            <div ng-show="dataLoaded">
+                                <h3 class="text-cards">{{ cards.liters * 1000}} litros</h3>
+                            </div>
+                            <p class="text-center" ng-hide="dataLoaded">
+                                <i class="fa fa-spinner fa-spin"></i>
+                            </p>
                         </div>
                     </div>
                     <div class="panel panel-body2 panel-success-info2" style="height: 45%">
-                        <div class="panel-heading">Georreferenciamento</div>
+                        <div class="panel-heading">Quantidade de litros por pessoa</div>
                         <div class="panel-body">
-                            <h3 class="text-cards">Quantidade de Litros</h3>
+                            <div ng-show="dataLoaded">
+                                <h3 class="text-cards">{{ cards.cubicMeters }} m³</h3>
+                            </div>
+                            <p class="text-center" ng-hide="dataLoaded">
+                                <i class="fa fa-spinner fa-spin"></i>
+                            </p>
                         </div>
                     </div>
                 </td>
                 <td class="cards" style="height: 400px">
                     <div class="panel panel-body3 panel-success-info3" style="height: 45%">
-                        <div class="panel-heading">Georreferenciamento</div>
+                        <div class="panel-heading">Consomem os recursos hídricos</div>
                         <div class="panel-body">
-                            <h3 class="text-cards">Quantidade de Litros</h3>
+                            <div ng-show="dataLoaded">
+                                <h3 class="text-cards">{{ cards.person }} pessoas</h3>
+                            </div>
+                            <p class="text-center" ng-hide="dataLoaded">
+                                <i class="fa fa-spinner fa-spin"></i>
+                            </p>
                         </div>
                     </div>
                     <div class="panel panel-body4 panel-success-info4" style="height: 45%">
-                        <div class="panel-heading">Georreferenciamento</div>
+                        <div class="panel-heading">Estimativa de término da água</div>
                         <div class="panel-body">
-                            <h3 class="text-cards">Quantidade de Litros</h3>
+                            <div ng-show="dataLoaded">
+                                <h3 class="text-cards">{{ cards.water }} dias</h3>
+                            </div>
+                            <p class="text-center" ng-hide="dataLoaded">
+                                <i class="fa fa-spinner fa-spin"></i>
+                            </p>
                         </div>
                     </div>
                 </td>
