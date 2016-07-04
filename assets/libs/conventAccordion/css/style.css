@@ -101,7 +101,7 @@
   z-index: 10;
   background: white;
   color: #333;
-  display: block;
+  display: flex;
   height: inherit;
   width: 0px;
   font: 12px/1.5 Helvetica, Verdana, sans-serif;

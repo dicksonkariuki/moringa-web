@@ -283,3 +283,69 @@ body {
 .td-acudes {
     width: 50%;
 }
+
+/**** WATERSOURCE LEVEL ***/
+
+.watersource-level {
+    margin: auto 10px;
+    display: block;
+    float: right;
+    text-align: center;
+}
+
+.watersource-level .percent {
+    display: block;
+    font-weight: bold;
+    font-size: 500%;
+}
+
+.watersource-level .date {
+    font-weight:bold;
+    color: #e61;
+}
+
+.watersource-level .text {
+    font-weight:bold;
+    color: #899  ;
+}
+
+.watersource-level .bad {
+    color: #C40;
+}
+
+.watersource-level .regular {
+    color: #168;
+}
+
+.watersource-level .good {
+    color: #494;
+}
+
+/**** WATERSOURCE MEASUREMENT ***/
+
+.watersource-measurement{
+    margin: auto 10px;
+    display: block;
+    text-align: center;
+}
+
+.watersource-measurement *{
+    margin: 5px;
+    display: block;
+}
+
+.watersource-measurement hr{
+    border-color: #000000;
+}
+
+.watersource-measurement .value{
+    font-size:xx-large;
+    font-weight:bold;
+    color: #339;
+}
+
+.watersource-measurement .label{
+    font-size:medium;
+    font-weight:bold;
+    color: #899;
+}

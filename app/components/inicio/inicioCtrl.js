@@ -18,11 +18,7 @@ angular.module('routerApp').controller('InicioCtrl', function ($scope, $timeout,
     $scope.loadCity = loadCity;
     $scope.dataLoaded = false;
 
-    var map;
-    /**
-     * 
-     * @type {{interval: number, dateRange: Array, lines: Array}}
-     */
+    var map, userLocation;
     var history = {
         interval: 90,
         dateRange: [],
@@ -73,7 +69,7 @@ angular.module('routerApp').controller('InicioCtrl', function ($scope, $timeout,
     }
 
     function loadCity() {
-        InicioSrvc.geocodeLatLng($scope.cities.selected.name)
+        InicioSrvc.geocodeLatLng($scope.cities.selected.name, userLocation)
             .then(loadMap)
             .then(loadCityFromMap)
             .then(loadCityWatersources)
@@ -96,7 +92,9 @@ angular.module('routerApp').controller('InicioCtrl', function ($scope, $timeout,
             var lat = position.coords.latitude;
             var lng = position.coords.longitude;
 
-            deferred.resolve(new google.maps.LatLng(lat, lng))
+            userLocation = new google.maps.LatLng(lat, lng);
+
+            deferred.resolve(userLocation);
         }
 
         function geolocationError(error) {
@@ -234,6 +232,8 @@ angular.module('routerApp').controller('InicioCtrl', function ($scope, $timeout,
                     var measurement = measurements[i];
                     values[measurement.date] = measurement.value;
                 }
+
+                watersource['lastMeasurement'] = measurements.slice(-1)[0];
 
                 data[label] = values;
                 watersourcesConsumed++;

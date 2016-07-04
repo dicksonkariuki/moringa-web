@@ -44,7 +44,7 @@ angular.module('routerApp').factory('InicioSrvc', function($http) {
         return deferred.promise();
     }
 
-    function geocodeLatLng(address) {
+    function geocodeLatLng(address, latlng) {
         // Using jQuery's Deferred to return a promise
         var deferred = $.Deferred();
         // and the Geocoder from Google Maps API
@@ -53,7 +53,10 @@ angular.module('routerApp').factory('InicioSrvc', function($http) {
         geocoder.geocode(
             // we pass a google.maps.GeocoderRequest object as parameter
             {
-                address: address
+                address: address,
+                componentRestrictions: {
+                    country: 'BR'
+                }
             },
             // and expect some results
             function (results, status) {
