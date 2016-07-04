@@ -23,7 +23,7 @@
 */
 (function ($) {
 
-	var defaultStyle;
+	var defaultStyle, defaultClasses;
 
 	var ConventAccordion = function (accordion, options) {
         this.$elem = $(accordion);
@@ -226,7 +226,7 @@
 					// remove generated styles, classes, data, events
 					accordion
 						.attr('style', defaultStyle)
-						.removeClass('conventAccordion horizontal vertical rounded basic color dark light stitch spineless wind')
+						.attr('class', defaultClasses)
 						.removeData('conventAccordion')
 						.off('.conventAccordion')
 						.find('li > :first-child')
@@ -741,8 +741,6 @@
 	$.fn.conventAccordion = function(method, param) {
 		var elem = this,
 			instance = elem.data('conventAccordion');
-		// Store default style to be recovered on destroy
-		defaultStyle = elem.attr('style');
 		// if creating a new instance
 		if (typeof method === 'object' || !method) {
 			return elem.each(function() {
@@ -754,6 +752,10 @@
 				// otherwise create a new instance
 				conventAccordion = new ConventAccordion(elem, method);
 				elem.data('conventAccordion', conventAccordion);
+
+				// and store default values to be recovered on destroy
+				defaultStyle = elem.attr('style');
+				defaultClasses = elem.attr('class');
 			});
 
 		// otherwise, call method on current instance
