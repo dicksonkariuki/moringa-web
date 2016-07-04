@@ -282,6 +282,9 @@ angular.module('routerApp').factory('InicioSrvc', function($http) {
         queryCityByName:    queryCityByName,
         queryWatersources:  queryWatersources,
         queryMeasurements:  queryMeasurements,
-        queryLitersByID: queryLitersByID
+        queryLitersByID: queryLitersByID,
+        queryCubicMetersByID: queryCubicMetersByID,
+        queryWaterByID: queryWaterByID,
+        queryPersonsByID: queryPersonsByID
     };
 });

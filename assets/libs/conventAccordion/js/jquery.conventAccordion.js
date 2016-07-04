@@ -226,7 +226,7 @@
 					// remove generated styles, classes, data, events
 					accordion
 						.attr('style', defaultStyle)
-						.removeClass('conventAccordion horizontal vertical rounded basic dark light stitch spineless wind')
+						.removeClass('conventAccordion horizontal vertical rounded basic color dark light stitch spineless wind')
 						.removeData('conventAccordion')
 						.off('.conventAccordion')
 						.find('li > :first-child')
@@ -736,7 +736,7 @@
 	function repeatUpTo(upTo, sequential) {
 		var number = sequential % upTo;
 		return number === 0 ? upTo : number;
-	};
+	}
 
 	$.fn.conventAccordion = function(method, param) {
 		var elem = this,
