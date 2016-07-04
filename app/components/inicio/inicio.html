@@ -25,7 +25,7 @@
                         <div class="panel-heading">Estimativa de litros por pessoa</div>
                         <div class="panel-body">
                             <div ng-show="dataLoaded">
-                                <h3 class="text-cards">{{ cards.liters }} litros</h3>
+                                <h3 class="text-cards">{{ cards.liters | number:0 }} litros</h3>
                             </div>
                             <p class="text-center" ng-hide="dataLoaded">
                                 <i class="fa fa-spinner fa-spin"></i>
@@ -36,7 +36,7 @@
                         <div class="panel-heading">Quantidade de litros por pessoa</div>
                         <div class="panel-body">
                             <div ng-show="dataLoaded">
-                                <h3 class="text-cards">{{ cards.cubicMeters }} m³</h3>
+                                <h3 class="text-cards">{{ cards.cubicMeters | number:0}} m³</h3>
                             </div>
                             <p class="text-center" ng-hide="dataLoaded">
                                 <i class="fa fa-spinner fa-spin"></i>
@@ -49,7 +49,7 @@
                         <div class="panel-heading">Consomem os recursos hídricos</div>
                         <div class="panel-body">
                             <div ng-show="dataLoaded">
-                                <h3 class="text-cards">{{ cards.person }} pessoas</h3>
+                                <h3 class="text-cards">{{ cards.person | number:0 }} pessoas</h3>
                             </div>
                             <p class="text-center" ng-hide="dataLoaded">
                                 <i class="fa fa-spinner fa-spin"></i>
@@ -60,7 +60,7 @@
                         <div class="panel-heading">Estimativa de término da água</div>
                         <div class="panel-body">
                             <div ng-show="dataLoaded">
-                                <h3 class="text-cards">{{ cards.water }} dias</h3>
+                                <h3 class="text-cards">{{ cards.water | date:"dd/MM/yyyy"}}</h3>
                             </div>
                             <p class="text-center" ng-hide="dataLoaded">
                                 <i class="fa fa-spinner fa-spin"></i>
