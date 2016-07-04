@@ -1,12 +1,9 @@
 <div ng-controller="InicioCtrl">
     <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2">
-        <form ng-submit="loadCity()">
-            <div id="div-select">
+        <form>
                 <select id="selectCity" class="select2" ng-model="cities.selected"
-                        ng-options="city.name for city in cities.options">
+                        ng-options="city.name for city in cities.options" ng-change="loadCity()">
                 </select>
-                <button id="btnSearch" type="submit" class="btn btn-primary btn-sm">Pesquisar</button>
-            </div>
         </form>
         <table class="table">
             <tr>
@@ -28,7 +25,7 @@
                         <div class="panel-heading">Estimativa de litros por pessoa</div>
                         <div class="panel-body">
                             <div ng-show="dataLoaded">
-                                <h3 class="text-cards">{{ cards.liters * 1000}} litros</h3>
+                                <h3 class="text-cards">{{ cards.liters }} litros</h3>
                             </div>
                             <p class="text-center" ng-hide="dataLoaded">
                                 <i class="fa fa-spinner fa-spin"></i>
