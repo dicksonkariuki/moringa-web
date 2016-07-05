@@ -144,7 +144,7 @@ angular.module('routerApp').controller('InicioCtrl', function ($scope, $timeout,
         deferred.resolve(map);
 
         //TODO handle possible errors with deferred.reject(a);
-
+        $scope.dataLoaded = false;
         return deferred.promise();
     }
 
