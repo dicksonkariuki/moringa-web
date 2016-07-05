@@ -5,14 +5,14 @@
                         ng-options="city.name for city in cities.options" ng-change="loadCity()">
                 </select>
         </form>
-        <table class="table">
+        <table class="table" style="margin: 0">
             <tr>
                 <td rowspan="2" style="width: 50%;">
                     <div class="panel panel-info">
-                        <div class="panel-heading">Açudes <span ng-hide="dataLoaded" class="fa fa-spinner fa-spin"></span></div>
-                        <div class="panel-body" style="height: 250px; padding: 0px;">
-                            <ol id="watersourcesAccordion" class="color" style="width: auto; height: 100%; list-style-type: none">
-                                <li ng-repeat="watersource in watersources" on-accordion-repeat-render>
+                        <div class="panel-heading">Açudes <span ng-hide="dataLoaded" class="fa fa-spinner fa-spin" style="float:right;"></span></div>
+                        <div class="panel-body" style="padding: 0;">
+                            <ol id="watersourcesAccordion" class="color" style="width: auto; height: auto; list-style-type: none; white-space: nowrap; margin: 0">
+                                <li ng-repeat="watersource in watersources" on-accordion-repeat-render style="display: inline-flex;">
                                     <div>{{watersource.name}}</div>
                                     <div>
                                         <div style="display: inline-flex; width: 100%; height: 100%;">
@@ -21,10 +21,10 @@
                                                 <span class="label">Volume Atual</span>
                                                 <hr>
                                                 <span class="label">Capacidade Máxima</span>
-                                                <span class="value">{{watersource.capacity | number}} {{watersource.measurementUnit}}</span>
+                                                <span class="value" style="overflow: hidden; white-space: nowrap;">{{watersource.capacity | number}} {{watersource.measurementUnit}}</span>
                                             </div>
                                             <div class="watersource-level" style="width: 40%">
-                                                <span class="percent bad">{{((watersource.lastMeasurement.value / watersource.capacity) * 100) | number : 2}} %</span>
+                                                <span class="percent {{watersource.class}}" style="overflow: hidden; white-space: nowrap;">{{watersource.percent | number : 2}} %</span>
                                                 <span class="text">Percentual de água em: </span>
                                                 <span class="date">{{watersource.lastMeasurement.date | date : 'dd/MM/yyyy'}}</span>
                                             </div>
@@ -35,38 +35,38 @@
                         </div>
                     </div>
                 </td>
-                <td class="cards" style="min-height: 240px">
-                    <div class="panel panel-body1 panel-success-info1" style="height: 45%">
-                        <div class="panel-heading">Estimativa de litros por pessoa <span ng-hide="dataLoaded" class="fa fa-spinner fa-spin"></span></div>
-                        <div class="panel-body">
+                <td class="cards" style="height: 240px">
+                    <div class="card" style="background-color:darkcyan; height: 45%">
+                        <div class="card-heading">Estimativa de litros por pessoa<span ng-hide="dataLoaded" class="fa fa-spinner fa-spin" style="float:right;"></span></div>
+                        <div class="card-body">
                             <div ng-show="dataLoaded">
-                                <h3 class="text-cards">{{ cards.liters | number:0 }} litros</h3>
+                                <h3 class="card-text">{{ cards.liters | number:0 }} litros</h3>
                             </div>
                         </div>
                     </div>
-                    <div class="panel panel-body2 panel-success-info2" style="height: 45%">
-                        <div class="panel-heading">Quantidade de litros por pessoa <span ng-hide="dataLoaded" class="fa fa-spinner fa-spin"></span></div>
-                        <div class="panel-body">
+                    <div class="card" style="background-color:olive; height: 45%">
+                        <div class="card-heading">Quantidade de litros por pessoa<span ng-hide="dataLoaded" class="fa fa-spinner fa-spin" style="float:right;"></span></div>
+                        <div class="card-body">
                             <div ng-show="dataLoaded">
-                                <h3 class="text-cards">{{ cards.cubicMeters | number:0}} m³</h3>
+                                <h3 class="card-text">{{ cards.cubicMeters | number:0}} m³</h3>
                             </div>
                         </div>
                     </div>
                 </td>
-                <td class="cards" style="min-height: 240px">
-                    <div class="panel panel-body3 panel-success-info3" style="height: 45%">
-                        <div class="panel-heading">Consomem os recursos hídricos <span ng-hide="dataLoaded" class="fa fa-spinner fa-spin"></span></div>
-                        <div class="panel-body">
+                <td class="cards" style="height: 240px">
+                    <div class="card" style="background-color:darkgreen; height: 45%">
+                        <div class="card-heading">Consomem os recursos hídricos<span ng-hide="dataLoaded" class="fa fa-spinner fa-spin" style="float:right;"></span></div>
+                        <div class="card-body">
                             <div ng-show="dataLoaded">
-                                <h3 class="text-cards">{{ cards.person | number:0 }} pessoas</h3>
+                                <h3 class="card-text">{{ cards.person | number:0 }} pessoas</h3>
                             </div>
                         </div>
                     </div>
-                    <div class="panel panel-body4 panel-success-info4" style="height: 45%">
-                        <div class="panel-heading">Estimativa de término da água <span ng-hide="dataLoaded" class="fa fa-spinner fa-spin"></span></div>
-                        <div class="panel-body">
+                    <div class="card" style="background-color:darkviolet; height: 45%">
+                        <div class="card-heading">Estimativa de término da água<span ng-hide="dataLoaded" class="fa fa-spinner fa-spin" style="float:right;"></span></div>
+                        <div class="card-body">
                             <div ng-show="dataLoaded">
-                                <h3 class="text-cards">{{ cards.water | date:"dd/MM/yyyy"}}</h3>
+                                <h3 class="card-text">{{ cards.water | date:"dd/MM/yyyy"}}</h3>
                             </div>
                         </div>
                     </div>

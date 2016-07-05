@@ -52,20 +52,27 @@ angular.module('routerApp').controller('InicioCtrl', function ($scope, $timeout,
         InicioSrvc.queryLitersByID($scope.cities.selected.id)
             .then(function (data) {
                 $scope.cards.liters = data.liters;
-                $scope.dataLoaded = true;
-            });
+            })
+            .then(dataLoaded);
         InicioSrvc.queryCubicMetersByID($scope.cities.selected.id)
             .then(function (cubicMeters) {
                 $scope.cards.cubicMeters = cubicMeters;
-            });
+            })
+            .then(dataLoaded);
         InicioSrvc.queryWaterByID($scope.cities.selected.id)
             .then(function (water) {
                 $scope.cards.water = water;
-            });
+            })
+            .then(dataLoaded);
         InicioSrvc.queryPersonsByID($scope.cities.selected.id)
             .then(function (person) {
                 $scope.cards.person = person;
-            });
+            })
+            .then(dataLoaded);
+
+        function dataLoaded() {
+            $scope.dataLoaded = $scope.cards.liters && $scope.cards.cubicMeters && $scope.cards.water && $scope.cards.person;
+        }
     }
 
     function loadCity() {
@@ -234,6 +241,9 @@ angular.module('routerApp').controller('InicioCtrl', function ($scope, $timeout,
                 }
 
                 watersource['lastMeasurement'] = measurements.slice(-1)[0];
+                var percent = ((watersource.lastMeasurement.value / watersource.capacity) * 100)
+                watersource['percent'] = percent;
+                watersource['class'] = percent <= 5 ? 'worst' : percent > 5 && percent <= 20 ? 'bad' : percent > 20 && percent < 100 ? 'regular' : percent >= 100 ? 'best' : '';
 
                 data[label] = values;
                 watersourcesConsumed++;
