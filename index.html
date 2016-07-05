@@ -3,7 +3,6 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-
     <link href="assets/css/bootstrap.css" rel="stylesheet">
     <link href="assets/css/bootstrap-theme.min.css" rel="stylesheet">
     <link href="assets/libs/conventAccordion/css/style.css" rel="stylesheet">
@@ -13,9 +12,7 @@
     <link href="assets/css/font-awesome.css" rel="stylesheet">
     <link href="assets/css/bootstrap-social.css" rel="stylesheet">
     <link href="assets/css/select2.css" rel="stylesheet">
-
     <title>MoringaPB</title>
-
 </head>
 
 <body ng-app="routerApp">
@@ -31,17 +28,15 @@
 
 <div class="col-sm-3 col-md-2 sidebar">
     <ul class="nav nav-sidebar">
-        <li class="active"><a ui-sref="inicio">Cidades</a></li>
-        <li><a ui-sref="acude">Açudes</a></li>
-        <li><a ui-sref="sobre">Sobre</a></li>
+        <li ui-sref-active="active"><a ui-sref="inicio">Cidades</a></li>
+        <li ui-sref-active="active"><a ui-sref="acude">Açudes</a></li>
+        <li ui-sref-active="active"><a ui-sref="sobre">Sobre</a></li>
     </ul>
 </div>
 
 <div class="container-fluid">
     <div class="row">
-
         <div ui-view></div>
-
     </div>
 </div>
 
