@@ -261,6 +261,7 @@ body {
 .cards {
     padding: 20px;
     margin: 10px;
+    min-width: 335px;
 }
 
 .card {
