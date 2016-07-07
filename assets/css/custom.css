@@ -4,7 +4,6 @@
 
 /* Move down content because we have a fixed navbar that is 50px tall */
 body {
-    padding-top: 50px;
 }
 
 
@@ -66,24 +65,6 @@ body {
     background-color: #428bca;
 }
 
-
-/*
- * Main content
- */
-
-.main {
-    padding: 20px;
-}
-@media (min-width: 768px) {
-    .main {
-        padding-right: 40px;
-        padding-left: 40px;
-    }
-}
-.main .page-header {
-    margin-top: 0;
-}
-
 /*
  * Placeholder dashboard ideas
  */
@@ -134,11 +115,6 @@ body {
     margin-top: 20px;
 }
 
-#form {
-    margin-left: 50px;
-    width: 500px
-}
-
 .indent {
     margin-left: 50px;
 }
@@ -152,38 +128,14 @@ body {
     border-radius: 0px;
 }
 
-#cagepa {
-    width: 15%;
-}
-
-#aesa {
-    width: 8%;
-}
-
 .fonte-dados {
     margin-top: 50px;
     margin-bottom: 50px;
 }
 
-.table {
-    width:100%;
-}
-
-#div-select {
-    margin-bottom: 20px;
-}
-
-#dados_historicos {
-    width: 50%;
-}
-
 .data-dimensions {
     height: 400px;
     width: 100%;
-}
-
-.td-acudes {
-    width: 50%;
 }
 
 /**** WATERSOURCE LEVEL ***/
@@ -240,6 +192,14 @@ body {
     display: block;
 }
 
+.watersource-accordion {
+    width: auto;
+    height: auto;
+    list-style-type: none;
+    white-space: nowrap;
+    margin: 0;
+}
+
 .watersource-measurement hr{
     border-color: #000;
 }
@@ -256,11 +216,26 @@ body {
     color: #899;
 }
 
+.watersource-measurement-width {
+    width: 60%;
+}
+
+.watersource-level-width {
+    width: 40%;
+}
+
+.watersource-measurement-value{
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.watersource-inline {
+    display: inline-flex;
+}
+
 /**** CARDS ***/
 
 .cards {
-    padding: 20px;
-    margin: 10px;
     min-width: 335px;
 }
 
@@ -284,9 +259,45 @@ body {
     padding: 15px;
 }
 
+.card-darkcyan {
+    background-color: darkcyan;
+}
+
+.card-olive {
+    background-color: olive;
+}
+
+.card-darkgreen {
+    background-color: darkgreen;
+}
+
+.card-darkviolet {
+    background-color: darkviolet;
+}
+
 .card .card-text {
     color: #FFFFFF;
     font-family: monospace, monospace;
     font-size: xx-large;
     text-align: center;
+}
+
+.panel-body-pad {
+    padding: 0px;
+}
+
+.panel-content {
+    display: inline-flex;
+    width: 100%;
+    height: 100%;
+}
+
+.spinner-right {
+    float: right;
+}
+
+.acudes {
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-top: 20px;
 }
