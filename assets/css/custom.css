@@ -297,3 +297,7 @@ body {
 .spinner-right {
     float: right;
 }
+
+.nova-aba{
+    target-new: tab ! important
+}
