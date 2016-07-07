@@ -104,14 +104,22 @@ angular.module('routerApp').factory('InicioSrvc', function($http, $q) {
         // Using a webservice's URL
         var urlLitersPerCityById = Properties.webserviceAddress + '/cities/' + cityId + '/liters';
 
-        // we query the webservice for the list of all cities matching the cityName parameter
+        // we query the webservice for the estimated amount of cubic meters of water avaliable per person sharing the city's watersource
         return $http({
             method: 'GET',
             url: urlLitersPerCityById
         })
             .then(function(response) {
-                // and then return the filtered list
-                return response.data;
+                // and then decide if we return
+                switch (response.status) {
+                    // the estimated amount of water
+                    case 200:
+                        return response.data;
+                    // the response object
+                    default:
+                        return response;
+
+                }
             });
     }
 
@@ -120,14 +128,22 @@ angular.module('routerApp').factory('InicioSrvc', function($http, $q) {
         // Using a webservice's URL
         var urlWaterById = Properties.webserviceAddress + '/cities/' + cityId + '/water';
 
-        // we query the webservice for the list of all cities matching the cityName parameter
+        // we query the webservice for the estimated date that all the water would be consumed
         return $http({
             method: 'GET',
             url: urlWaterById
         })
             .then(function(response) {
-                // and then return the filtered list
-                return response.data;
+                // and then decide if we return
+                switch (response.status) {
+                    // the estimated date timestamp
+                    case 200:
+                        return response.data;
+                    // the response object
+                    default:
+                        return response;
+
+                }
             });
     }
 
@@ -135,14 +151,22 @@ angular.module('routerApp').factory('InicioSrvc', function($http, $q) {
         // Using a webservice's URL
         var urlCubicMetersById = Properties.webserviceAddress + '/cities/' + cityId + '/cubicMeters ';
 
-        // we query the webservice for the list of all cities matching the cityName parameter
+        // we query the webservice for the amount of cubic meters of water remaining in the city's watersources
         return $http({
             method: 'GET',
             url: urlCubicMetersById
         })
             .then(function(response) {
-                // and then return the filtered list
-                return response.data;
+                // and then decide if we return
+                switch (response.status) {
+                    // the amount cubic meters
+                    case 200:
+                        return response.data;
+                    // the response object
+                    default:
+                        return response;
+
+                }
             });
     }
 
@@ -150,14 +174,22 @@ angular.module('routerApp').factory('InicioSrvc', function($http, $q) {
         // Using a webservice's URL
         var urlPersonsById = Properties.webserviceAddress + '/cities/' + cityId + '/persons';
 
-        // we query the webservice for the list of all cities matching the cityName parameter
+        // we query the webservice for the amount of people sharing the city's watersources
         return $http({
             method: 'GET',
             url: urlPersonsById
         })
             .then(function(response) {
-                // and then return the filtered list
-                return response.data;
+                // and then decide if we return
+                switch (response.status) {
+                    // the amount of people
+                    case 200:
+                        return response.data;
+                    // the response object
+                    default:
+                        return response;
+
+                }
             });
     }
 
@@ -171,9 +203,16 @@ angular.module('routerApp').factory('InicioSrvc', function($http, $q) {
             url: urlCityPerName
         })
             .then(function(response) {
-                // and then return the filtered city
-                var cities = response.data;
-                return cities[0];
+                // and then decide if we return
+                switch (response.status) {
+                    // the filtered city
+                    case 200:
+                        return response.data[0];
+                    // the response object
+                    default:
+                        return response;
+
+                }
             });
     }
 
@@ -187,8 +226,16 @@ angular.module('routerApp').factory('InicioSrvc', function($http, $q) {
             url: urlWatersourcesPerCityId
         })
             .then(function(response) {
-                // and then return a list of watersources
-                return response.data;
+                // and then decide if we return
+                switch (response.status) {
+                    // a list of watersources
+                    case 200:
+                        return response.data;
+                    // the response object
+                    default:
+                        return response;
+
+                }
             });
     }
 
@@ -202,8 +249,16 @@ angular.module('routerApp').factory('InicioSrvc', function($http, $q) {
             url: urlWatersourceMeasurements
         })
             .then(function(response) {
-                    // and then return a list of watersource measurements
-                    return response.data;
+                // and then decide if we return
+                switch (response.status) {
+                    // a list of watersource measurements
+                    case 200:
+                        return response.data;
+                    // the response object
+                    default:
+                        return response;
+
+                }
             });
     }
     

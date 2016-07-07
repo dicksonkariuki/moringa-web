@@ -15,13 +15,54 @@ angular.module('routerApp').controller('InicioCtrl', function ($scope, $timeout,
         selected: null,
         options: null
     };
+    $scope.noContent = 'Sem informação.'
     $scope.cards = {
         liters: null,
         cubicMeters: null,
         water: null,
-        person: null
-
+        person: null,
+        clear: function () {
+            liters = null;
+            cubicMeters = null;
+            water = null;
+            person = null;
+        }
     };
+    $scope.error = {
+        classes: {
+            success: 'success',
+            info: 'info',
+            warning: 'warning',
+            danger: 'danger'
+        },
+        class: null,
+        title: null,
+        message: null,
+        clear: function () {
+            this.class = null;
+            this.title = null;
+            this.message = null;
+        }
+    };
+
+    /*
+     * Promises
+     */
+
+    var geolocationPromise,
+        loadMapPromise,
+        loadCityFromMapPromise,
+        loadCityWatersourcesPromise,
+        loadHistoryDataPromise,
+        loadCardsPromise;
+
+    /*
+     * Error messages
+     */
+
+    var
+        error404 = 'Os dados não foram encontrados.',
+        error500 = 'Ocorreu um erro interno no servidor.';
 
     /*
      * Functions
@@ -36,16 +77,19 @@ angular.module('routerApp').controller('InicioCtrl', function ($scope, $timeout,
     });
 
     function initialize() {
+        $scope.error.clear();
+
         InicioSrvc.queryAllCities().then(function (cities) {
             $scope.cities.options = cities;
         });
 
-        geolocation()
-            .then(loadMap)
-            .then(loadCityFromMap)
-            .then(loadCityWatersources)
-            .then(loadHistoryData)
-            .then(loadCards);
+        geolocationPromise = geolocation();
+        loadMapPromise = geolocationPromise.then(loadMap);
+        loadCityFromMapPromise = loadMapPromise.then(loadCityFromMap);
+        loadCityWatersourcesPromise = loadCityFromMapPromise.then(loadCityWatersources);
+        loadCardsPromise = loadCityFromMapPromise.then(loadCards);
+        loadHistoryDataPromise = loadCityWatersourcesPromise.then(loadHistoryData);
+
     }
 
     function geolocation() {
@@ -96,12 +140,12 @@ angular.module('routerApp').controller('InicioCtrl', function ($scope, $timeout,
     }
 
     function loadCity() {
-        InicioSrvc.geocodeLatLng($scope.cities.selected.name, userLocation)
-            .then(loadMap)
-            .then(loadCityFromMap)
-            .then(loadCityWatersources)
-            .then(loadHistoryData)
-            .then(loadCards);
+
+        loadMapPromise = InicioSrvc.geocodeLatLng($scope.cities.selected.name, userLocation).then(loadMap)
+        loadCityFromMapPromise = loadMapPromise.then(loadCityFromMap);
+        loadCityWatersourcesPromise = loadCityFromMapPromise.then(loadCityWatersources);
+        loadCardsPromise = loadCityFromMapPromise.then(loadCards);
+        loadHistoryDataPromise = loadCityWatersourcesPromise.then(loadHistoryData);
     }
 
     function loadMap(latlng) {
@@ -138,7 +182,18 @@ angular.module('routerApp').controller('InicioCtrl', function ($scope, $timeout,
                 }
             })
             .catch(function (error) {
-                console.log(error);
+                switch (error.status) {
+                    case 404:
+                        $scope.error.class = $scope.error.classes.danger;
+                        $scope.error.title = 'Falha na busca por cidade.';
+                        $scope.error.message = error404;
+                        break;
+                    case 500:
+                    default:
+                        $scope.error.class = $scope.error.classes.danger;
+                        $scope.error.message = error500;
+                        break;
+                }
                 throw error;
             });
     }
@@ -147,12 +202,25 @@ angular.module('routerApp').controller('InicioCtrl', function ($scope, $timeout,
         $scope.watersources = [];
 
         return InicioSrvc.queryWatersources(city.id)
-            .then (function (watersources) {
-                $scope.watersources = watersources;
+            .then (function (response) {
+                if (response.status != 204) {
+                    $scope.watersources = response;
+                }
                 return $scope.watersources;
             })
             .catch(function (error) {
-                console.log(error);
+                switch (error.status) {
+                    case 404:
+                        $scope.error.class = $scope.error.classes.warning;
+                        $scope.error.message = 'Açudes:';
+                        $scope.error.message = error404;
+                        break;
+                    case 500:
+                    default:
+                        $scope.error.class = $scope.error.classes.danger;
+                        $scope.error.message = error500;
+                        break;
+                }
                 throw error;
             });
     }
@@ -246,21 +314,18 @@ angular.module('routerApp').controller('InicioCtrl', function ($scope, $timeout,
         }
     }
 
-    function loadCards() {
+    function loadCards(city) {
 
-        $scope.cards.liters = null;
-        $scope.cards.cubicMeters = null;
-        $scope.cards.water = null;
-        $scope.cards.person = null;
+        $scope.cards.clear();
 
         $q.all([
-            InicioSrvc.queryLitersByID($scope.cities.selected.id),
-            InicioSrvc.queryCubicMetersByID($scope.cities.selected.id),
-            InicioSrvc.queryWaterByID($scope.cities.selected.id),
-            InicioSrvc.queryPersonsByID($scope.cities.selected.id)
+            InicioSrvc.queryLitersByID(city.id),
+            InicioSrvc.queryCubicMetersByID(city.id),
+            InicioSrvc.queryWaterByID(city.id),
+            InicioSrvc.queryPersonsByID(city.id)
         ])
             .then(function (data) {
-                $scope.cards.liters = data[0].liters;
+                $scope.cards.liters = data[0];
                 $scope.cards.cubicMeters = data[1];
                 $scope.cards.water = data[2];
                 $scope.cards.person = data[3];
@@ -272,7 +337,7 @@ angular.module('routerApp').controller('InicioCtrl', function ($scope, $timeout,
     }
 
     /**
-     * Run
+     * RUN, SCRIPT, RUN!
      */
 
     initialize();

@@ -6,11 +6,18 @@
             </select>
         </form>
         <div class="col-lg-12">
+            <div class="row" style="padding-top:20px;" ng-show="error.message">
+                <div class="col-lg-12">
+                    <div class="alert alert-{{error.class}} alert-dismissible" role="alert">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close" ng-click="error.message = null;"><span aria-hidden="true">&times;</span></button>
+                        <strong>{{error.title}}</strong> {{error.message}}
+                    </div>
+                </div>
+            </div>
             <div class="row" style="padding-top:20px;">
-
                 <div class="col-lg-6">
                     <div class="panel panel-info">
-                        <div class="panel-heading">Açudes<span ng-hide="dataLoaded" class="fa fa-spinner fa-spin spinner-right"></span>
+                        <div class="panel-heading">Açudes<span ng-hide="watersources.length" class="fa fa-spinner fa-spin spinner-right"></span>
                         </div>
                         <div class="panel-body panel-body-pad">
                             <ol id="watersourcesAccordion" class="color watersource-accordion">
@@ -48,19 +55,19 @@
                                 </div>
                                 <div class="card-body">
                                     <div ng-show="cards.liters != null">
-                                        <h3 class="card-text">{{ cards.liters | number:0 }} litros</h3>
+                                        <h3 class="card-text">{{ cards.liters.status != 204 ? (cards.liters | number:0) + ' m³' : noContent }}</h3>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div class="col-lg-6 cards">
-                            <div class="card card-olive">
+                            <div class="card">
                                 <div class="card-heading">Quantidade total de m³<span ng-hide="cards.cubicMeters != null"
                                                                                       class="fa fa-spinner fa-spin spinner-right"></span>
                                 </div>
                                 <div class="card-body">
                                     <div ng-show="cards.cubicMeters != null">
-                                        <h3 class="card-text">{{ cards.cubicMeters | number:0}} m³</h3>
+                                        <h3 class="card-text">{{ cards.cubicMeters.status != 204 ? (cards.cubicMeters | number:0) + ' m³' : noContent }}</h3>
                                     </div>
                                 </div>
                             </div>
@@ -74,7 +81,7 @@
                                 </div>
                                 <div class="card-body">
                                     <div ng-show="cards.water != null">
-                                        <h3 class="card-text">{{ cards.water | date:"dd/MM/yyyy"}}</h3>
+                                        <h3 class="card-text">{{ cards.water.status != 204 ? (cards.water | date:"dd/MM/yyyy") : noContent }}</h3>
                                     </div>
                                 </div>
                             </div>
@@ -86,7 +93,7 @@
                                 </div>
                                 <div class="card-body">
                                     <div ng-show="cards.person != null">
-                                        <h3 class="card-text">{{ cards.person | number:0 }} pessoas</h3>
+                                        <h3 class="card-text">{{ cards.person.status != 204 ? (cards.person | number:0) + ' pessoas' : noContent }}</h3>
                                     </div>
                                 </div>
                             </div>
