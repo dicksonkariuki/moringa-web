@@ -185,6 +185,8 @@ body {
     margin: auto 10px;
     display: block;
     text-align: center;
+    padding-top:30px;
+    padding-bottom:30px;
 }
 
 .watersource-measurement *{
@@ -299,5 +301,4 @@ body {
 .acudes {
     padding-left: 20px;
     padding-right: 20px;
-    padding-top: 20px;
 }
