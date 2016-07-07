@@ -1,4 +1,4 @@
-angular.module('routerApp').controller('InicioCtrl', function ($scope, $timeout, InicioSrvc, InicioUI, DateUtil) {
+angular.module('routerApp').controller('InicioCtrl', function ($scope, $timeout, $q, InicioSrvc, InicioUI, DateUtil) {
 
     $scope.watersources = [];
     $scope.cities = {
@@ -12,11 +12,9 @@ angular.module('routerApp').controller('InicioCtrl', function ($scope, $timeout,
         water: null,
         person: null
 
-    }
+    };
 
-    $scope.mapSearch = mapSearch;
     $scope.loadCity = loadCity;
-    $scope.dataLoaded = false;
 
     var map, userLocation;
     var history = {
@@ -25,11 +23,11 @@ angular.module('routerApp').controller('InicioCtrl', function ($scope, $timeout,
         lines: []
     };
 
-    $scope.$on('accordionRepeatStarted', function(ngRepeatFinishedEvent) {
+    $scope.$on('accordionRepeatStarted', function() {
         InicioUI.destroyAccordion();
     });
 
-    $scope.$on('accordionRepeatFinished', function(ngRepeatFinishedEvent) {
+    $scope.$on('accordionRepeatFinished', function() {
         InicioUI.loadAccordion();
     });
 
@@ -47,32 +45,30 @@ angular.module('routerApp').controller('InicioCtrl', function ($scope, $timeout,
             .then(loadHistoryData)
             .then(loadCards);
     }
-    
-    function loadCards() {
-        InicioSrvc.queryLitersByID($scope.cities.selected.id)
-            .then(function (data) {
-                $scope.cards.liters = data.liters;
-            })
-            .then(dataLoaded);
-        InicioSrvc.queryCubicMetersByID($scope.cities.selected.id)
-            .then(function (cubicMeters) {
-                $scope.cards.cubicMeters = cubicMeters;
-            })
-            .then(dataLoaded);
-        InicioSrvc.queryWaterByID($scope.cities.selected.id)
-            .then(function (water) {
-                $scope.cards.water = water;
-            })
-            .then(dataLoaded);
-        InicioSrvc.queryPersonsByID($scope.cities.selected.id)
-            .then(function (person) {
-                $scope.cards.person = person;
-            })
-            .then(dataLoaded);
 
-        function dataLoaded() {
-            $scope.dataLoaded = $scope.cards.liters && $scope.cards.cubicMeters && $scope.cards.water && $scope.cards.person;
-        }
+    function loadCards() {
+
+        $scope.cards.liters = null;
+        $scope.cards.cubicMeters = null;
+        $scope.cards.water = null;
+        $scope.cards.person = null;
+
+        $q.all([
+            InicioSrvc.queryLitersByID($scope.cities.selected.id),
+            InicioSrvc.queryCubicMetersByID($scope.cities.selected.id),
+            InicioSrvc.queryWaterByID($scope.cities.selected.id),
+            InicioSrvc.queryPersonsByID($scope.cities.selected.id)
+        ])
+            .then(function (data) {
+                    $scope.cards.liters = data[0].liters;
+                    $scope.cards.cubicMeters = data[1];
+                    $scope.cards.water = data[2];
+                    $scope.cards.person = data[3];
+            })
+            .catch(function (error) {
+                console.log(error);
+                throw error;
+            });
     }
 
     function loadCity() {
@@ -85,23 +81,31 @@ angular.module('routerApp').controller('InicioCtrl', function ($scope, $timeout,
     }
 
     function geolocation() {
-        var deferred = $.Deferred();
+        // Using AngularJS's 'defer' to return a promise
+        var defer = $q.defer();
+
+        // we assert that the client browser can query for geolocation
         if (navigator.geolocation) {
+            // and query for the current position
             navigator.geolocation.getCurrentPosition(geolocationSuccess, geolocationError);
-        } else {
+        }
+        // if it can't, we query for the IP's geolocation
+        else {
             //TODO: No native support; Query IP geolocation
         }
 
-        return deferred.promise();
+        // I promise I will return something to you =)
+        return defer.promise;
 
         function geolocationSuccess(position) {
-            // Geolocation avaliable. Let's show a map!
+            // Geolocation avaliable. We build a nice google.maps.LatLng object to return
             var lat = position.coords.latitude;
             var lng = position.coords.longitude;
 
             userLocation = new google.maps.LatLng(lat, lng);
 
-            deferred.resolve(userLocation);
+            // then we resolve the promise so that it returns the client's location
+            defer.resolve(userLocation);
         }
 
         function geolocationError(error) {
@@ -115,31 +119,15 @@ angular.module('routerApp').controller('InicioCtrl', function ($scope, $timeout,
                 case error.TIMEOUT:
                     console.log("The request to get user location timed out.");
                     break;
-                case error.UNKNOWN_ERROR:
+                default:
                     console.log("An unknown error occurred.");
                     break;
             }
-            deferred.reject(error);
-        }
-    }
-
-    function mapSearch(inputSearch) {
-        InicioSrvc.geocodeLatLng(inputSearch).then(geocodeLatLngSuccess, geocodeLatLngError);
-        
-        function geocodeLatLngSuccess(latlng) {
-            loadMap(latlng)
-                .then(loadCityFromMap)
-                .then(loadCityWatersources)
-                .then(loadHistoryData);
-        }
-        
-        function geocodeLatLngError(error) {
-            console.log(error);
+            defer.reject(error);
         }
     }
 
     function loadMap(latlng) {
-        var deferred = $.Deferred();
         var options = {
             zoom: 13,
             center: latlng,
@@ -148,159 +136,136 @@ angular.module('routerApp').controller('InicioCtrl', function ($scope, $timeout,
 
         map = new google.maps.Map(document.getElementById("mapa"), options);
 
-        deferred.resolve(map);
-
-        //TODO handle possible errors with deferred.reject(a);
-        $scope.dataLoaded = false;
-        return deferred.promise();
+        // Using $q.when to return a promise from a synchronous function so that it can be chained with other promises
+        return $q.when(map);
     }
 
     function loadCityFromMap(map) {
-        var deferred = $.Deferred();
 
-        InicioSrvc.geocodeCityName(map.center).then(geocodeCitySuccess, geocodeCityError);
+        var geocodeCityName = InicioSrvc.geocodeCityName(map.center);
+        
+        var queryCityByName = geocodeCityName.then(function (cityName) {
+            return InicioSrvc.queryCityByName(cityName);
+        });
+        
+        return $q.all([geocodeCityName, queryCityByName])
+            .then(function (data) {
 
-        return deferred.promise();
+                var city = data[1]; //City object
 
-        function geocodeCitySuccess(cityName) {
-
-            InicioSrvc.queryCityByName(cityName).then(queryCityByNameSuccess, queryCityByNameError);
-
-            function queryCityByNameSuccess(city) {
-                var citySelected = $scope.cities.options.filter(filterCity)[0];
-                $scope.cities.selected = citySelected;
-                deferred.resolve(city);
+                $scope.cities.selected = $scope.cities.options.filter(filterCity)[0];
+                return city;
 
                 function filterCity(cityOption) {
                     return cityOption.id === city.id;
                 }
-            }
-
-            function queryCityByNameError(error) {
+            })
+            .catch(function (error) {
                 console.log(error);
-                deferred.reject(error);
-            }
-        }
-
-        function geocodeCityError(error) {
-            console.log(error);
-            deferred.reject(error);
-        }
+                throw error;
+            });
     }
 
     function loadCityWatersources(city) {
-        var deferred = $.Deferred();
+        $scope.watersources = [];
 
-        InicioSrvc.queryWatersources(city.id).then (queryWatersourcesSuccess, queryWatersourcesError);
-
-        return deferred.promise();
-
-        function queryWatersourcesSuccess(watersources) {
-            $scope.watersources = watersources;
-            deferred.resolve($scope.watersources);
-        }
-
-        function queryWatersourcesError(error) {
-            console.log(error);
-            deferred.reject(error);
-        }
+        return InicioSrvc.queryWatersources(city.id)
+            .then (function (watersources) {
+                $scope.watersources = watersources;
+                return $scope.watersources;
+            })
+            .catch(function (error) {
+                console.log(error);
+                throw error;
+            });
     }
 
     function loadHistoryData(watersources) {
-        var deferred = $.Deferred();
 
         var endDate = new Date();
         var startDate = DateUtil.offsetDays(endDate, 1-history.interval);
         var dateFormat = "dd/MM/yyyy";
-        var data = new Object();
+        var data = {};
 
         watersourcesConsumed = 0;
 
         history.dateRange = [];
         history.lines = [];
 
-        watersources.forEach(consumeMeasurements);
-
-        return deferred.promise();
+        return $q.all(watersources.map(function (watersource) {
+            return consumeMeasurements(watersource);
+        }))
+            .then(doneConsuming)
+            .catch(function (error) {
+                console.log(error);
+                throw error;
+            });
 
         function consumeMeasurements(watersource) {
 
             var label = watersource.name;
 
-            InicioSrvc.queryMeasurements(watersource.id, DateUtil.format(dateFormat, startDate), DateUtil.format(dateFormat, endDate))
-                .then(queryMeasurementsSuccess, queryMeasurementsError)
-                .then(doneConsuming);
+            var percent = ((watersource.waterSourceMeasurements[0].value / watersource.capacity) * 100);
+            watersource['percent'] = percent;
+            watersource['class'] = percent <= 5 ? 'worst' : percent > 5 && percent <= 20 ? 'bad' : percent > 20 && percent < 100 ? 'regular' : percent >= 100 ? 'best' : '';
 
-            function queryMeasurementsSuccess(measurements) {
-
-                var values = {};
-
-                for (i=0; i<measurements.length; i++) {
-                    var measurement = measurements[i];
-                    values[measurement.date] = measurement.value;
-                }
-
-                watersource['lastMeasurement'] = measurements.slice(-1)[0];
-                var percent = ((watersource.lastMeasurement.value / watersource.capacity) * 100)
-                watersource['percent'] = percent;
-                watersource['class'] = percent <= 5 ? 'worst' : percent > 5 && percent <= 20 ? 'bad' : percent > 20 && percent < 100 ? 'regular' : percent >= 100 ? 'best' : '';
-
-                data[label] = values;
-                watersourcesConsumed++;
-            }
-
-            function queryMeasurementsError(error) {
-                console.log(error);
-                watersourcesConsumed++;
-            }
+            return InicioSrvc.queryMeasurements(watersource.id, DateUtil.format(dateFormat, startDate), DateUtil.format(dateFormat, endDate))
+                .then(function (measurements) {
+                    var values = {};
+                    for (i=0; i<measurements.length; i++) {
+                        var measurement = measurements[i];
+                        values[measurement.date] = measurement.value;
+                    }
+                    data[label] = values;
+                    return measurements;
+                })
+                .catch(function (error) {
+                    console.log(error);
+                    throw error;
+                });
         }
 
         function doneConsuming() {
-            if (watersourcesConsumed === watersources.length) {
-                var labels = Object.keys(data);
-                // Assemble the date range with dates from all watersources
-                for (i=0; i<labels.length; i++) {
-                    var values = data[labels[i]];
-                    var dates = Object.keys(values);
-                    for (j=0; j<dates.length; j++) {
-                        var date = +dates[j];
-                        if (history.dateRange.indexOf(date) < 0) {
-                            history.dateRange.push(date);
-                            history.dateRange.sort(
-                                function(a,b) {
-                                    return a>b ? 1 : a<b ? -1 : 0;
-                                }
-                            );
-                        }
+            // Assemble the date range with dates from all watersources
+            Object.keys(data).map(function (label) {
+                Object.keys(data[label]).map(function (date) {
+                    if (history.dateRange.indexOf(+date) < 0) {
+                        history.dateRange.push(+date);
+                    }
+                })
+            });
+            // sort the date range array
+            history.dateRange.sort(
+                function(a,b) {
+                    return a>b ? 1 : a<b ? -1 : 0;
+                }
+            );
+            // Put each watersource measurement to its destined date on the array
+            Object.keys(data).map(function (label) {
+                var line = [];
+                var values = data[label];
+                Object.keys(values).map(function (date) {
+                    line[history.dateRange.indexOf(+date)] = values[+date];
+                });
+
+                // Push the data label to the first column
+                line.splice(0,0,label);
+
+                // Get the last index, regardless of array's length
+                var lastIndex = line.lastIndexOf(line.slice(-1)[0]);
+                // Replacing 'undefined' with null
+                for (j=0; j<=lastIndex; j++) {
+                    if (line[j] === undefined) {
+                        line[j] = null;
                     }
                 }
-                // Put each watersource measurement to its destined date on the array
-                for (i=0; i<labels.length; i++) {
-                    var line = [];
-                    var values = data[labels[i]];
-                    var dates = Object.keys(values);
-                    for (j=0; j<dates.length; j++) {
-                        var date = +dates[j];
-                        line[history.dateRange.indexOf(date)] = values[date];
-                    }
-                    // Push the data label to the first column
-                    line.splice(0,0,labels[i]);
 
-                    // Get the last index, regardless of array's length
-                    var lastIndex = line.lastIndexOf(line.slice(-1)[0]);
+                history.lines.push(line);
+            });
 
-                    // Replace 'undefined' with null
-                    for (j=0; j<=lastIndex; j++) {
-                        if (line[j] === undefined) {
-                            line[j] = null;
-                        }
-                    }
-
-                    history.lines.push(line);
-                }
-                InicioUI.loadChart(history.dateRange, history.lines);
-                deferred.resolve(history);
-            }
+            // load the history chart
+            InicioUI.loadChart(history.dateRange, history.lines);
+            return history;
         }
     }
 });

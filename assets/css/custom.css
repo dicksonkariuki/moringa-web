@@ -125,7 +125,7 @@ body {
 
 .select2 {
     width: 50%;
-    border-radius: 0px;
+    border-radius: 0;
 }
 
 .fonte-dados {
@@ -136,6 +136,17 @@ body {
 .data-dimensions {
     height: 400px;
     width: 100%;
+}
+
+
+/**** WATERSOURCE ACCORDION ***/
+
+.watersource-accordion {
+    width: auto;
+    height: auto;
+    list-style-type: none;
+    white-space: nowrap;
+    margin: 0;
 }
 
 /**** WATERSOURCE LEVEL ***/
@@ -192,14 +203,6 @@ body {
 .watersource-measurement *{
     margin: 5px;
     display: block;
-}
-
-.watersource-accordion {
-    width: auto;
-    height: auto;
-    list-style-type: none;
-    white-space: nowrap;
-    margin: 0;
 }
 
 .watersource-measurement hr{
@@ -285,7 +288,7 @@ body {
 }
 
 .panel-body-pad {
-    padding: 0px;
+    padding: 0;
 }
 
 .panel-content {

@@ -1,10 +1,10 @@
-angular.module('routerApp').factory('InicioSrvc', function($http) {
+angular.module('routerApp').factory('InicioSrvc', function($http, $q) {
 
     var geocoder;
 
     function geocodeCityName(latlng) {
-        // Using jQuery's Deferred to return a promise
-        var deferred = $.Deferred();
+        // Using AngularJS's 'defer' to return a promise
+        var defer = $q.defer();
         // and the Geocoder from Google Maps API
         if (!geocoder) { geocoder = new google.maps.Geocoder();}
         // we ask google to geocode the data for our location
@@ -21,7 +21,7 @@ angular.module('routerApp').factory('InicioSrvc', function($http) {
                         // we filter it for the 'locality' attribute
                         locality = results[0].address_components.filter(addressComponentsLocalityFilter)[0];
                         // and return it
-                        deferred.resolve(locality.long_name);
+                        defer.resolve(locality.long_name);
                         break;
 
                     // otherwise
@@ -29,7 +29,7 @@ angular.module('routerApp').factory('InicioSrvc', function($http) {
                     default:
                         // we log and throw back the error
                         console.log("Geocode was not successful for the following reason: " + status);
-                        deferred.reject(status);
+                        defer.reject(status);
                         break;
                 }
 
@@ -41,12 +41,12 @@ angular.module('routerApp').factory('InicioSrvc', function($http) {
         );
 
         // I promise I will return something to you =)
-        return deferred.promise();
+        return defer.promise;
     }
 
     function geocodeLatLng(address, latlng) {
-        // Using jQuery's Deferred to return a promise
-        var deferred = $.Deferred();
+        // Using AngularJS's 'defer' to return a promise
+        var defer = $q.defer();
         // and the Geocoder from Google Maps API
         if (!geocoder) { geocoder = new google.maps.Geocoder();}
         // we ask google to geocode the data for our location
@@ -66,7 +66,7 @@ angular.module('routerApp').factory('InicioSrvc', function($http) {
                         // we filter it for the 'locality' attribute
                         latlng = results[0].geometry.location;
                         // and return it
-                        deferred.resolve(latlng);
+                        defer.resolve(latlng);
                         break;
 
                     // otherwise
@@ -74,208 +74,137 @@ angular.module('routerApp').factory('InicioSrvc', function($http) {
                     default:
                         // we log and throw back the error
                         console.log("Geocode was not successful for the following reason: " + status);
-                        deferred.reject(status);
+                        defer.reject(status);
                         break;
                 }
             }
         );
 
         // I promise I will return something to you =)
-        return deferred.promise();
+        return defer.promise;
     }
 
     function queryAllCities() {
-        // Using jQuery's Deferred to return a promise
-        var deferred = $.Deferred();
-        // and a webservice's URL
+        // Using a webservice's URL
         var urlCityPerName = Properties.webserviceAddress + '/cities';
         
         // we query the webservice for the list of all cities
-        $http({
+        return $http({
             method: 'GET',
             url: urlCityPerName
         })
-            .success(function(cities) {
-                // and then return the full list
-                deferred.resolve(cities);
-            })
-            .error(function (error) {
-                // or throw back an error 
-                deferred.reject(error);
+            .then(function(response) {
+                // and then return the filtered list
+                return response.data;
             });
-    
-        // I promise I will return something to you =)
-        return deferred.promise();
     }
 
     //retorna a quantidade de metros cubicos por pessoa de uma cidade.
     function queryLitersByID(cityId) {
-        // Using jQuery's Deferred to return a promise
-        var deferred = $.Deferred();
-        // and a webservice's URL
+        // Using a webservice's URL
         var urlLitersPerCityById = Properties.webserviceAddress + '/cities/' + cityId + '/liters';
 
         // we query the webservice for the list of all cities matching the cityName parameter
-        $http({
+        return $http({
             method: 'GET',
             url: urlLitersPerCityById
         })
-            .success(function(liters) {
+            .then(function(response) {
                 // and then return the filtered list
-                deferred.resolve(liters);
-            })
-            .error(function (status) {
-                // or throw back an error
-                deferred.reject(status);
+                return response.data;
             });
-
-        // I promise I will return something to you =)
-        return deferred.promise();
     }
 
     //
     function queryWaterByID(cityId) {
-        // Using jQuery's Deferred to return a promise
-        var deferred = $.Deferred();
-        // and a webservice's URL
+        // Using a webservice's URL
         var urlWaterById = Properties.webserviceAddress + '/cities/' + cityId + '/water';
 
         // we query the webservice for the list of all cities matching the cityName parameter
-        $http({
+        return $http({
             method: 'GET',
             url: urlWaterById
         })
-            .success(function(water) {
+            .then(function(response) {
                 // and then return the filtered list
-                deferred.resolve(water);
-            })
-            .error(function (status) {
-                // or throw back an error
-                deferred.reject(status);
+                return response.data;
             });
-
-        // I promise I will return something to you =)
-        return deferred.promise();
     }
 
     function queryCubicMetersByID(cityId) {
-        // Using jQuery's Deferred to return a promise
-        var deferred = $.Deferred();
-        // and a webservice's URL
+        // Using a webservice's URL
         var urlCubicMetersById = Properties.webserviceAddress + '/cities/' + cityId + '/cubicMeters ';
 
         // we query the webservice for the list of all cities matching the cityName parameter
-        $http({
+        return $http({
             method: 'GET',
             url: urlCubicMetersById
         })
-            .success(function(cubicMeters) {
+            .then(function(response) {
                 // and then return the filtered list
-                deferred.resolve(cubicMeters);
-            })
-            .error(function (status) {
-                // or throw back an error
-                deferred.reject(status);
+                return response.data;
             });
-
-        // I promise I will return something to you =)
-        return deferred.promise();
     }
 
     function queryPersonsByID(cityId) {
-        // Using jQuery's Deferred to return a promise
-        var deferred = $.Deferred();
-        // and a webservice's URL
+        // Using a webservice's URL
         var urlPersonsById = Properties.webserviceAddress + '/cities/' + cityId + '/persons';
 
         // we query the webservice for the list of all cities matching the cityName parameter
-        $http({
+        return $http({
             method: 'GET',
             url: urlPersonsById
         })
-            .success(function(persons) {
+            .then(function(response) {
                 // and then return the filtered list
-                deferred.resolve(persons);
-            })
-            .error(function (status) {
-                // or throw back an error
-                deferred.reject(status);
+                return response.data;
             });
-
-        // I promise I will return something to you =)
-        return deferred.promise();
     }
 
     function queryCityByName(cityName) {
-        // Using jQuery's Deferred to return a promise
-        var deferred = $.Deferred();
-        // and a webservice's URL
+        // Using a webservice's URL
         var urlCityPerName = Properties.webserviceAddress + '/cities?name=' + cityName;
 
         // we query the webservice for the list of all cities matching the cityName parameter
-        $http({
+        return $http({
             method: 'GET',
             url: urlCityPerName
         })
-            .success(function(cities) {
-                // and then return the filtered list
-                deferred.resolve(cities[0]);
-            })
-            .error(function (status) {
-                // or throw back an error
-                deferred.reject(status);
+            .then(function(response) {
+                // and then return the filtered city
+                var cities = response.data;
+                return cities[0];
             });
-
-        // I promise I will return something to you =)
-        return deferred.promise();
     }
 
     function queryWatersources(cityId) {
-        // Using jQuery's Deferred to return a promise
-        var deferred = $.Deferred();
-        // and a webservice's URL
-        var urlWatersourcesPerCityId = Properties.webserviceAddress + '/cities/' + cityId + '/watersources';
+        // Using a webservice's URL
+        var urlWatersourcesPerCityId = Properties.webserviceAddress + '/cities/' + cityId + '/watersources?lastMeasurements=1';
 
         // we query the webservice for all watersources of a city given the city's ID on the cityId parameter
-        $http({
+        return $http({
             method: 'GET',
             url: urlWatersourcesPerCityId
         })
-            .success(function(watersources) {
+            .then(function(response) {
                 // and then return a list of watersources
-                deferred.resolve(watersources);
-            })
-            .error(function (error) {
-                // or throw back an error
-                deferred.reject(error);
+                return response.data;
             });
-
-        // I promise I will return something to you =)
-        return deferred.promise();
     }
 
     function queryMeasurements(watersourceId, startDate, endDate) {
-        // Using jQuery's Deferred to return a promise
-        var deferred = $.Deferred();
-        // and a webservice's URL
+        // Using a webservice's URL
         var urlWatersourceMeasurements = Properties.webserviceAddress+'/watersources/'+watersourceId+'/measurements?startDate='+startDate+'&endDate='+endDate;
 
         // we query the webservice for all watersources of a city given the city's ID on the cityId parameter
-        $http({
+        return $http({
             method: 'GET',
             url: urlWatersourceMeasurements
         })
-            .success(function(measurements) {
-                // and then return a list of watersource measurements
-                deferred.resolve(measurements);
-            })
-            .error(function (error) {
-                // or throw back an error
-                deferred.reject(error);
+            .then(function(response) {
+                    // and then return a list of watersource measurements
+                    return response.data;
             });
-
-        // I promise I will return something to you =)
-        return deferred.promise();
     }
     
     return {
