@@ -1,11 +1,20 @@
 angular.module('routerApp').controller('InicioCtrl', function ($scope, $timeout, $q, InicioSrvc, InicioUI, DateUtil) {
 
+    /*
+     * Variables
+     */
+
+    var map, userLocation;
+    var history = {
+        interval: 90,
+        dateRange: [],
+        lines: []
+    };
     $scope.watersources = [];
     $scope.cities = {
         selected: null,
         options: null
     };
-
     $scope.cards = {
         liters: null,
         cubicMeters: null,
@@ -14,24 +23,17 @@ angular.module('routerApp').controller('InicioCtrl', function ($scope, $timeout,
 
     };
 
+    /*
+     * Functions
+     */
+
     $scope.loadCity = loadCity;
-
-    var map, userLocation;
-    var history = {
-        interval: 90,
-        dateRange: [],
-        lines: []
-    };
-
     $scope.$on('accordionRepeatStarted', function() {
         InicioUI.destroyAccordion();
     });
-
     $scope.$on('accordionRepeatFinished', function() {
         InicioUI.loadAccordion();
     });
-
-    initialize();
 
     function initialize() {
         InicioSrvc.queryAllCities().then(function (cities) {
@@ -39,40 +41,6 @@ angular.module('routerApp').controller('InicioCtrl', function ($scope, $timeout,
         });
 
         geolocation()
-            .then(loadMap)
-            .then(loadCityFromMap)
-            .then(loadCityWatersources)
-            .then(loadHistoryData)
-            .then(loadCards);
-    }
-
-    function loadCards() {
-
-        $scope.cards.liters = null;
-        $scope.cards.cubicMeters = null;
-        $scope.cards.water = null;
-        $scope.cards.person = null;
-
-        $q.all([
-            InicioSrvc.queryLitersByID($scope.cities.selected.id),
-            InicioSrvc.queryCubicMetersByID($scope.cities.selected.id),
-            InicioSrvc.queryWaterByID($scope.cities.selected.id),
-            InicioSrvc.queryPersonsByID($scope.cities.selected.id)
-        ])
-            .then(function (data) {
-                    $scope.cards.liters = data[0].liters;
-                    $scope.cards.cubicMeters = data[1];
-                    $scope.cards.water = data[2];
-                    $scope.cards.person = data[3];
-            })
-            .catch(function (error) {
-                console.log(error);
-                throw error;
-            });
-    }
-
-    function loadCity() {
-        InicioSrvc.geocodeLatLng($scope.cities.selected.name, userLocation)
             .then(loadMap)
             .then(loadCityFromMap)
             .then(loadCityWatersources)
@@ -125,6 +93,15 @@ angular.module('routerApp').controller('InicioCtrl', function ($scope, $timeout,
             }
             defer.reject(error);
         }
+    }
+
+    function loadCity() {
+        InicioSrvc.geocodeLatLng($scope.cities.selected.name, userLocation)
+            .then(loadMap)
+            .then(loadCityFromMap)
+            .then(loadCityWatersources)
+            .then(loadHistoryData)
+            .then(loadCards);
     }
 
     function loadMap(latlng) {
@@ -268,4 +245,36 @@ angular.module('routerApp').controller('InicioCtrl', function ($scope, $timeout,
             return history;
         }
     }
+
+    function loadCards() {
+
+        $scope.cards.liters = null;
+        $scope.cards.cubicMeters = null;
+        $scope.cards.water = null;
+        $scope.cards.person = null;
+
+        $q.all([
+            InicioSrvc.queryLitersByID($scope.cities.selected.id),
+            InicioSrvc.queryCubicMetersByID($scope.cities.selected.id),
+            InicioSrvc.queryWaterByID($scope.cities.selected.id),
+            InicioSrvc.queryPersonsByID($scope.cities.selected.id)
+        ])
+            .then(function (data) {
+                $scope.cards.liters = data[0].liters;
+                $scope.cards.cubicMeters = data[1];
+                $scope.cards.water = data[2];
+                $scope.cards.person = data[3];
+            })
+            .catch(function (error) {
+                console.log(error);
+                throw error;
+            });
+    }
+
+    /**
+     * Run
+     */
+
+    initialize();
+
 });
