@@ -265,8 +265,9 @@ angular.module('routerApp').controller('InicioCtrl', function ($scope, $timeout,
 
             return InicioSrvc.queryMeasurements(watersource.id, DateUtil.format(dateFormat, startDate), DateUtil.format(dateFormat, endDate))
                 .then(function (response) {
+                    var measurements = [];
                     if (response.status != 204) {
-                        var measurements = response;
+                        measurements = response;
                     }
                     measurements.map(function (measurement) {
                         consumed[measurement.date] = measurement.value;
