@@ -3,7 +3,7 @@
  */
 angular.module('routerApp').factory('InicioUI', function() {
 
-    var chart, chartDateLabel = 'x';
+    var chart, chartDateLabel = 'x', chartValueLabel = 'Milhões de m³';
 
     $(document).ready(function() {
 
@@ -39,6 +39,17 @@ angular.module('routerApp').factory('InicioUI', function() {
                     type: 'timeseries',
                     tick: {
                         format: '%d/%m/%Y'
+                    }
+                },
+                y: {
+                    tick: {
+                        format: function (y) {
+                            return (y/1000000).toFixed(1);
+                        }
+                    },
+                    label: {
+                        text: chartValueLabel,
+                        position: 'outer-middle'
                     }
                 }
             },

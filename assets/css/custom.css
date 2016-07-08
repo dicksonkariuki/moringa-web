@@ -138,6 +138,15 @@ body {
     width: 100%;
 }
 
+.no-padding {
+    padding: 0 !important;
+}
+
+/**** CHART ***/
+
+#chart {
+    background-color: white;
+}
 
 /**** WATERSOURCE ACCORDION ***/
 
@@ -147,6 +156,17 @@ body {
     list-style-type: none;
     white-space: nowrap;
     margin: 0;
+}
+
+.accordion-wrapper {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.accordion-content {
+    display: inline-flex;
+    width: 100%;
+    height: 100%;
 }
 
 /**** WATERSOURCE LEVEL ***/
@@ -252,6 +272,26 @@ body {
     margin-bottom: 20px;
 }
 
+.card-red {
+    background-color: rgb(255,84,85);
+}
+
+.card-blue {
+    background-color: rgb(103,194,239);
+}
+
+.card-yellow {
+    background-color: rgb(250,187,61);
+}
+
+.card-green {
+    background-color: rgb(121,196,71);
+}
+
+.card-purple {
+    background-color: rgb(159,133,255);
+}
+
 .card > .card-heading {
     background-color: rgba(255,255,255,0.5);
     color: rgba(0,0,0,0.6);
@@ -264,41 +304,11 @@ body {
     padding: 15px;
 }
 
-.card-darkcyan {
-    background-color: darkcyan;
-}
-
-.card-olive {
-    background-color: olive;
-}
-
-.card-olive {
-    background-color: olive;
-}
-
-.card-darkgreen {
-    background-color: darkgreen;
-}
-
-.card-darkviolet {
-    background-color: darkviolet;
-}
-
 .card .card-text {
     color: #FFFFFF;
     font-family: monospace, monospace;
     font-size: xx-large;
     text-align: center;
-}
-
-.panel-body-pad {
-    padding: 0;
-}
-
-.panel-content {
-    display: inline-flex;
-    width: 100%;
-    height: 100%;
 }
 
 .spinner-right {

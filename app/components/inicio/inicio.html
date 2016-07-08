@@ -9,34 +9,59 @@
             <div class="row" style="padding-top:20px;" ng-show="error.message">
                 <div class="col-lg-12">
                     <div class="alert alert-{{error.class}} alert-dismissible" role="alert">
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close" ng-click="error.message = null;"><span aria-hidden="true">&times;</span></button>
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close" ng-click="error.message = null;">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
                         <strong>{{error.title}}</strong> {{error.message}}
                     </div>
                 </div>
             </div>
             <div class="row" style="padding-top:20px;">
                 <div class="col-lg-6">
-                    <div class="panel panel-info">
-                        <div class="panel-heading">Açudes<span ng-hide="watersources.length" class="fa fa-spinner fa-spin spinner-right"></span>
+                    <div class="card card-purple">
+                        <div class="card-heading">Açudes<span ng-hide="watersources" class="fa fa-spinner fa-spin spinner-right"></span>
                         </div>
-                        <div class="panel-body panel-body-pad">
+                        <div class="card-body no-padding">
+                            <div ng-hide="!watersources || watersources.length">
+                                <h2 class="card-text">{{noContent}}</h2>
+                            </div>
                             <ol id="watersourcesAccordion" class="color watersource-accordion">
                                 <li ng-repeat="watersource in watersources" on-accordion-repeat-render
                                     class="watersource-inline">
                                     <div>{{watersource.name}}</div>
                                     <div>
-                                        <div class="panel-content">
+                                        <div class="accordion-content">
                                             <div class="watersource-measurement watersource-measurement-width">
-                                                <span class="value">{{watersource.waterSourceMeasurements[0].value | number}} {{watersource.measurementUnit}}</span>
+                                                <span class="value">
+                                                    {{
+                                                    watersource.waterSourceMeasurements.length ?
+                                                    (watersource.waterSourceMeasurements[0].value | number) + ' ' + watersource.measurementUnit :
+                                                    noContent
+                                                    }}
+                                                </span>
                                                 <span class="label">Volume Atual</span>
                                                 <hr>
                                                 <span class="label">Capacidade Máxima</span>
-                                                <span class="value watersource-measurement-value">{{watersource.capacity | number}} {{watersource.measurementUnit}}</span>
+                                                <span class="value watersource-measurement-value">
+                                                    {{
+                                                    watersource.capacity ?
+                                                    (watersource.capacity | number) + ' ' + watersource.measurementUnit :
+                                                    noContent
+                                                    }}
+                                                </span>
                                             </div>
                                             <div class="watersource-level watersource-level-width">
-                                                <span class="percent watersource-measurement-value {{watersource.class}}">{{watersource.percent | number : 2}} %</span>
+                                                <span class="percent watersource-measurement-value {{watersource.class ? watersource.class : 'regular'}}">
+                                                    {{watersource.percent ? (watersource.percent | number : 2) + ' %' : noContent }}
+                                                </span>
                                                 <span class="text">Percentual de água em: </span>
-                                                <span class="date">{{watersource.waterSourceMeasurements[0].date | date : 'dd/MM/yyyy'}}</span>
+                                                <span class="date">
+                                                    {{
+                                                    watersource.waterSourceMeasurements.length ?
+                                                    (watersource.waterSourceMeasurements[0].date | date : 'dd/MM/yyyy') :
+                                                    noContent
+                                                    }}
+                                                </span>
                                             </div>
                                         </div>
                                     </div>
@@ -49,9 +74,10 @@
                 <div class="col-lg-6">
                     <div class="row">
                         <div class="col-lg-6 cards">
-                            <div class="card card-darkcyan">
-                                <div class="card-heading">Estimativa de litros por pessoa<span ng-hide="cards.liters != null"
-                                                                                               class="fa fa-spinner fa-spin spinner-right"></span>
+                            <div class="card card-red">
+                                <div class="card-heading">
+                                    Estimativa de litros por pessoa
+                                    <span ng-hide="cards.liters != null" class="fa fa-spinner fa-spin spinner-right"></span>
                                 </div>
                                 <div class="card-body">
                                     <div ng-show="cards.liters != null">
@@ -61,9 +87,10 @@
                             </div>
                         </div>
                         <div class="col-lg-6 cards">
-                            <div class="card">
-                                <div class="card-heading">Quantidade total de m³<span ng-hide="cards.cubicMeters != null"
-                                                                                      class="fa fa-spinner fa-spin spinner-right"></span>
+                            <div class="card card-green">
+                                <div class="card-heading">
+                                    Quantidade total de m³
+                                    <span ng-hide="cards.cubicMeters != null" class="fa fa-spinner fa-spin spinner-right"></span>
                                 </div>
                                 <div class="card-body">
                                     <div ng-show="cards.cubicMeters != null">
@@ -75,9 +102,10 @@
                     </div>
                     <div class="row">
                         <div class=" col-lg-6 cards">
-                            <div class="card card-darkviolet">
-                                <div class="card-heading">Estimativa de término da água<span ng-hide="cards.water != null"
-                                                                                             class="fa fa-spinner fa-spin spinner-right"></span>
+                            <div class="card card-yellow">
+                                <div class="card-heading">
+                                    Estimativa de término da água
+                                    <span ng-hide="cards.water != null" class="fa fa-spinner fa-spin spinner-right"></span>
                                 </div>
                                 <div class="card-body">
                                     <div ng-show="cards.water != null">
@@ -87,9 +115,10 @@
                             </div>
                         </div>
                         <div class="col-lg-6 cards">
-                            <div class="card card-darkgreen">
-                                <div class="card-heading">Consomem os recursos hídricos<span ng-hide="cards.person != null"
-                                                                                             class="fa fa-spinner fa-spin spinner-right"></span>
+                            <div class="card card-blue">
+                                <div class="card-heading">
+                                    Consomem os recursos hídricos
+                                    <span ng-hide="cards.person != null" class="fa fa-spinner fa-spin spinner-right"></span>
                                 </div>
                                 <div class="card-body">
                                     <div ng-show="cards.person != null">
@@ -105,18 +134,18 @@
             <div class="row">
 
                 <div class="col-lg-6">
-                    <div class="panel panel-success">
-                        <div class="panel-heading">Dados Históricos</div>
-                        <div class="panel-body panel-body-pad">
+                    <div class="card card-blue">
+                        <div class="card-heading">Dados Históricos</div>
+                        <div class="card-body no-padding">
                             <div id="chart" class="data-dimensions"></div>
                         </div>
                     </div>
                 </div>
 
                 <div class="col-lg-6">
-                    <div class="panel panel-success">
-                        <div class="panel-heading">Georreferenciamento</div>
-                        <div class="panel-body panel-body-pad">
+                    <div class="card card-green">
+                        <div class="card-heading">Georreferenciamento</div>
+                        <div class="card-body no-padding">
                             <div id="mapa" class="data-dimensions"></div>
                         </div>
                     </div>

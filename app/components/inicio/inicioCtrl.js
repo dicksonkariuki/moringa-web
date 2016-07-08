@@ -10,7 +10,7 @@ angular.module('routerApp').controller('InicioCtrl', function ($scope, $timeout,
         dateRange: [],
         lines: []
     };
-    $scope.watersources = [];
+    $scope.watersources = null;
     $scope.cities = {
         selected: null,
         options: null
@@ -22,10 +22,11 @@ angular.module('routerApp').controller('InicioCtrl', function ($scope, $timeout,
         water: null,
         person: null,
         clear: function () {
-            liters = null;
-            cubicMeters = null;
-            water = null;
-            person = null;
+            var keys = Object.keys(this);
+            for (i=0; i<keys.length; i++) {
+                var key = keys[i];
+                this[key] = key != 'clear' ? null : this[key];
+            }
         }
     };
     $scope.error = {
@@ -39,22 +40,13 @@ angular.module('routerApp').controller('InicioCtrl', function ($scope, $timeout,
         title: null,
         message: null,
         clear: function () {
-            this.class = null;
-            this.title = null;
-            this.message = null;
+            var keys = Object.keys(this);
+            for (i=0; i<keys.length; i++) {
+                var key = keys[i];
+                this[key] = key != 'clear' && key != 'classes' ? null : this[key];
+            }
         }
     };
-
-    /*
-     * Promises
-     */
-
-    var geolocationPromise,
-        loadMapPromise,
-        loadCityFromMapPromise,
-        loadCityWatersourcesPromise,
-        loadHistoryDataPromise,
-        loadCardsPromise;
 
     /*
      * Error messages
@@ -83,13 +75,30 @@ angular.module('routerApp').controller('InicioCtrl', function ($scope, $timeout,
             $scope.cities.options = cities;
         });
 
-        geolocationPromise = geolocation();
-        loadMapPromise = geolocationPromise.then(loadMap);
-        loadCityFromMapPromise = loadMapPromise.then(loadCityFromMap);
-        loadCityWatersourcesPromise = loadCityFromMapPromise.then(loadCityWatersources);
-        loadCardsPromise = loadCityFromMapPromise.then(loadCards);
-        loadHistoryDataPromise = loadCityWatersourcesPromise.then(loadHistoryData);
+        geolocation()
+            .then(loadMap)
+            .then(loadCityFromMap)
+            .then(function (city) { // $q.all makes 'loadCityWatersources' and 'loadCards' run in parallel
+                $q.all([
+                    loadCityWatersources(city).then(loadHistoryData),
+                    loadCards(city)
+                ])
+            });
+    }
 
+    function loadCity() {
+        $scope.error.clear();
+
+        //TODO peloamordedels vamos por as coordenadas no banco pra evitar essa aberração na linha abaixo
+        InicioSrvc.geocodeLatLng($scope.cities.selected.name + '- PB', userLocation)
+            .then(loadMap)
+            .then(function () { // $q.all makes 'loadCityWatersources' and 'loadCards' run in parallel
+                var city = $scope.cities.selected;
+                $q.all([
+                    loadCityWatersources(city).then(loadHistoryData),
+                    loadCards(city)
+                ])
+            });
     }
 
     function geolocation() {
@@ -137,15 +146,6 @@ angular.module('routerApp').controller('InicioCtrl', function ($scope, $timeout,
             }
             defer.reject(error);
         }
-    }
-
-    function loadCity() {
-
-        loadMapPromise = InicioSrvc.geocodeLatLng($scope.cities.selected.name, userLocation).then(loadMap)
-        loadCityFromMapPromise = loadMapPromise.then(loadCityFromMap);
-        loadCityWatersourcesPromise = loadCityFromMapPromise.then(loadCityWatersources);
-        loadCardsPromise = loadCityFromMapPromise.then(loadCards);
-        loadHistoryDataPromise = loadCityWatersourcesPromise.then(loadHistoryData);
     }
 
     function loadMap(latlng) {
@@ -199,12 +199,15 @@ angular.module('routerApp').controller('InicioCtrl', function ($scope, $timeout,
     }
 
     function loadCityWatersources(city) {
-        $scope.watersources = [];
+        $scope.watersources = null;
 
         return InicioSrvc.queryWatersources(city.id)
             .then (function (response) {
                 if (response.status != 204) {
                     $scope.watersources = response;
+                }
+                else {
+                    $scope.watersources = [];
                 }
                 return $scope.watersources;
             })
@@ -248,21 +251,28 @@ angular.module('routerApp').controller('InicioCtrl', function ($scope, $timeout,
 
         function consumeMeasurements(watersource) {
 
+            var consumed = {
+                watersource: watersource
+            };
+
             var label = watersource.name;
 
-            var percent = ((watersource.waterSourceMeasurements[0].value / watersource.capacity) * 100);
-            watersource['percent'] = percent;
-            watersource['class'] = percent <= 5 ? 'worst' : percent > 5 && percent <= 20 ? 'bad' : percent > 20 && percent < 100 ? 'regular' : percent >= 100 ? 'best' : '';
+            if (watersource.waterSourceMeasurements && watersource.waterSourceMeasurements.length) {
+                var percent = ((watersource.waterSourceMeasurements[0].value / watersource.capacity) * 100);
+                watersource['percent'] = percent;
+                watersource['class'] = percent <= 5 ? 'worst' : percent > 5 && percent <= 20 ? 'bad' : percent > 20 && percent < 100 ? 'regular' : percent >= 100 ? 'best' : '';
+            }
 
             return InicioSrvc.queryMeasurements(watersource.id, DateUtil.format(dateFormat, startDate), DateUtil.format(dateFormat, endDate))
-                .then(function (measurements) {
-                    var values = {};
-                    for (i=0; i<measurements.length; i++) {
-                        var measurement = measurements[i];
-                        values[measurement.date] = measurement.value;
+                .then(function (response) {
+                    if (response.status != 204) {
+                        var measurements = response;
                     }
-                    data[label] = values;
-                    return measurements;
+                    measurements.map(function (measurement) {
+                        consumed[measurement.date] = measurement.value;
+                    });
+                    data[label] = consumed;
+                    return consumed;
                 })
                 .catch(function (error) {
                     console.log(error);
@@ -270,38 +280,46 @@ angular.module('routerApp').controller('InicioCtrl', function ($scope, $timeout,
                 });
         }
 
-        function doneConsuming() {
+        function doneConsuming(consumed) {
+
             // Assemble the date range with dates from all watersources
-            Object.keys(data).map(function (label) {
-                Object.keys(data[label]).map(function (date) {
-                    if (history.dateRange.indexOf(+date) < 0) {
-                        history.dateRange.push(+date);
+            consumed.map(function (consumedMap) {
+                Object.keys(consumedMap).map(function (key) {
+                    if (key != 'watersource') {
+                        var date = +key;
+                        if (history.dateRange.indexOf(date) < 0) {
+                            history.dateRange.push(date);
+                        }
                     }
                 })
             });
+
             // sort the date range array
             history.dateRange.sort(
                 function(a,b) {
                     return a>b ? 1 : a<b ? -1 : 0;
                 }
             );
+
             // Put each watersource measurement to its destined date on the array
-            Object.keys(data).map(function (label) {
+            consumed.map(function (consumedMap) {
                 var line = [];
-                var values = data[label];
-                Object.keys(values).map(function (date) {
-                    line[history.dateRange.indexOf(+date)] = values[+date];
+                Object.keys(consumedMap).map(function (key) {
+                    if (key != 'watersource') {
+                        var date = +key;
+                        line[history.dateRange.indexOf(date)] = consumedMap[key];
+                    }
                 });
 
                 // Push the data label to the first column
-                line.splice(0,0,label);
+                line.splice(0,0,consumedMap['watersource'].name);
 
                 // Get the last index, regardless of array's length
                 var lastIndex = line.lastIndexOf(line.slice(-1)[0]);
                 // Replacing 'undefined' with null
-                for (j=0; j<=lastIndex; j++) {
-                    if (line[j] === undefined) {
-                        line[j] = null;
+                for (i=0; i<=lastIndex; i++) {
+                    if (line[i] === undefined) {
+                        line[i] = null;
                     }
                 }
 
