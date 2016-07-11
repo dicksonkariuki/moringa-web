@@ -223,6 +223,9 @@
 					// remove hashchange event bound to window
 					$(window).off('.conventAccordion');
 
+					//remove accordionID from store
+					store.del(accordionID);
+
 					// remove generated styles, classes, data, events
 					accordion
 						.attr('style', defaultStyle)
@@ -322,7 +325,7 @@
 							store.set(accordionID, startSlide);
 						} else {
 							startSlide = parseInt(store.get(accordionID));
-						};
+						}
 					}
 					activeID = startSlide;
 
@@ -336,8 +339,8 @@
 						// add unique id to each tab, add active corner
 						CAspine.wrapInner('<span class="CAspineTitle" />').addClass('CAspine').addClass('CAspine_' + repeatUpTo(5, (index + 1)));
 						if (startSlide > -1) {
-							if (index === startSlide) {CAspine.addClass('active')};
-							if (index === (startSlide + 1)) {CAspine.addClass('next')};
+							if (index === startSlide) {CAspine.addClass('active')}
+							if (index === (startSlide + 1)) {CAspine.addClass('next')}
 						}
 						if ($.isEmptyObject(CAspineNumber)) {
 							switch (listStyleType) {
@@ -632,7 +635,7 @@
 						var s = String(this);
 						while (s.length < size) s = "0" + s;
 						return s;
-					}
+					};
 
 					// extending the String object with trim
 					if(!String.prototype.trim) {
@@ -652,7 +655,7 @@
 					if (settings.navigation) core.createNav();
 					core.bindEvents();
 
-					function trackerObject() {this.value = null};
+					function trackerObject() {this.value = null}
 					timerInstance = new trackerObject();
 					timerInstance.paused = false;
 
@@ -723,7 +726,7 @@
 						this.set(name,"",-1);
 					}
 				}
-			}
+			};
 
 		// init plugin
 		core.init();

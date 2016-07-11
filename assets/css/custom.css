@@ -273,23 +273,23 @@ body {
 }
 
 .card-red {
-    background-color: rgb(255,84,85);
+    background-color: #F55;
 }
 
 .card-blue {
-    background-color: rgb(103,194,239);
+    background-color: #6CE;
 }
 
 .card-yellow {
-    background-color: rgb(250,187,61);
+    background-color: #FB3
 }
 
 .card-green {
-    background-color: rgb(121,196,71);
+    background-color: #7C4;
 }
 
 .card-purple {
-    background-color: rgb(159,133,255);
+    background-color: #98F;
 }
 
 .card > .card-heading {

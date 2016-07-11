@@ -21,17 +21,18 @@
                     <div class="card card-purple">
                         <div class="card-heading">Açudes<span ng-hide="watersources" class="fa fa-spinner fa-spin spinner-right"></span>
                         </div>
-                        <div class="card-body no-padding">
+                        <div class="card-body {{(!watersources || watersources.length) ? 'no-padding' : ''}}">
                             <div ng-hide="!watersources || watersources.length">
                                 <h2 class="card-text">{{noContent}}</h2>
                             </div>
-                            <ol id="watersourcesAccordion" class="color watersource-accordion">
-                                <li ng-repeat="watersource in watersources" on-accordion-repeat-render
-                                    class="watersource-inline">
-                                    <div>{{watersource.name}}</div>
-                                    <div>
-                                        <div class="accordion-content">
-                                            <div class="watersource-measurement watersource-measurement-width">
+                            <div ng-show="!watersources || watersources.length">
+                                <ol id="watersourcesAccordion" class="color" style="width: auto; height: auto; list-style-type: none; white-space: nowrap; margin: 0;">
+                                    <li ng-repeat="watersource in watersources" on-accordion-repeat-render
+                                        class="watersource-inline">
+                                        <div>{{watersource.name}}</div>
+                                        <div>
+                                            <div class="accordion-content">
+                                                <div class="watersource-measurement watersource-measurement-width">
                                                 <span class="value">
                                                     {{
                                                     watersource.waterSourceMeasurements.length ?
@@ -39,9 +40,9 @@
                                                     noContent
                                                     }}
                                                 </span>
-                                                <span class="label">Volume Atual</span>
-                                                <hr>
-                                                <span class="label">Capacidade Máxima</span>
+                                                    <span class="label">Volume Atual</span>
+                                                    <hr>
+                                                    <span class="label">Capacidade Máxima</span>
                                                 <span class="value watersource-measurement-value">
                                                     {{
                                                     watersource.capacity ?
@@ -49,12 +50,12 @@
                                                     noContent
                                                     }}
                                                 </span>
-                                            </div>
-                                            <div class="watersource-level watersource-level-width">
+                                                </div>
+                                                <div class="watersource-level watersource-level-width">
                                                 <span class="percent watersource-measurement-value {{watersource.class ? watersource.class : 'regular'}}">
-                                                    {{watersource.percent ? (watersource.percent | number : 2) + ' %' : noContent }}
+                                                    {{ (watersource.percent ? (watersource.percent | number : 2) : '--') + ' %'}}
                                                 </span>
-                                                <span class="text">Percentual de água em: </span>
+                                                    <span class="text">Percentual de água em: </span>
                                                 <span class="date">
                                                     {{
                                                     watersource.waterSourceMeasurements.length ?
@@ -62,11 +63,12 @@
                                                     noContent
                                                     }}
                                                 </span>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </li>
-                            </ol>
+                                    </li>
+                                </ol>
+                            </div>
                         </div>
                     </div>
                 </div>

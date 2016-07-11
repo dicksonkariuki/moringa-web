@@ -69,6 +69,8 @@ angular.module('routerApp').controller('InicioCtrl', function ($scope, $timeout,
     });
 
     function initialize() {
+        InicioUI.initialize();
+
         $scope.error.clear();
 
         InicioSrvc.queryAllCities().then(function (cities) {

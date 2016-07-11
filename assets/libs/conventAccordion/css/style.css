@@ -154,62 +154,62 @@
 }
 
 .conventAccordion.color .CAspine_1, .conventAccordion.color  .active.CAspine_1:after {
-  background-color: rgb(255,84,85);
+  background-color: rgb(255,85,85);
   font-weight: bold;
 }
 .conventAccordion.color .CAspine_1 + .CAslide .CAslideContent {
-  background: -webkit-linear-gradient(right,#fff,rgba(255,84,85,0.1));
-  background: -moz-linear-gradient(right,#fff,rgba(255,84,85,0.1));
-  background: -ms-linear-gradient(right,#fff,rgba(255,84,85,0.1));
-  background: -o-linear-gradient(right,#fff,rgba(255,84,85,0.1));
-  background: linear-gradient(right,#fff,rgba(255,84,85,0.1))
+  background: -webkit-linear-gradient(right,#fff,rgba(255,85,85,0.1));
+  background: -moz-linear-gradient(right,#fff,rgba(255,85,85,0.1));
+  background: -ms-linear-gradient(right,#fff,rgba(255,85,85,0.1));
+  background: -o-linear-gradient(right,#fff,rgba(255,85,85,0.1));
+  background: linear-gradient(right,#fff,rgba(255,85,85,0.1))
 }
 
 .conventAccordion.color .CAspine_2, .conventAccordion.color  .active.CAspine_2:after {
-  background-color: rgb(103,194,239);
+  background-color: rgb(102,204,238);
   font-weight: bold;
 }
 .conventAccordion.color .CAspine_2 + .CAslide .CAslideContent {
-  background: -webkit-linear-gradient(right,#fff,rgba(103,194,239,0.1));
-  background: -moz-linear-gradient(right,#fff,rgba(103,194,239,0.1));
-  background: -ms-linear-gradient(right,#fff,rgba(103,194,239,0.1));
-  background: -o-linear-gradient(right,#fff,rgba(103,194,239,0.1));
-  background: linear-gradient(right,#fff,rgba(103,194,239,0.1))
+  background: -webkit-linear-gradient(right,#fff,rgba(102,204,238,0.1));
+  background: -moz-linear-gradient(right,#fff,rgba(102,204,238,0.1));
+  background: -ms-linear-gradient(right,#fff,rgba(102,204,238,0.1));
+  background: -o-linear-gradient(right,#fff,rgba(102,204,238,0.1));
+  background: linear-gradient(right,#fff,rgba(102,204,238,0.1))
 }
 
 .conventAccordion.color .CAspine_3, .conventAccordion.color  .active.CAspine_3:after {
-  background-color: rgb(250,187,61);
+  background-color: rgb(255,187,51);
   font-weight: bold;
 }
 .conventAccordion.color .CAspine_3 + .CAslide .CAslideContent {
-  background: -webkit-linear-gradient(right,#fff,rgba(250,187,61,0.1));
-  background: -moz-linear-gradient(right,#fff,rgba(250,187,61,0.1));
-  background: -ms-linear-gradient(right,#fff,rgba(250,187,61,0.1));
-  background: -o-linear-gradient(right,#fff,rgba(250,187,61,0.1));
-  background: linear-gradient(right,#fff,rgba(250,187,61,0.1))
+  background: -webkit-linear-gradient(right,#fff,rgba(255,187,51,0.1));
+  background: -moz-linear-gradient(right,#fff,rgba(255,187,51,0.1));
+  background: -ms-linear-gradient(right,#fff,rgba(255,187,51,0.1));
+  background: -o-linear-gradient(right,#fff,rgba(255,187,51,0.1));
+  background: linear-gradient(right,#fff,rgba(255,187,51,0.1))
 }
 
 .conventAccordion.color .CAspine_4, .conventAccordion.color  .active.CAspine_4:after{
-  background-color: rgb(121,196,71);
+  background-color: rgb(119,204,68);
   font-weight: bold;
 }
 .conventAccordion.color .CAspine_4 + .CAslide .CAslideContent {
-  background: -webkit-linear-gradient(right,#fff,rgba(121,196,71,0.1));
-  background: -moz-linear-gradient(right,#fff,rgba(121,196,71,0.1));
-  background: -ms-linear-gradient(right,#fff,rgba(121,196,71,0.1));
-  background: -o-linear-gradient(right,#fff,rgba(121,196,71,0.1));
-  background: linear-gradient(right,#fff,rgba(121,196,71,0.1))
+  background: -webkit-linear-gradient(right,#fff,rgba(119,204,68,0.1));
+  background: -moz-linear-gradient(right,#fff,rgba(119,204,68,0.1));
+  background: -ms-linear-gradient(right,#fff,rgba(119,204,68,0.1));
+  background: -o-linear-gradient(right,#fff,rgba(119,204,68,0.1));
+  background: linear-gradient(right,#fff,rgba(119,204,68,0.1))
 }
 
 .conventAccordion.color .CAspine_5, .conventAccordion.color  .active.CAspine_5:after {
-  background-color: rgb(159,133,255);
+  background-color: rgb(153,136,255);
   font-weight: bold;
 }
 .conventAccordion.color .CAspine_5 + .CAslide .CAslideContent {
-  background: -webkit-linear-gradient(right,#fff,rgba(159,133,255,0.1));
-  background: -moz-linear-gradient(right,#fff,rgba(159,133,255,0.1));
-  background: -ms-linear-gradient(right,#fff,rgba(159,133,255,0.1));
-  background: -o-linear-gradient(right,#fff,rgba(159,133,255,0.1));
+  background: -webkit-linear-gradient(right,#fff,rgba(153,136,255,0.1));
+  background: -moz-linear-gradient(right,#fff,rgba(153,136,255,0.1));
+  background: -ms-linear-gradient(right,#fff,rgba(153,136,255,0.1));
+  background: -o-linear-gradient(right,#fff,rgba(153,136,255,0.1));
   background: linear-gradient(right,#fff,rgba(159,133,255,0.1))
 }
 
