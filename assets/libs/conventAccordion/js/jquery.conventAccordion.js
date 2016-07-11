@@ -239,7 +239,7 @@
 						var CAslide = $(this).find('>div:last');
 						CAspine
 							.attr('style', '')
-							.removeClass('CAspine active next CAspine_' + repeatUpTo(5, (index + 1)))
+							.removeClass('CAspine active next CAspine_' + (upTo(4,index+1)+1))
 							.find('.CAspineNumber')
 							.remove()
 							.end()
@@ -337,7 +337,7 @@
 							CAspine.find('>div:first').remove();
 						}
 						// add unique id to each tab, add active corner
-						CAspine.wrapInner('<span class="CAspineTitle" />').addClass('CAspine').addClass('CAspine_' + repeatUpTo(5, (index + 1)));
+						CAspine.wrapInner('<span class="CAspineTitle" />').addClass('CAspine').addClass('CAspine_' + (upTo(4,index+1)+1));
 						if (startSlide > -1) {
 							if (index === startSlide) {CAspine.addClass('active')}
 							if (index === (startSlide + 1)) {CAspine.addClass('next')}
@@ -736,9 +736,10 @@
 
 	};
 
-	function repeatUpTo(upTo, sequential) {
-		var number = sequential % upTo;
-		return number === 0 ? upTo : number;
+
+	function upTo(to, n) {
+		// An = (n+to) mod (to+1); https://www.wolframalpha.com/input/?i=0,1,2,3,4,0,1,2,3,4,0,1,2,3,4
+		return (n + to) % (to+1);
 	}
 
 	$.fn.conventAccordion = function(method, param) {

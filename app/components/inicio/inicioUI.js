@@ -3,7 +3,8 @@
  */
 angular.module('routerApp').factory('InicioUI', function() {
 
-    var chart, chartDateLabel = 'x', chartValueLabel = 'Milhões de m³';
+    var chart, chartDateLabel = 'x', chartValueLabel = 'Milhões de m³',
+        chartColors = ['#FF5555','#66CCEE','#FFBB33','#77CC44','#9988FF'];
 
     function initialize() {
 
@@ -17,11 +18,9 @@ angular.module('routerApp').factory('InicioUI', function() {
         chart = generateChart();
     }
 
-    //TODO concluir definição de cores do chart
-    function repeatUpTo(upTo, n) {
-        // An = (n+upTo) mod (upTo+1) https://www.wolframalpha.com/input/?i=n%2B4mod+5
-        console.log('(' + n + '+' + upTo + ') mod ' + (upTo +1) + ' = ' + (n + upTo) % (upTo+1));
-        return (n + upTo) % (upTo+1);
+    function upTo(to, n) {
+        // An = (n+to) mod (to+1); https://www.wolframalpha.com/input/?i=0,1,2,3,4,0,1,2,3,4,0,1,2,3,4
+        return (n + to) % (to+1);
     }
 
     function generateChart() {
@@ -31,15 +30,6 @@ angular.module('routerApp').factory('InicioUI', function() {
                 x: chartDateLabel,
                 xFormat: '%d/%m/%Y',
                 columns: []
-                // colors: function () {
-                //     var colors = ['#FF5555','#66CCEE','#FFBB33','#77CC44','#9988FF'];
-                //     chart.data.colors = {};
-                //     chart.columns.map(function (data, index) {
-                //         chart.data.colors[data] = colors[repeatUpTo(4, index+1)];
-                //     });
-                //     console.log(chart.data.colors);
-                //     return chart.data.colors;
-                // }
             },
             legend: {
                 show: true
@@ -86,6 +76,16 @@ angular.module('routerApp').factory('InicioUI', function() {
                 data.push(lines[i]);
             }
         }
+
+        var colors = {};
+
+        data.map(function (line, index) {
+            if (index > 0) {
+                colors[line[0]] = chartColors[upTo(4, index)];
+            }
+        });
+
+        chart.data.colors(colors);
 
         chart.load({
             columns: data,
