@@ -1,7 +1,7 @@
 // app.js
-var routerApp = angular.module('routerApp', ['ui.router']);
+var moringaApp = angular.module('moringaApp', ['ui.router']);
 
-routerApp.config(function($stateProvider, $urlRouterProvider) {
+moringaApp.config(function($stateProvider, $urlRouterProvider) {
 
     $urlRouterProvider.otherwise('/inicio');
 

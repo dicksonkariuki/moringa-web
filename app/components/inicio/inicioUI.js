@@ -1,7 +1,7 @@
 /**
  * Initialize UI plugins
  */
-angular.module('routerApp').factory('InicioUI', function() {
+angular.module('moringaApp').factory('InicioUI', function() {
 
     var chart, chartDateLabel = 'x', chartValueLabel = 'Milhões de m³',
         chartColors = ['#FF5555','#66CCEE','#FFBB33','#77CC44','#9988FF'];
@@ -115,7 +115,7 @@ angular.module('routerApp').factory('InicioUI', function() {
 /**
  * UI Directives
  */
-angular.module('routerApp').directive('onAccordionRepeatRender', function ($rootScope) {
+angular.module('moringaApp').directive('onAccordionRepeatRender', function ($rootScope) {
     return {
         restrict: 'A',
         link: function (scope, element, attr) {

@@ -1,4 +1,4 @@
-angular.module('routerApp').factory('InicioSrvc', function($http, $q) {
+angular.module('moringaApp').factory('InicioSrvc', function($http, $q) {
 
     var geocoder;
 

@@ -1,4 +1,4 @@
-angular.module('routerApp').controller('InicioCtrl', function ($scope, $timeout, $q, InicioSrvc, InicioUI, DateUtil) {
+angular.module('moringaApp').controller('InicioCtrl', function ($scope, $timeout, $q, InicioSrvc, InicioUI, DateUtil) {
 
     /*
      * Variables
