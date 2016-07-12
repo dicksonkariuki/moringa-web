@@ -3,22 +3,22 @@ var moringaApp = angular.module('moringaApp', ['ui.router']);
 
 moringaApp.config(function($stateProvider, $urlRouterProvider, $locationProvider) {
 
-    $urlRouterProvider.otherwise('/inicio');
+    $urlRouterProvider.otherwise('/');
 
     $stateProvider
 
     // HOME STATES AND NESTED VIEWS ========================================
         .state('inicio', {
-            url: '/inicio',
-            templateUrl: 'moringa-web/app/components/inicio/inicio.html'
+            url: '/',
+            templateUrl: 'app/components/inicio/inicio.html'
         })
         .state('acude', {
             url: '/acude',
-            templateUrl: 'moringa-web/app/components/acude/acude.html'
+            templateUrl: 'app/components/acude/acude.html'
         })
         .state('sobre', {
         url: '/sobre',
-        templateUrl: 'moringa-web/app/components/sobre/sobre.html'
+        templateUrl: 'app/components/sobre/sobre.html'
     });
 
     $locationProvider.html5Mode(true)
