@@ -17,9 +17,9 @@ moringaApp.config(function($stateProvider, $urlRouterProvider, $locationProvider
             templateUrl: 'app/components/acude/acude.html'
         })
         .state('sobre', {
-        url: '/sobre',
-        templateUrl: 'app/components/sobre/sobre.html'
-    });
+            url: '/sobre',
+            templateUrl: 'app/components/sobre/sobre.html'
+        });
 
     $locationProvider.html5Mode(true)
 });
