@@ -44,7 +44,7 @@ angular.module('moringaApp').factory('InicioSrvc', function($http, $q) {
         return defer.promise;
     }
 
-    function geocodeLatLng(address, latlng) {
+    function geocodeLatLng(address) {
         // Using AngularJS's 'defer' to return a promise
         var defer = $q.defer();
         // and the Geocoder from Google Maps API
@@ -64,7 +64,7 @@ angular.module('moringaApp').factory('InicioSrvc', function($http, $q) {
                     // in case we get the data
                     case google.maps.GeocoderStatus.OK:
                         // we filter it for the 'locality' attribute
-                        latlng = results[0].geometry.location;
+                        var latlng = results[0].geometry.location;
                         // and return it
                         defer.resolve(latlng);
                         break;
