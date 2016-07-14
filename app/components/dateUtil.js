@@ -1,4 +1,4 @@
-angular.module('routerApp').factory('DateUtil', function($filter) {
+angular.module('moringaApp').factory('DateUtil', function($filter) {
 
     function offsetDays(date, dayCount) {
         diffTimestamp = dayCount*24*60*60*1000;

@@ -1,10 +1,10 @@
-angular.module('routerApp').controller('InicioCtrl', function ($scope, $timeout, $q, InicioSrvc, InicioUI, DateUtil) {
+angular.module('moringaApp').controller('InicioCtrl', function ($scope, $timeout, $q, InicioSrvc, InicioUI, DateUtil) {
 
     /*
      * Variables
      */
 
-    var map, userLocation;
+    var map;
     var history = {
         interval: 90,
         dateRange: [],
@@ -15,7 +15,7 @@ angular.module('routerApp').controller('InicioCtrl', function ($scope, $timeout,
         selected: null,
         options: null
     };
-    $scope.noContent = 'Sem informação.'
+    $scope.noContent = 'Sem informação.';
     $scope.cards = {
         liters: null,
         cubicMeters: null,
@@ -61,11 +61,16 @@ angular.module('routerApp').controller('InicioCtrl', function ($scope, $timeout,
      */
 
     $scope.loadCity = loadCity;
+
+    $scope.$on('$destroy', function () {
+        InicioUI.destroy();
+    });
+
     $scope.$on('accordionRepeatStarted', function() {
-        InicioUI.destroyAccordion();
+        InicioUI.accordion.destroy();
     });
     $scope.$on('accordionRepeatFinished', function() {
-        InicioUI.loadAccordion();
+        InicioUI.accordion.create('watersourcesAccordion');
     });
 
     function initialize() {
@@ -79,10 +84,11 @@ angular.module('routerApp').controller('InicioCtrl', function ($scope, $timeout,
 
         geolocation()
             .then(loadMap)
-            .then(loadCityFromMap)
+            .then(loadCityFromLocation)
             .then(function (city) { // $q.all makes 'loadCityWatersources' and 'loadCards' run in parallel
                 $q.all([
-                    loadCityWatersources(city).then(loadHistoryData),
+                    loadCityWatersources(city)
+                        .then(loadHistoryData),
                     loadCards(city)
                 ])
             });
@@ -92,7 +98,7 @@ angular.module('routerApp').controller('InicioCtrl', function ($scope, $timeout,
         $scope.error.clear();
 
         //TODO peloamordedels vamos por as coordenadas no banco pra evitar essa aberração na linha abaixo
-        InicioSrvc.geocodeLatLng($scope.cities.selected.name + '- PB', userLocation)
+        InicioSrvc.geocodeLatLng($scope.cities.selected.name + '- PB')
             .then(loadMap)
             .then(function () { // $q.all makes 'loadCityWatersources' and 'loadCards' run in parallel
                 var city = $scope.cities.selected;
@@ -114,7 +120,7 @@ angular.module('routerApp').controller('InicioCtrl', function ($scope, $timeout,
         }
         // if it can't, we query for the IP's geolocation
         else {
-            //TODO: No native support; Query IP geolocation
+            defer.resolve(defaultCityGeolocation());
         }
 
         // I promise I will return something to you =)
@@ -125,10 +131,8 @@ angular.module('routerApp').controller('InicioCtrl', function ($scope, $timeout,
             var lat = position.coords.latitude;
             var lng = position.coords.longitude;
 
-            userLocation = new google.maps.LatLng(lat, lng);
-
             // then we resolve the promise so that it returns the client's location
-            defer.resolve(userLocation);
+            defer.resolve(new google.maps.LatLng(lat, lng));
         }
 
         function geolocationError(error) {
@@ -146,26 +150,32 @@ angular.module('routerApp').controller('InicioCtrl', function ($scope, $timeout,
                     console.log("An unknown error occurred.");
                     break;
             }
-            defer.reject(error);
+            defer.resolve(defaultCityGeolocation());
+        }
+
+        function defaultCityGeolocation() {
+            return new google.maps.LatLng(-7.1201863,-34.8844567); // João Pessoa;
         }
     }
 
     function loadMap(latlng) {
-        var options = {
-            zoom: 13,
-            center: latlng,
-            mapTypeId: google.maps.MapTypeId.ROADMAP
-        };
-
-        map = new google.maps.Map(document.getElementById("mapa"), options);
+        // InicioUI.loadOnMap(latlng, 13);
+        InicioUI.map.load(latlng, 13);
+        // var options = {
+        //     zoom: 13,
+        //     center: latlng,
+        //     mapTypeId: google.maps.MapTypeId.ROADMAP
+        // };
+        //
+        // map = new google.maps.Map(document.getElementById("mapa"), options);
 
         // Using $q.when to return a promise from a synchronous function so that it can be chained with other promises
-        return $q.when(map);
+        return $q.when(latlng);
     }
 
-    function loadCityFromMap(map) {
+    function loadCityFromLocation(latlng) {
 
-        var geocodeCityName = InicioSrvc.geocodeCityName(map.center);
+        var geocodeCityName = InicioSrvc.geocodeCityName(latlng);
         
         var queryCityByName = geocodeCityName.then(function (cityName) {
             return InicioSrvc.queryCityByName(cityName);
@@ -236,8 +246,6 @@ angular.module('routerApp').controller('InicioCtrl', function ($scope, $timeout,
         var startDate = DateUtil.offsetDays(endDate, 1-history.interval);
         var dateFormat = "dd/MM/yyyy";
         var data = {};
-
-        watersourcesConsumed = 0;
 
         history.dateRange = [];
         history.lines = [];
@@ -330,7 +338,8 @@ angular.module('routerApp').controller('InicioCtrl', function ($scope, $timeout,
             });
 
             // load the history chart
-            InicioUI.loadChart(history.dateRange, history.lines);
+            // InicioUI.loadChart(history.dateRange, history.lines);
+            InicioUI.chart.load(history.dateRange, history.lines);
             return history;
         }
     }

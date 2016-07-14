@@ -1,6 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <base href="/moringa-web/">
+
+    <!--FAVICON-->
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/img/favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" href="assets/img/favicon/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="assets/img/favicon/android-chrome-192x192.png" sizes="192x192">
+    <link rel="icon" type="image/png" href="assets/img/favicon/favicon-16x16.png" sizes="16x16">
+    <link rel="manifest" href="assets/img/favicon/manifest.json">
+    <link rel="shortcut icon" href="assets/img/favicon/favicon.ico">
+    <meta name="msapplication-TileColor" content="#ffc40d">
+    <meta name="msapplication-TileImage" content="assets/img/favicon/mstile-144x144.png">
+    <meta name="msapplication-config" content="assets/img/favicon/browserconfig.xml">
+    <meta name="theme-color" content="#ffbb33">
+
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <link href="assets/css/bootstrap.css" rel="stylesheet">
@@ -15,13 +29,13 @@
     <title>MoringaPB</title>
 </head>
 
-<body ng-app="routerApp">
+<body ng-app="moringaApp">
 
 <nav class="navbar navbar-inverse navbar-fixed-top">
     <div class="container-fluid">
         <div class="navbar-header">
-            <a class="navbar-brand" href="#">Moringa</a>
-            <img class="img-topo" src="assets/img/logo.png">
+            <a class="navbar-brand" ui-sref="inicio">Moringa</a>
+            <img class="img-topo" src="assets/img/favicon/favicon-32x32.png">
         </div>
     </div>
 </nav>
@@ -46,8 +60,8 @@
 <script src="assets/libs/jquery/jquery-1.12.4.min.js"></script>
 <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
 <script src="assets/js/bootstrap.min.js"></script>
-<script src="assets/libs/angular/angular.min.js"></script>
-<script src="assets/libs/angular/angular-route.min.js"></script>
+<!--<script src="assets/libs/angular/angular.min.js"></script>-->
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular.min.js"></script>
 <script src="assets/libs/angular/angular-ui-router.min.js"></script>
 <script src="assets/libs/angular/angular-locale_pt-br.min.js"></script>
 <script src="https://d3js.org/d3.v3.min.js" charset="utf-8"></script>

@@ -1,15 +1,15 @@
 // app.js
-var routerApp = angular.module('routerApp', ['ui.router']);
+var moringaApp = angular.module('moringaApp', ['ui.router']);
 
-routerApp.config(function($stateProvider, $urlRouterProvider) {
+moringaApp.config(function($stateProvider, $urlRouterProvider, $locationProvider) {
 
-    $urlRouterProvider.otherwise('/inicio');
+    $urlRouterProvider.otherwise('/');
 
     $stateProvider
 
     // HOME STATES AND NESTED VIEWS ========================================
         .state('inicio', {
-            url: '/inicio',
+            url: '/',
             templateUrl: 'app/components/inicio/inicio.html'
         })
         .state('acude', {
@@ -17,8 +17,9 @@ routerApp.config(function($stateProvider, $urlRouterProvider) {
             templateUrl: 'app/components/acude/acude.html'
         })
         .state('sobre', {
-        url: '/sobre',
-        templateUrl: 'app/components/sobre/sobre.html'
-    });
+            url: '/sobre',
+            templateUrl: 'app/components/sobre/sobre.html'
+        });
 
+    $locationProvider.html5Mode(true)
 });
