@@ -13,3 +13,6 @@ hs_err_pid*
 
 #JetBrains
 /.idea
+
+# modulos do node
+/node_modules
