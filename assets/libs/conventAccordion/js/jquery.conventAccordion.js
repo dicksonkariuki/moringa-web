@@ -763,7 +763,7 @@
 			});
 
 		// otherwise, call method on current instance
-		} else if (typeof method === 'string' && instance[method]) {
+		} else if (typeof method === 'string' && instance && instance[method]) {
 			// debug, current and totalslides methods aren't chainable b/c we need the object to be returned
 			if (method === 'debug' || method === 'current' || method === 'totalslides') {
 				return instance[method].call(elem);

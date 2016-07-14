@@ -11,12 +11,14 @@ angular.module('moringaApp').factory('InicioUI', function() {
                 "actOnHover":true,
                 "autoPlay":true,
                 "slideInterval":"5000",
+                "remember": false,
                 "maxContainerWidth":"100%"});
         },
         destroy: function () {
             if (this.element && this.element.hasClass('conventAccordion')) {
                 this.element.conventAccordion('destroy');
             }
+            this.element = null;
         },
         play: function () {
             if (this.element && this.element.hasClass('conventAccordion')) {
@@ -94,6 +96,11 @@ angular.module('moringaApp').factory('InicioUI', function() {
                 }
             });
         },
+        destroy: function () {
+            if (this.element) {
+                this.element = this.element.destroy();
+            }
+        },
         load: function (dates, lines) {
             var chart = this;
             dates.splice(0,0,this.dateLabel);
@@ -165,9 +172,18 @@ angular.module('moringaApp').factory('InicioUI', function() {
          */
         chart.create();
     }
+
+    /**
+     * Unload UI components
+     */
+    function destroy() {
+        accordion.destroy();
+        chart.destroy();
+    }
     
     return {
         initialize:         initialize,
+        destroy:            destroy,
         accordion:          accordion,
         chart:              chart,
         map:                map
