@@ -75,23 +75,23 @@
 
                 <div class="col-lg-6">
                     <div class="row">
-                        <div class="col-lg-6 cards">
+                        <div class="col-md-12 col-lg-6 cards">
                             <div class="card card-red">
                                 <div class="card-heading">
-                                    Estimativa de litros por pessoa
+                                    <span>Estimativa de litros por pessoa</span>
                                     <span ng-hide="cards.liters != null" class="fa fa-spinner fa-spin spinner-right"></span>
                                 </div>
                                 <div class="card-body">
                                     <div ng-show="cards.liters != null">
-                                        <h3 class="card-text">{{ cards.liters.status != 204 ? (cards.liters | number:0) + ' m³' : noContent }}</h3>
+                                        <h3 class="card-text">{{ cards.liters.status != 204 ? (cards.liters | number:0) + ' L' : noContent }}</h3>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-6 cards">
+                        <div class="col-md-12 col-lg-6 cards">
                             <div class="card card-green">
                                 <div class="card-heading">
-                                    Quantidade total de m³
+                                    <span>Quantidade total de metros cúbicos</span>
                                     <span ng-hide="cards.cubicMeters != null" class="fa fa-spinner fa-spin spinner-right"></span>
                                 </div>
                                 <div class="card-body">
@@ -101,12 +101,10 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class=" col-lg-6 cards">
+                        <div class="col-md-12 col-lg-6 cards">
                             <div class="card card-yellow">
                                 <div class="card-heading">
-                                    Estimativa de término da água
+                                    <span>Estimativa de término da água</span>
                                     <span ng-hide="cards.water != null" class="fa fa-spinner fa-spin spinner-right"></span>
                                 </div>
                                 <div class="card-body">
@@ -116,15 +114,15 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-6 cards">
+                        <div class="col-md-12 col-lg-6 cards">
                             <div class="card card-blue">
                                 <div class="card-heading">
-                                    Consomem os recursos hídricos
+                                    <span>Pessoas consumindo os recursos hídricos</span>
                                     <span ng-hide="cards.person != null" class="fa fa-spinner fa-spin spinner-right"></span>
                                 </div>
                                 <div class="card-body">
                                     <div ng-show="cards.person != null">
-                                        <h3 class="card-text">{{ cards.person.status != 204 ? (cards.person | number:0) + ' pessoas' : noContent }}</h3>
+                                        <h3 class="card-text">{{ cards.person.status != 204 ? (cards.person | number:0) : noContent }}</h3>
                                     </div>
                                 </div>
                             </div>

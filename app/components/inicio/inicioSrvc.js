@@ -263,15 +263,15 @@ angular.module('moringaApp').factory('InicioSrvc', function($http, $q) {
     }
     
     return {
-        queryAllCities:     queryAllCities,
-        geocodeCityName:    geocodeCityName,
-        geocodeLatLng:      geocodeLatLng,
-        queryCityByName:    queryCityByName,
-        queryWatersources:  queryWatersources,
-        queryMeasurements:  queryMeasurements,
-        queryLitersByID: queryLitersByID,
-        queryCubicMetersByID: queryCubicMetersByID,
-        queryWaterByID: queryWaterByID,
-        queryPersonsByID: queryPersonsByID
+        queryAllCities:         queryAllCities,
+        geocodeCityName:        geocodeCityName,
+        geocodeLatLng:          geocodeLatLng,
+        queryCityByName:        queryCityByName,
+        queryWatersources:      queryWatersources,
+        queryMeasurements:      queryMeasurements,
+        queryLitersByID:        queryLitersByID,
+        queryCubicMetersByID:   queryCubicMetersByID,
+        queryWaterByID:         queryWaterByID,
+        queryPersonsByID:       queryPersonsByID
     };
 });

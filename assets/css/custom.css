@@ -260,8 +260,9 @@ body {
 
 /**** CARDS ***/
 
-.cards {
-    min-width: 335px;
+.cards, .cards h3, .cards .card-heading {
+    overflow: hidden;
+    white-space: nowrap;
 }
 
 .card {
