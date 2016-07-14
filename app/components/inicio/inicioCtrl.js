@@ -61,6 +61,11 @@ angular.module('moringaApp').controller('InicioCtrl', function ($scope, $timeout
      */
 
     $scope.loadCity = loadCity;
+
+    $scope.$on('$destroy', function () {
+        InicioUI.destroy();
+    });
+
     $scope.$on('accordionRepeatStarted', function() {
         InicioUI.accordion.destroy();
     });
