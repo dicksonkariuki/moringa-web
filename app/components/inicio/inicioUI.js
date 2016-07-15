@@ -117,12 +117,15 @@ angular.module('moringaApp').factory('InicioUI', function() {
                     colors[line[0]] = chart.colorPattern[upTo(4, index)];
                 }
             });
-            this.element.data.colors(colors);
 
-            this.element.load({
-                columns: data,
-                unload: null
-            });
+            if (this.element) {
+                this.element.data.colors(colors);
+
+                this.element.load({
+                    columns: data,
+                    unload: null
+                });
+            }
         }
     };
 
@@ -161,6 +164,11 @@ angular.module('moringaApp').factory('InicioUI', function() {
          * Initialize selectCity
          */
         $("#selectCity").select2();
+
+        /**
+         * Initialize tooltips
+         */
+        $('[data-toggle="tooltip"]').tooltip();
 
         /**
          * Initialize map

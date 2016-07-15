@@ -21,5 +21,5 @@ moringaApp.config(function($stateProvider, $urlRouterProvider, $locationProvider
             templateUrl: 'app/components/sobre/sobre.html'
         });
 
-    $locationProvider.html5Mode(true)
+    // $locationProvider.html5Mode(true);
 });
