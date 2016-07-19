@@ -260,16 +260,17 @@ body {
 
 /**** CARDS ***/
 
-.cards {
-    min-width: 335px;
-}
-
 .card {
     background-color: grey;
     box-shadow:inset 0 0 1px 2px rgba(255,255,255,0.2);
     border-top-left-radius: 5px;
     border-top-right-radius: 5px;
     margin-bottom: 20px;
+}
+
+.card-text, .card-heading {
+    overflow: hidden;
+    white-space: nowrap;
 }
 
 .card-red {
@@ -308,11 +309,17 @@ body {
     color: #FFFFFF;
     font-family: monospace, monospace;
     font-size: xx-large;
+    margin-top: 20px;
+    margin-bottom: 10px;
     text-align: center;
 }
 
-.spinner-right {
+.float-right {
     float: right;
+}
+
+.float-left {
+    float: left;
 }
 
 .nova-aba{
