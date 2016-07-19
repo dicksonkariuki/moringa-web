@@ -12,10 +12,10 @@ moringaApp.config(function($stateProvider, $urlRouterProvider, $locationProvider
             url: '/',
             templateUrl: 'app/components/inicio/inicio.html'
         })
-        .state('acude', {
+/*        .state('acude', {
             url: '/acude',
             templateUrl: 'app/components/acude/acude.html'
-        })
+        })*/
         .state('sobre', {
             url: '/sobre',
             templateUrl: 'app/components/sobre/sobre.html'
