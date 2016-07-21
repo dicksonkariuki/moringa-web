@@ -1,0 +1,175 @@
+<div ng-controller="InicioCtrl">
+    <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2">
+        <form>
+            <select id="selectCity" title="" class="select2" ng-model="cities.selected"
+                                                    ng-options="city.name for city in cities.options" ng-change="loadCity()">
+            </select>
+        </form>
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <div class="row" style="padding-top:20px;" ng-show="error.message">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <div class="alert alert-{{error.class}} alert-dismissible" role="alert">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close" ng-click="error.message = null;">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <strong>{{error.title}}</strong> {{error.message}}
+                    </div>
+                </div>
+            </div>
+            <div class="row" style="padding-top:20px;">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6">
+
+                    <div class="card card-purple">
+
+                        <div class="card-heading">Açudes<span ng-hide="watersources" class="fa fa-spinner fa-spin float-right"></span></div>
+
+                        <div class="card-body {{(!watersources || watersources.length) ? 'no-padding' : ''}}">
+                            <div ng-hide="!watersources || watersources.length">
+                                <h2 class="card-text">{{noContent}}</h2>
+                            </div>
+                            <div ng-show="!watersources || watersources.length">
+                                <ol id="watersourcesAccordion" class="color" style="width: auto; height: auto; list-style-type: none; white-space: nowrap; margin: 0;">
+                                    <li ng-repeat="watersource in watersources" on-accordion-repeat-render
+                                        class="watersource-inline">
+                                        <div>{{watersource.name}}</div>
+                                        <div>
+                                            <div class="accordion-content">
+                                                <div class="watersource-measurement watersource-measurement-width">
+                                                <span class="value">
+                                                    {{
+                                                    watersource.waterSourceMeasurements.length ?
+                                                    (watersource.waterSourceMeasurements[0].value | number) + ' ' + watersource.measurementUnit :
+                                                    noContent
+                                                    }}
+                                                </span>
+                                                    <span class="label">Volume Atual</span>
+                                                    <hr>
+                                                    <span class="label">Capacidade Máxima</span>
+                                                <span class="value watersource-measurement-value">
+                                                    {{
+                                                    watersource.capacity ?
+                                                    (watersource.capacity | number) + ' ' + watersource.measurementUnit :
+                                                    noContent
+                                                    }}
+                                                </span>
+                                                </div>
+                                                <div class="watersource-level watersource-level-width">
+                                                <span class="percent watersource-measurement-value {{watersource.class ? watersource.class : 'regular'}}">
+                                                    {{ (watersource.percent ? (watersource.percent | number : 2) : '--') + ' %'}}
+                                                </span>
+                                                    <span class="text">Percentual de água em: </span>
+                                                <span class="date">
+                                                    {{
+                                                    watersource.waterSourceMeasurements.length ?
+                                                    (watersource.waterSourceMeasurements[0].date | date : 'dd/MM/yyyy') :
+                                                    noContent
+                                                    }}
+                                                </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6">
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+
+                            <div class="card-new card-red">
+
+                                <div class="card-new-heading card-new-text-head">
+                                    <span>Estimativa de litros por pessoa</span>
+                                    <span ng-hide="cards.liters != null" class="fa fa-spinner fa-spin float-right"></span>
+                                    <span ng-show="cards.liters != null" class="fa fa-question-circle float-right" data-toggle="tooltip" data-placement="auto" data-container="body" title="Quantos litros de água eu tenho?"></span>
+                                </div>
+                                <div class="card-new-body card-new-text-body">
+                                    <div ng-show="cards.liters != null">
+                                        {{ cards.liters.status != 204 ? (cards.liters | number:0) + ' L' : noContent }}
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                            <div class="card-new card-green">
+
+                                <div class="card-new-heading card-new-text-head">
+                                    <span>Quantidade de água</span>
+                                    <span ng-hide="cards.cubicMeters != null" class="fa fa-spinner fa-spin float-right"></span>
+                                    <span ng-show="cards.cubicMeters != null" class="fa fa-question-circle float-right" data-toggle="tooltip" data-placement="auto" data-container="body" title="Quantos m³ de água o manancial ainda tem?"></span>
+                                </div>
+                                <div class="card-new-body card-new-text-body">
+                                    <div ng-show="cards.cubicMeters != null">
+                                        {{ cards.cubicMeters.status != 204 ? (cards.cubicMeters | number:0) + ' m³' : noContent }}
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                            <div class="card-new card-yellow">
+                                <div class="card-new-heading card-new-text-head">
+                                    <span>Estimativa de término da água</span>
+                                    <span ng-hide="cards.water != null" class="fa fa-spinner fa-spin float-right"></span>
+                                    <span ng-show="cards.water != null" class="fa fa-question-circle float-right" data-toggle="tooltip" data-placement="auto" data-container="body" title="Quando a água da minha cidade acaba?"></span>
+                                </div>
+                                <div class="card-new-body card-new-text-body">
+                                    <div ng-show="cards.water != null">
+                                        {{ cards.water.status != 204 ? (cards.water | date:"dd/MM/yyyy") : noContent }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                            <div class="card-new card-blue">
+                                <div class="card-new-heading card-new-text-head">
+                                    <span>Pessoas consumindo a água</span>
+                                    <span ng-hide="cards.person != null" class="fa fa-spinner fa-spin float-right"></span>
+                                    <span ng-show="cards.person != null" class="fa fa-question-circle float-right" data-toggle="tooltip" data-placement="auto" data-container="body" title="Quantas pessoas usam a água do mesmo manancial que eu?"></span>
+                                </div>
+                                <div class="card-new-body card-new-text-body">
+                                    <div ng-show="cards.person != null">
+                                        {{ cards.person.status != 204 ? (cards.person | number:0) : noContent }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="row">
+
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6">
+                    <div class="card card-blue">
+                        <div class="card-heading">Dados Históricos</div>
+                        <div class="card-body no-padding">
+                            <div id="chart" class="data-dimensions"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6">
+                    <div class="card card-green">
+                        <div class="card-heading">Georreferenciamento</div>
+                        <div class="card-body no-padding">
+                            <div id="map" class="data-dimensions"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class=" text-center">
+            <label>Dados:</label>
+            <a href="http://www.cagepa.pb.gov.br/">Cagepa</a> e <a href="http://www.aesa.pb.gov.br/">AESA</a>
+        </div>
+
+    </div>
+    <script type="text/javascript" src="assets/libs/conventAccordion/js/jquery.easing.1.3.js"></script>
+    <script type="text/javascript" src="assets/libs/conventAccordion/js/jquery.conventAccordion.js"></script>
+</div>

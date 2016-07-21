@@ -1,34 +1,35 @@
 /*
+!*
  * Base structure
- */
+ *!
 
-/* Move down content because we have a fixed navbar that is 50px tall */
+!* Move down content because we have a fixed navbar that is 50px tall *!
 body {
 }
 
 
-/*
+!*
  * Global add-ons
- */
+ *!
 
 .sub-header {
     padding-bottom: 10px;
     border-bottom: 1px solid #eee;
 }
 
-/*
+!*
  * Top navigation
  * Hide default border to remove 1px line.
- */
+ *!
 .navbar-fixed-top {
     border: 0;
 }
 
-/*
+!*
  * Sidebar
- */
+ *!
 
-/* Hide for mobile, show later */
+!* Hide for mobile, show later *!
 .sidebar {
     display: none;
 }
@@ -42,15 +43,15 @@ body {
         display: block;
         padding: 20px;
         overflow-x: hidden;
-        overflow-y: auto; /* Scrollable contents if viewport is shorter than content. */
+        overflow-y: auto; !* Scrollable contents if viewport is shorter than content. *!
         background-color: #f5f5f5;
         border-right: 1px solid #eee;
     }
 }
 
-/* Sidebar navigation */
+!* Sidebar navigation *!
 .nav-sidebar {
-    margin-right: -21px; /* 20px padding + 1px border */
+    margin-right: -21px; !* 20px padding + 1px border *!
     margin-bottom: 20px;
     margin-left: -20px;
 }
@@ -65,9 +66,9 @@ body {
     background-color: #428bca;
 }
 
-/*
+!*
  * Placeholder dashboard ideas
- */
+ *!
 
 .placeholders {
     margin-bottom: 30px;
@@ -97,7 +98,7 @@ body {
 .footer {
     bottom: 0;
     width: 100%;
-    /* Set the fixed height of the footer here */
+    !* Set the fixed height of the footer here *!
     height: 60px;
     background-color: #f5f5f5;
 }
@@ -142,13 +143,13 @@ body {
     padding: 0 !important;
 }
 
-/**** CHART ***/
+!**** CHART ***!
 
 #chart {
     background-color: white;
 }
 
-/**** WATERSOURCE ACCORDION ***/
+!**** WATERSOURCE ACCORDION ***!
 
 .watersource-accordion {
     width: auto;
@@ -169,7 +170,7 @@ body {
     height: 100%;
 }
 
-/**** WATERSOURCE LEVEL ***/
+!**** WATERSOURCE LEVEL ***!
 
 .watersource-level {
     margin: auto 10px;
@@ -210,7 +211,7 @@ body {
     color: #47D;
 }
 
-/**** WATERSOURCE MEASUREMENT ***/
+!**** WATERSOURCE MEASUREMENT ***!
 
 .watersource-measurement{
     margin: auto 10px;
@@ -258,50 +259,7 @@ body {
     display: inline-flex;
 }
 
-/**** CARDS ***/
-
-.card-new {
-    background-color: grey;
-    box-shadow:inset 0 0 1px 2px rgba(255,255,255,0.2);
-    border-top-left-radius: 5px;
-    border-top-right-radius: 5px;
-    border-bottom-left-radius: 5px;
-    border-bottom-right-radius: 5px;
-    margin-bottom: 20px;
-}
-
-.card-new > .card-new-heading {
-    /*background-color: rgba(255,255,255,0.5);*/
-    /*color: rgba(0,0,0,0.6);*/
-    padding: 10px 15px;
-    border-top-left-radius: inherit;
-    border-top-right-radius: inherit;
-}
-
-.card-new > .card-new-body {
-    padding: 15px;
-    border-top-left-radius: inherit;
-    border-top-right-radius: inherit;
-}
-
-.card-new .card-new-text-head {
-    color: #FFFFFF;
-    font-family: monospace, monospace;
-    font-size: small;
-    margin-top: 20px;
-    margin-bottom: 10px;
-    text-align: center;
-}
-
-.card-new .card-new-text-body {
-    color: #FFFFFF;
-    font-family: monospace, monospace;
-    font-size: xx-large;
-    margin-top: 20px;
-    margin-bottom: 10px;
-    text-align: center;
-}
-
+!**** CARDS ***!
 
 .card {
     background-color: grey;
@@ -367,4 +325,4 @@ body {
 
 .nova-aba{
     target-new: tab ! important
-}
+}*/
