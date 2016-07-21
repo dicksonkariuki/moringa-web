@@ -1,11 +1,13 @@
 <div ng-controller="InicioCtrl">
-    <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2">
+    <div class="col-sx-10 col-sm-offset-2 col-sm-10 col-sm-offset-2 col-md-10 col-md-offset-2 col-lg-10 col-lg-offset-2">
         <form>
             <select id="selectCity" title="" class="select2" ng-model="cities.selected"
                                                     ng-options="city.name for city in cities.options" ng-change="loadCity()">
             </select>
         </form>
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+
+            <!-- Error Msg -->
             <div class="row" style="padding-top:20px;" ng-show="error.message">
                 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                     <div class="alert alert-{{error.class}} alert-dismissible" role="alert">
@@ -16,7 +18,11 @@
                     </div>
                 </div>
             </div>
+
+            <!-- Acordion and Cards -->
             <div class="row" style="padding-top:20px;">
+
+                <!-- Acordion -->
                 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6">
                     <div class="card card-purple">
                         <div class="card-heading">Açudes<span ng-hide="watersources" class="fa fa-spinner fa-spin float-right"></span>
@@ -73,68 +79,68 @@
                     </div>
                 </div>
 
+                <!-- Cards -->
                 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6">
-                    <div class="row">
-                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 cards">
-                            <div class="card card-red">
-                                <div class="card-heading">
-                                    <span>Estimativa de litros por pessoa</span>
-                                    <span ng-hide="cards.liters != null" class="fa fa-spinner fa-spin float-right"></span>
-                                    <span ng-show="cards.liters != null" class="fa fa-question-circle float-right" data-toggle="tooltip" data-placement="auto" data-container="body" title="Informação meramente informativa."></span>
-                                </div>
-                                <div class="card-body">
-                                    <div ng-show="cards.liters != null">
-                                        <div class="card-text">{{ cards.liters.status != 204 ? (cards.liters | number:0) + ' L' : noContent }}</div>
-                                    </div>
-                                </div>
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                        <div class="card card-red">
+                            <div class="card-heading">
+                                <span>Estimativa de litros por pessoa</span>
+                                <span ng-hide="cards.liters != null" class="fa fa-spinner fa-spin float-right"></span>
+                                <span ng-show="cards.liters != null" class="fa fa-question-circle float-right" data-toggle="tooltip" data-placement="auto" data-container="body" title="Informação meramente informativa."></span>
                             </div>
-                        </div>
-                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 cards">
-                            <div class="card card-green">
-                                <div class="card-heading">
-                                    <span class="float-left">Quantidade total de metros cúbicos</span>
-                                    <span ng-hide="cards.cubicMeters != null" class="fa fa-spinner fa-spin float-right"></span>
-                                    <span ng-show="cards.cubicMeters != null" class="fa fa-question-circle float-right" data-toggle="tooltip" data-placement="auto" data-container="body" title="Informação meramente informativa."></span>
-                                </div>
-                                <div class="card-body">
-                                    <div ng-show="cards.cubicMeters != null">
-                                        <div class="card-text">{{ cards.cubicMeters.status != 204 ? (cards.cubicMeters | number:0) + ' m³' : noContent }}</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 cards">
-                            <div class="card card-yellow">
-                                <div class="card-heading">
-                                    <span>Estimativa de término da água</span>
-                                    <span ng-hide="cards.water != null" class="fa fa-spinner fa-spin float-right"></span>
-                                    <span ng-show="cards.water != null" class="fa fa-question-circle float-right" data-toggle="tooltip" data-placement="auto" data-container="body" title="Informação meramente informativa."></span>
-                                </div>
-                                <div class="card-body">
-                                    <div ng-show="cards.water != null">
-                                        <div class="card-text">{{ cards.water.status != 204 ? (cards.water | date:"dd/MM/yyyy") : noContent }}</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 cards">
-                            <div class="card card-blue">
-                                <div class="card-heading">
-                                    <span>Pessoas consumindo os recursos hídricos</span>
-                                    <span ng-hide="cards.person != null" class="fa fa-spinner fa-spin float-right"></span>
-                                    <span ng-show="cards.person != null" class="fa fa-question-circle float-right" data-toggle="tooltip" data-placement="auto" data-container="body" title="Informação meramente informativa."></span>
-                                </div>
-                                <div class="card-body">
-                                    <div ng-show="cards.person != null">
-                                        <div class="card-text">{{ cards.person.status != 204 ? (cards.person | number:0) : noContent }}</div>
-                                    </div>
+                            <div class="card-body">
+                                <div ng-show="cards.liters != null">
+                                    <div class="card-text">{{ cards.liters.status != 204 ? (cards.liters | number:0) + ' L' : noContent }}</div>
                                 </div>
                             </div>
                         </div>
                     </div>
-
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 cards">
+                        <div class="card card-green">
+                            <div class="card-heading">
+                                <span class="float-left">Quantidade total de metros cúbicos</span>
+                                <span ng-hide="cards.cubicMeters != null" class="fa fa-spinner fa-spin float-right"></span>
+                                <span ng-show="cards.cubicMeters != null" class="fa fa-question-circle float-right" data-toggle="tooltip" data-placement="auto" data-container="body" title="Informação meramente informativa."></span>
+                            </div>
+                            <div class="card-body">
+                                <div ng-show="cards.cubicMeters != null">
+                                    <div class="card-text">{{ cards.cubicMeters.status != 204 ? (cards.cubicMeters | number:0) + ' m³' : noContent }}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 cards">
+                        <div class="card card-yellow">
+                            <div class="card-heading">
+                                <span>Estimativa de término da água</span>
+                                <span ng-hide="cards.water != null" class="fa fa-spinner fa-spin float-right"></span>
+                                <span ng-show="cards.water != null" class="fa fa-question-circle float-right" data-toggle="tooltip" data-placement="auto" data-container="body" title="Informação meramente informativa."></span>
+                            </div>
+                            <div class="card-body">
+                                <div ng-show="cards.water != null">
+                                    <div class="card-text">{{ cards.water.status != 204 ? (cards.water | date:"dd/MM/yyyy") : noContent }}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 cards">
+                        <div class="card card-blue">
+                            <div class="card-heading">
+                                <span>Pessoas consumindo os recursos hídricos</span>
+                                <span ng-hide="cards.person != null" class="fa fa-spinner fa-spin float-right"></span>
+                                <span ng-show="cards.person != null" class="fa fa-question-circle float-right" data-toggle="tooltip" data-placement="auto" data-container="body" title="Informação meramente informativa."></span>
+                            </div>
+                            <div class="card-body">
+                                <div ng-show="cards.person != null">
+                                    <div class="card-text">{{ cards.person.status != 204 ? (cards.person | number:0) : noContent }}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
+
+            <!-- Historic Data and Georef -->
             <div class="row">
 
                 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6">
